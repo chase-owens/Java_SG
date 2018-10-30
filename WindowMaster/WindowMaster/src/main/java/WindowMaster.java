@@ -55,5 +55,7 @@ public class WindowMaster {
     System.out.println("Widnow area = " + areaOfWindow);
     System.out.println("Window perimeter = " + perimeterOfWindow);
     System.out.println("Total Cost = " + cost);
+    
+    myScanner.close();
     }
 }
