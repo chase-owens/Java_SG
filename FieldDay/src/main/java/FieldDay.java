@@ -33,6 +33,7 @@ public class FieldDay {
             System.out.println("You're on the \"Black Holes\"");
         }
         
+        System.out.println("Good luck in the games!");
         userInput.close();
     }
 
