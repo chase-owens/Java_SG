@@ -18,33 +18,33 @@ public class birthStones {
 
         int numberProvided;
 
-        System.out.println("Please enter a whole number between 1 and 12: ");
+        System.out.println("What month's birthstones do you want to know? ");
         numberProvided = inputReader.nextInt();
 
         if (numberProvided == 1) {
-            System.out.println("Janurary - Garnet");
+            System.out.println("Janurary's birthstone is Garnet");
         } else if (numberProvided == 2) {
-            System.out.println("February - Amethyst");
+            System.out.println("February's birthstone is Amethyst");
         } else if (numberProvided == 3) {
-            System.out.println("March - Aquamarine");
+            System.out.println("March's birthstone is Aquamarine");
         } else if (numberProvided == 4) {
-            System.out.println("April - Diamond");
+            System.out.println("April's birthstone is Diamond");
         } else if (numberProvided == 5) {
-            System.out.println("May - Emerald");
+            System.out.println("May's birthstone is Emerald");
         } else if (numberProvided == 6) {
-            System.out.println("June - Pearl");
+            System.out.println("June's birthstone is Pearl");
         } else if (numberProvided == 7) {
-            System.out.println("July - Ruby");
+            System.out.println("July's birthstone is Ruby");
         } else if (numberProvided == 8) {
-            System.out.println("August - Peridot");
+            System.out.println("August's birthstone is Peridot");
         } else if (numberProvided == 9) {
-            System.out.println("September - Sapphire");
+            System.out.println("September's birthstone is Sapphire");
         } else if (numberProvided == 10) {
-            System.out.println("October - Opal");
+            System.out.println("October's birthstone is Opal");
         } else if (numberProvided == 11) {
-            System.out.println("November - Topaz");
+            System.out.println("November's birthstone is Topaz");
         } else if (numberProvided == 12) {
-            System.out.println("December - Turquoise");
+            System.out.println("December's birthstone is Turquoise");
         } else {
             throw new java.lang.Error("Please enter a whole number between 1 an 12");
         }
