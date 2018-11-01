@@ -8,6 +8,18 @@
  *
  * @author chaseowens
  */
+import java.util.Scanner;
+
 public class ForTimes {
-    
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("Which times table shall I write?");
+        int num = input.nextInt();
+        
+        for (int i = 15; i > 0; i--) {
+            int sum = num * i;
+            System.out.println(num + " * " + i + " = " + sum);
+        }
+    }
 }
