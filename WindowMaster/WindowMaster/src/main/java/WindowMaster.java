@@ -28,8 +28,7 @@ public class WindowMaster {
     float cost;
     float areaCostPerFoot = 3.50f;
     float perimeterCostPerFoot = 2.25f;
-    
-    
+
     // declare scanner
     Scanner myScanner = new Scanner(System.in);
     
