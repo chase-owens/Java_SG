@@ -13,7 +13,7 @@ public class DifferentKettleOfFish {
     public static void main(String[] args) {
         int fish = 1;
 
-        while (fish < 10) {
+        while (fish < 11) {
             if (fish == 3) {
                 System.out.println("RED fish");
             } else if (fish == 4) {
@@ -26,7 +26,7 @@ public class DifferentKettleOfFish {
         
         fish = 1;
         
-        for (int i = fish; i < 10; i++) {
+        for (int i = fish; i < 11; i++) {
             if (i == 3) {
                 System.out.println("RED fish");
             } else if (i == 4) {
