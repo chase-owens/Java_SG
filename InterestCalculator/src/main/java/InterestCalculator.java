@@ -9,11 +9,15 @@
  * @author chaseowens
  */
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class InterestCalculator {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        double rSum = 0;
+        DecimalFormat df = new DecimalFormat(".##");
+        
 
         System.out.println("We are going to calculate ROI on your ivestment at different interest rates over different lengths of time with different amounts of principal invested.");
         System.out.println("Please enter the amount you wish to invest");
@@ -33,12 +37,15 @@ public class InterestCalculator {
 
             for (int month = 1; month < ((totalYears * 12) + 1); month++) {
                 if (month % 3 == 0) {
-                    double quarterlyInterestEarned = principal * (1 + ((annualInterest/4) / 100));
-                    principal += quarterlyInterestEarned;
+                    double newBalance = principal * (1 + ((annualInterest/4) / 100));
+                    principal = newBalance;
+                    rSum += newBalance;
                 }
                 if (month % 12 == 0) {
                     yearsPassed += 1;
-                    System.out.println("Year: " + yearsPassed + "    Principal year began: " + principalYearBegan + "    Annual Interest Encrued: " + (principal - principalYearBegan) + "    Principal at end of year: " + principal );
+                    System.out.println("Year: " + yearsPassed + "    Principal year began: " + df.format(principalYearBegan) + "    Annual Interest Encrued: " + df.format(principal - principalYearBegan) + "    Principal at end of year: " + df.format(principal));
+                    System.out.println("Interest accumulated this year: " + df.format(rSum));
+                    rSum = 0;
                     principalYearBegan = principal;
                 }
             }
