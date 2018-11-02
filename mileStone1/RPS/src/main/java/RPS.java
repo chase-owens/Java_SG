@@ -17,7 +17,7 @@ public class RPS {
         Scanner capture = new Scanner(System.in);
         Random randomizer = new Random();
         boolean hasEnteredValidNumber = false, keepPlaying = true;
-        int rounds = 11, tie = 0, userWins = 0, computerWins = 0, compNumber;
+        int rounds = 11, tie = 0, userWins = 0, computerWins = 0, compNumber = 0;
         String userPick, computerPick;
 
         do {
