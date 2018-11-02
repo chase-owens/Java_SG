@@ -38,6 +38,7 @@ public class RPS {
 
             } while (!hasEnteredValidNumber);
             
+            // Play game
             for (int i = 1; i < (rounds + 1); i++) {
                 System.out.println("Pick: rock, paper, or scissors");
                 userPick = capture.next().toLowerCase();
@@ -53,6 +54,7 @@ public class RPS {
                 }
                 System.out.println("    The computer picks " + computerPick);
                 
+                //Calculate match
                 if ((userPick.equals("rock") && computerPick.equals("scissors")) || (userPick.equals("paper") && computerPick.equals("rock")) || (userPick.equals("scissors") && computerPick.equals("paper"))) {
                     userWins += 1;
                     System.out.println("You Win!");
@@ -65,6 +67,7 @@ public class RPS {
                 }
             }
             
+            // Calculate who wins, print game data
             System.out.println("User wins: " + userWins + "Computer wins: " + computerWins + "Ties: " + tie);
             if (userWins > computerWins) {
                 System.out.println("You win!!");
@@ -74,6 +77,7 @@ public class RPS {
                 System.out.println("You lose..");
             }
             
+            // Check if user wants to continue
             System.out.println("Keep Playing? (y/n)");
             String play = capture.next();
             
