@@ -9,5 +9,7 @@
  * @author chaseowens
  */
 public class Factorizer {
-    
+    public static void main(String[] args) {
+        
+    }
 }
