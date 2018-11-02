@@ -13,24 +13,32 @@ public class Factorizer {
 
     public static void main(String[] args) {
         Scanner myScanner = new Scanner(System.in);
-        int num;
-        int sum = 0;
+        int num = 0, sum = 0;
+        boolean isNumber = false;
 
-        System.out.println("What number would you like to factor, (enter numbers only)?");
-        num = myScanner.nextInt();
-        System.out.println(num);
-        
+        do {
+            System.out.println("What number would you like to factor, (enter numbers only)?");
+            if (myScanner.hasNextInt()) {
+                num = myScanner.nextInt();
+                System.out.println(num);
+                isNumber = true;
+            } else {
+                System.out.println("This is not an integer.. Please enter a whole number!");
+                myScanner.next();
+            }
+        } while (!isNumber);
+
         for (int i = 1; i < num; i++) {
             if (num % i == 0) {
                 sum += i;
                 System.out.println(i);
             }
         }
-        
+
         if (num == sum) {
             System.out.println(num + " is a perfect number.");
         }
-        
+
         if (sum == 1) {
             System.out.println(num + " is a prime number.");
         }
