@@ -66,7 +66,7 @@ public class RPS {
                     System.out.println("Tie!");
                 } else {
                     computerWins += 1;
-                    System.out.println("Sorry, you loose");
+                    System.out.println("Sorry, you lose");
                 }
             }
 
@@ -86,6 +86,8 @@ public class RPS {
 
             if (play.equals("n")) {
                 keepPlaying = false;
+                System.out.println("Thanks for playing!!");
+            } else {
                 hasEnteredValidNumber = false;
                 rounds = 0;
                 userWins = 0;
