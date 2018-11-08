@@ -9,7 +9,6 @@
  * @author chaseowens
  */
 abstract class Triangle extends Polygon {
-
     int numberOfSides = 3;
     int degreeOfAngles = 180;
 

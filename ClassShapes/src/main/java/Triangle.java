@@ -8,32 +8,21 @@
  *
  * @author chaseowens
  */
-public class EquilateralTriangle extends Triangle {
-
-    boolean allSidesAreEqualLength = true;
-    int sideLength;
-
-    public EquilateralTriangle(int sideLength) {
+public class Triangle extends Shape {
+    int numberOfSides = 3, sideLength;
+    boolean hasSides = false;
+    
+    public Triangle(int sideLength, String color) {
         this.sideLength = sideLength;
+        this.color = color;
     }
 
-    @Override
-    public int getArea(int sideLength, int numberOfSides) {
-        return (int) ((sideLength ^ 2) * (Math.sqrt(numberOfSides)/4));
-        // (int) ((((Math.sqrt(3))) / 4) * (sideLength ^ 2));
+    public int getNumberOfSides() {
+        return numberOfSides;
     }
 
-    public int getArea() {
-        return (int) ((this.sideLength ^ 2) * (Math.sqrt(this.numberOfSides)/4));
-    }
-
-    @Override
-    public int getPerimeter(int sideLength, int numberOfSides) {
-        return sideLength * numberOfSides;
-    }
-
-    public int getPerimeter() {
-        return this.sideLength * this.numberOfSides;
+    public void setNumberOfSides(int numberOfSides) {
+        this.numberOfSides = numberOfSides;
     }
 
     public int getSideLength() {
@@ -42,5 +31,26 @@ public class EquilateralTriangle extends Triangle {
 
     public void setSideLength(int sideLength) {
         this.sideLength = sideLength;
+    }
+    
+    
+    
+    @Override
+    // Treat like an equilateral
+    public int getArea(int sideLength, int numberOfSides) {
+        return (int) ((sideLength ^ 2) * (Math.sqrt(numberOfSides)/4));
+    }
+    
+    public int getArea() {
+        return (int) ((this.sideLength ^ 2) * (Math.sqrt(this.numberOfSides)/4));
+    }
+    
+    @Override
+    public int getPerimeter(int sideLength, int numberOfSides) {
+        return sideLength * numberOfSides;
+    }
+    
+    public int getPerimeter() {
+        return this.sideLength * this.numberOfSides;
     }
 }

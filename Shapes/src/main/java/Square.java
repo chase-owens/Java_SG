@@ -22,7 +22,7 @@ public class Square extends Quadralateral {
     }
     
     public int getArea() {
-        return this.sideLength + this.sideLength;
+        return this.sideLength * this.sideLength;
     }
     
     @Override
@@ -31,7 +31,7 @@ public class Square extends Quadralateral {
     }
     
     public int getPerimeter() {
-        return sideLength + sideLength;
+        return (sideLength + sideLength) * 2;
     }
 
     public int getSideLength() {
