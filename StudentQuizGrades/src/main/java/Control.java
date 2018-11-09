@@ -107,6 +107,7 @@ public class Control {
         String[] students = service.getStudents();
         
         //print students
+        view.printStudents(students);
     }
 
 }

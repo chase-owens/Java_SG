@@ -58,7 +58,12 @@ public class View {
         io.print(Integer.toString(average));
     }
 
-    
+    void printStudents(String[] students) {
+        for (String student : students) {
+            io.print(student);
+        }
+    }
+
     
     
 }
