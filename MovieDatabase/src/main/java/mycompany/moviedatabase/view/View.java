@@ -66,8 +66,30 @@ public class View {
     }
 
     public void displayInfo(String[] movieInfo) {
-        for (String data : movieInfo) {
-            io.print(data);
+        for (int i = 0; i < movieInfo.length; i++) {
+            switch(i) {
+                case 0:
+                    io.print("Movie title: " + movieInfo[0]);
+                    break;
+                case 1:
+                    io.print("Release date: " + movieInfo[1]);
+                    break;
+                case 2:
+                    io.print("MPAA rating: " + movieInfo[2]);
+                    break;
+                case 3:
+                    io.print("Director's name: " + movieInfo[3]);
+                    break;
+                case 4:
+                    io.print("Studio: " + movieInfo[4]);
+                    break;
+                case 5:
+                    io.print("Your rating: " + movieInfo[5]);
+                    break;
+                default:
+                    break;
+                    
+            }
         }
     }
 

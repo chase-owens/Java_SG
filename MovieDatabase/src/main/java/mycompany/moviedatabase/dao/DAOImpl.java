@@ -40,10 +40,11 @@ public class DAOImpl implements DAO {
 
     @Override
     public void removeMovie(String movieToRemove) {
-        for (DVD movie : movieLibrary) {
-            String movieName = movie.getTitle();
-            if (movieName == movieToRemove) {
-                movieLibrary.remove(movie);
+        for (int i = 0; i < movieLibrary.size(); i++) {
+            DVD dvd = movieLibrary.get(i);
+            String movieName = dvd.getTitle();
+            if (movieName.equals(movieToRemove)) {
+                movieLibrary.remove(i);
                 break;
             }
         }
@@ -53,7 +54,7 @@ public class DAOImpl implements DAO {
     public void editRating(String title, String newRating) {
         for (DVD movie : movieLibrary) {
             String movieName = movie.getTitle();
-            if (movieName == title) {
+            if (movieName.equals(title)) {
                 movie.setRating(newRating);
                 break;
             }
