@@ -78,7 +78,7 @@ public class DAOImpl implements DAO {
         DVD movieOfInterest = null;
         for (DVD dvd : movieLibrary) {
             String movieTitle = dvd.getTitle();
-            if (movieTitle == movie) {
+            if (movieTitle.equals(movie)) {
                 movieOfInterest = dvd;
             }
         }
