@@ -28,9 +28,9 @@ public class Controller {
     public void run() {
         try {
             boolean keepGoing = true;
+            loadMovies();
 
             while (keepGoing) {
-                loadMovies();
                 int selection = displayMenu();
                 switch (selection) {
                     case 1:
@@ -157,7 +157,7 @@ public class Controller {
     private void marshallMovies() throws MovieDAOException {
         // get list of movies
         List<DVD> dvds = service.getMovieList();
-        
+
         // marshall list of movies
         service.marshallMovies(dvds);
     }

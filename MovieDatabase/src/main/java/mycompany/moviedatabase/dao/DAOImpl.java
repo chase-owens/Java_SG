@@ -27,8 +27,7 @@ public class DAOImpl implements DAO {
     public static final String MOVIE_DATABASE = "movieLibrary.txt";
     public static final String DELIMETER = "::";
     PrintWriter write;
-    
-    
+
     /**
      *
      * @param title
@@ -44,34 +43,34 @@ public class DAOImpl implements DAO {
         DVD dvd = new DVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
         return dvd;
     }
-    
+
     @Override
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
         for (DVD dvd : dvds) {
             marshallMovie(dvd);
         }
     }
-    
+
     @Override
-    public void marshallMovie(DVD newDVD) throws MovieDAOException {       
+    public void marshallMovie(DVD newDVD) throws MovieDAOException {
         try {
             write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new MovieDAOException("Could not add movie to database..", e);
         }
-        
+
         write.println(
-                newDVD.getTitle() + DELIMETER + 
-                newDVD.getDate() + DELIMETER +
-                newDVD.getMPAArating() + DELIMETER +
-                newDVD.getDirectorsName() + DELIMETER +
-                newDVD.getStudio() + DELIMETER +
-                newDVD.getRating()
-                );
+                newDVD.getTitle() + DELIMETER
+                + newDVD.getDate() + DELIMETER
+                + newDVD.getMPAArating() + DELIMETER
+                + newDVD.getDirectorsName() + DELIMETER
+                + newDVD.getStudio() + DELIMETER
+                + newDVD.getRating()
+        );
         write.flush();
         write.close();
     }
-    
+
     @Override
     public void addMovieToList(DVD newDVD) {
         movieLibrary.add(newDVD);
@@ -141,10 +140,10 @@ public class DAOImpl implements DAO {
                 numberOfMatches += 1;
             }
         }
-        
+
         String[] moviesMatching = new String[numberOfMatches];
         int count = 0;
-        
+
         for (DVD movie : movieLibrary) {
             String title = movie.getTitle();
             if (title.contains(query)) {
@@ -157,10 +156,10 @@ public class DAOImpl implements DAO {
 
     @Override
     public void loadMovies() throws MovieDAOException {
-        
+
         // get fileReader to read file
         Scanner read;
-        
+
         try {
             read = new Scanner(
                     new BufferedReader(
@@ -168,12 +167,21 @@ public class DAOImpl implements DAO {
         } catch (FileNotFoundException e) {
             throw new MovieDAOException("Couldn't access file", e);
         }
-        
+
         // get lines from MOVIE_DATABASE and parse it
-        
-        // create DVD with parsed line
-        
-        // add DVE to movieLibrary
+        while (read.hasNextLine()) {
+            String currentLine = read.nextLine();
+            String[] currentTokens;
+            
+            currentTokens = currentLine.split(DELIMETER);
+
+            // create DVD with parsed line
+            DVD dvd = makeDVD(currentTokens[0], currentTokens[1], currentTokens[2], currentTokens[3], currentTokens[4], currentTokens[5]);
+
+            // add DVD to movieLibrary
+            movieLibrary.add(dvd);
+        }
+
     }
 
     @Override
