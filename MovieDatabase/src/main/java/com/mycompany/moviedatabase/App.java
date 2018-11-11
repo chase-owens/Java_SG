@@ -8,6 +8,7 @@ package com.mycompany.moviedatabase;
 import mycompany.moviedatabase.controller.Controller;
 import mycompany.moviedatabase.dao.DAO;
 import mycompany.moviedatabase.dao.DAOImpl;
+import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.service.Service;
 import mycompany.moviedatabase.service.ServiceImpl;
 import mycompany.moviedatabase.view.View;
@@ -18,7 +19,7 @@ import mycompany.moviedatabase.view.View;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MovieDAOException {
         View view = new View();
         DAO dao = new DAOImpl();
         Service service = new ServiceImpl(dao);

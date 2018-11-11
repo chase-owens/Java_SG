@@ -6,6 +6,7 @@
 package mycompany.moviedatabase.dao;
 
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.MovieDAOException;
 
 /**
  *
@@ -15,7 +16,9 @@ public interface DAO {
 
     DVD makeDVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating);
 
-    public void addMovieToFile(DVD newDVD);
+    public void addMovieToFile(DVD newDVD) throws MovieDAOException;
+    
+    public void loadMovie(DVD newDVD) throws MovieDAOException;
 
     public void removeMovie(String movieToRemove);
 
@@ -26,7 +29,5 @@ public interface DAO {
     public String[] getMovieInfo(String movie);
 
     public String[] findMoviesMatching(String query);
-
-
     
 }

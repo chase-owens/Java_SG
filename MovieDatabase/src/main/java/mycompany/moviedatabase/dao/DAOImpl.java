@@ -5,9 +5,13 @@
  */
 package mycompany.moviedatabase.dao;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.MovieDAOException;
 
 /**
  *
@@ -16,7 +20,11 @@ import mycompany.moviedatabase.dto.DVD;
 public class DAOImpl implements DAO {
 
     List<DVD> movieLibrary = new ArrayList<>();
-
+    public static final String MOVIE_DATABASE = "movieLibrary.txt";
+    public static final String DELIMETER = "::";
+    PrintWriter write;
+    
+    
     /**
      *
      * @param title
@@ -32,10 +40,30 @@ public class DAOImpl implements DAO {
         DVD dvd = new DVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
         return dvd;
     }
-
+    
+    public void loadMovie(DVD newDVD) throws MovieDAOException {       
+        try {
+            write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
+        } catch(IOException e) {
+            throw new MovieDAOException("Could not add movie to database..", e);
+        }
+        
+        write.println(
+                newDVD.getTitle() + DELIMETER + 
+                newDVD.getDate() + DELIMETER +
+                newDVD.getMPAArating() + DELIMETER +
+                newDVD.getDirectorsName() + DELIMETER +
+                newDVD.getStudio() + DELIMETER +
+                newDVD.getRating()
+                );
+        write.flush();
+        write.close();
+    }
+    
     @Override
-    public void addMovieToFile(DVD newDVD) {
+    public void addMovieToFile(DVD newDVD) throws MovieDAOException {
         movieLibrary.add(newDVD);
+        loadMovie(newDVD);
     }
 
     @Override

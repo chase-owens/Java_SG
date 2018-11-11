@@ -6,6 +6,7 @@
 package mycompany.moviedatabase.controller;
 
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.view.View;
 import mycompany.moviedatabase.service.Service;
 
@@ -24,36 +25,40 @@ public class Controller {
     }
 
     public void run() {
-        boolean keepGoing = true;
+        try {
+            boolean keepGoing = true;
 
-        while (keepGoing) {
-            int selection = displayMenu();
-            switch (selection) {
-                case 1:
-                    addMovie();
-                    break;
-                case 2:
-                    removeMovie();
-                    break;
-                case 3:
-                    editRating();
-                    break;
-                case 4:
-                    listAllMovies();
-                    break;
-                case 5:
-                    getMovieInfo();
-                    break;
-                case 6:
-                    movieSearch();
-                    break;
-                case 7:
-                    exitGracefully();
-                    keepGoing = false;
-                    break;
-                default:
-                    break;
+            while (keepGoing) {
+                int selection = displayMenu();
+                switch (selection) {
+                    case 1:
+                        addMovie();
+                        break;
+                    case 2:
+                        removeMovie();
+                        break;
+                    case 3:
+                        editRating();
+                        break;
+                    case 4:
+                        listAllMovies();
+                        break;
+                    case 5:
+                        getMovieInfo();
+                        break;
+                    case 6:
+                        movieSearch();
+                        break;
+                    case 7:
+                        exitGracefully();
+                        keepGoing = false;
+                        break;
+                    default:
+                        break;
+                }
             }
+        } catch (MovieDAOException e) {
+            displayErrorMessage(e);
         }
     }
 
@@ -61,7 +66,7 @@ public class Controller {
         return view.displayMenu();
     }
 
-    private void addMovie() {
+    private void addMovie()  throws MovieDAOException{
         // Get Movie Info
         String title = view.setTitle();
         String releaseDate = view.getReleaseDate();
@@ -104,10 +109,10 @@ public class Controller {
     }
 
     private void listAllMovies() {
-        
+
         // get movie titles
         String[] movies = service.getAllMovies();
-        
+
         // display movie titles
         view.displayTitles(movies);
     }
@@ -115,10 +120,10 @@ public class Controller {
     private void getMovieInfo() {
         // get movie title
         String movie = view.setTitle();
-        
+
         // retrieve information
         String[] movieInfo = service.getMovieInfo(movie);
-        
+
         // display info
         view.displayInfo(movieInfo);
     }
@@ -126,16 +131,20 @@ public class Controller {
     private void movieSearch() {
         // get query
         String query = view.getQuery();
-        
+
         // find movies
         String[] moviesFound = service.findMoviesMatching(query);
-        
+
         // display movie
         view.printMoviesFound(moviesFound);
     }
 
     private void exitGracefully() {
         view.exit();
+    }
+
+    private void displayErrorMessage(MovieDAOException e) {
+        view.displayErrorMessage(e.getMessage());    
     }
 
 }

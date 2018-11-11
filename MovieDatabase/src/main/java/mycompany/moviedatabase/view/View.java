@@ -102,5 +102,10 @@ public class View {
             io.print(movie);
         }
     }
+    
+    public void displayErrorMessage(String errorMsg) {
+        io.print("===ERROR===");
+        io.print(errorMsg);
+    }
 
 }

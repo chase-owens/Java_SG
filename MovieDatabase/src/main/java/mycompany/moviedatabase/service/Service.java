@@ -6,6 +6,7 @@
 package mycompany.moviedatabase.service;
 
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.MovieDAOException;
 
 
 /**
@@ -16,7 +17,9 @@ public interface Service {
 
     public DVD makeDVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating);
 
-    public void addMovieToFile(DVD newDVD);
+    public void addMovieToFile(DVD newDVD) throws MovieDAOException;
+    
+    public void loadMovie(DVD newDVD) throws MovieDAOException;
 
     public void removeMovie(String movieToRemove);
 
