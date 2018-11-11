@@ -5,11 +5,15 @@
  */
 package mycompany.moviedatabase.dao;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 
@@ -153,6 +157,18 @@ public class DAOImpl implements DAO {
 
     @Override
     public void loadMovies() throws MovieDAOException {
+        
+        // get fileReader to read file
+        Scanner read;
+        
+        try {
+            read = new Scanner(
+                    new BufferedReader(
+                            new FileReader(MOVIE_DATABASE)));
+        } catch (FileNotFoundException e) {
+            throw new MovieDAOException("Couldn't access file", e);
+        }
+        
         // get lines from MOVIE_DATABASE and parse it
         
         // create DVD with parsed line
