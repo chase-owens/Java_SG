@@ -5,6 +5,7 @@
  */
 package mycompany.moviedatabase.service;
 
+import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 
@@ -17,7 +18,9 @@ public interface Service {
 
     public DVD makeDVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating);
 
-    public void addMovieToFile(DVD newDVD) throws MovieDAOException;
+    public void addMovieToList(DVD newDVD);
+    
+    public void marshallMovies(List<DVD> dvds) throws MovieDAOException;
     
     public void marshallMovie(DVD newDVD) throws MovieDAOException;
 
@@ -30,6 +33,10 @@ public interface Service {
     public String[] getMovieInfo(String movie);
 
     public String[] findMoviesMatching(String query);
+
+    public void loadMovies() throws MovieDAOException;
+
+    public List<DVD> getMovieList();
 
 
     

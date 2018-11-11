@@ -42,6 +42,13 @@ public class DAOImpl implements DAO {
     }
     
     @Override
+    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
+        for (DVD dvd : dvds) {
+            marshallMovie(dvd);
+        }
+    }
+    
+    @Override
     public void marshallMovie(DVD newDVD) throws MovieDAOException {       
         try {
             write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
@@ -62,9 +69,8 @@ public class DAOImpl implements DAO {
     }
     
     @Override
-    public void addMovieToFile(DVD newDVD) throws MovieDAOException {
+    public void addMovieToList(DVD newDVD) {
         movieLibrary.add(newDVD);
-        marshallMovie(newDVD);
     }
 
     @Override
@@ -143,6 +149,20 @@ public class DAOImpl implements DAO {
             }
         }
         return moviesMatching;
+    }
+
+    @Override
+    public void loadMovies() throws MovieDAOException {
+        // get lines from MOVIE_DATABASE and parse it
+        
+        // create DVD with parsed line
+        
+        // add DVE to movieLibrary
+    }
+
+    @Override
+    public List<DVD> getMovieList() {
+        return movieLibrary;
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package mycompany.moviedatabase.service;
 
+import java.util.List;
 import mycompany.moviedatabase.dao.DAO;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
@@ -27,8 +28,13 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void addMovieToFile(DVD newDVD) throws MovieDAOException {
-        dao.addMovieToFile(newDVD);
+    public void addMovieToList(DVD newDVD) {
+        dao.addMovieToList(newDVD);
+    }
+    
+    @Override
+    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
+        dao.marshallMovies(dvds);
     }
     
     @Override
@@ -59,6 +65,16 @@ public class ServiceImpl implements Service {
     @Override
     public String[] findMoviesMatching(String query) {
         return dao.findMoviesMatching(query);
+    }
+
+    @Override
+    public void loadMovies() throws MovieDAOException {
+        dao.loadMovies();
+    }
+
+    @Override
+    public List<DVD> getMovieList() {
+        return dao.getMovieList();
     }
 
 }

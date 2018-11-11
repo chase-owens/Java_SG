@@ -5,6 +5,7 @@
  */
 package mycompany.moviedatabase.controller;
 
+import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.view.View;
@@ -29,6 +30,7 @@ public class Controller {
             boolean keepGoing = true;
 
             while (keepGoing) {
+                loadMovies();
                 int selection = displayMenu();
                 switch (selection) {
                     case 1:
@@ -50,6 +52,7 @@ public class Controller {
                         movieSearch();
                         break;
                     case 7:
+                        marshallMovies();
                         exitGracefully();
                         keepGoing = false;
                         break;
@@ -62,11 +65,15 @@ public class Controller {
         }
     }
 
+    private void loadMovies() throws MovieDAOException {
+        service.loadMovies();
+    }
+
     private int displayMenu() {
         return view.displayMenu();
     }
 
-    private void addMovie()  throws MovieDAOException{
+    private void addMovie() {
         // Get Movie Info
         String title = view.setTitle();
         String releaseDate = view.getReleaseDate();
@@ -79,7 +86,7 @@ public class Controller {
         DVD newDVD = service.makeDVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
 
         // Add movie to file
-        service.addMovieToFile(newDVD);
+        service.addMovieToList(newDVD);
 
         // Print confirmation method
         view.confirmMovieAdded();
@@ -144,7 +151,15 @@ public class Controller {
     }
 
     private void displayErrorMessage(MovieDAOException e) {
-        view.displayErrorMessage(e.getMessage());    
+        view.displayErrorMessage(e.getMessage());
+    }
+
+    private void marshallMovies() throws MovieDAOException {
+        // get list of movies
+        List<DVD> dvds = service.getMovieList();
+        
+        // marshall list of movies
+        service.marshallMovies(dvds);
     }
 
 }
