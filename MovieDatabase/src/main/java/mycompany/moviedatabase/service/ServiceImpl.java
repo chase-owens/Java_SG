@@ -31,8 +31,9 @@ public class ServiceImpl implements Service {
         dao.addMovieToFile(newDVD);
     }
     
-    public void loadMovie(DVD newDVD) throws MovieDAOException {
-        dao.loadMovie(newDVD);
+    @Override
+    public void marshallMovie(DVD newDVD) throws MovieDAOException {
+        dao.marshallMovie(newDVD);
     }
 
     @Override

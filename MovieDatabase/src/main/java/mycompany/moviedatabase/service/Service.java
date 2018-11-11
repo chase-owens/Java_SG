@@ -19,7 +19,7 @@ public interface Service {
 
     public void addMovieToFile(DVD newDVD) throws MovieDAOException;
     
-    public void loadMovie(DVD newDVD) throws MovieDAOException;
+    public void marshallMovie(DVD newDVD) throws MovieDAOException;
 
     public void removeMovie(String movieToRemove);
 

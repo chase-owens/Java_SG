@@ -41,7 +41,8 @@ public class DAOImpl implements DAO {
         return dvd;
     }
     
-    public void loadMovie(DVD newDVD) throws MovieDAOException {       
+    @Override
+    public void marshallMovie(DVD newDVD) throws MovieDAOException {       
         try {
             write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
         } catch(IOException e) {
@@ -63,7 +64,7 @@ public class DAOImpl implements DAO {
     @Override
     public void addMovieToFile(DVD newDVD) throws MovieDAOException {
         movieLibrary.add(newDVD);
-        loadMovie(newDVD);
+        marshallMovie(newDVD);
     }
 
     @Override
