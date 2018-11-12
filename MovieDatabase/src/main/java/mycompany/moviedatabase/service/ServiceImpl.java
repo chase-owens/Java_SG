@@ -36,11 +36,6 @@ public class ServiceImpl implements Service {
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
         dao.marshallMovies(dvds);
     }
-    
-    @Override
-    public void marshallMovie(DVD newDVD) throws MovieDAOException {
-        dao.marshallMovie(newDVD);
-    }
 
     @Override
     public void removeMovie(String movieToRemove) {

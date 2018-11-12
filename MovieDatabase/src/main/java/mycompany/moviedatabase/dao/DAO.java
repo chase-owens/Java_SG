@@ -20,8 +20,6 @@ public interface DAO {
     public void addMovieToList(DVD newDVD);
     
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException;
-    
-    public void marshallMovie(DVD newDVD) throws MovieDAOException;
 
     public void removeMovie(String movieToRemove);
 

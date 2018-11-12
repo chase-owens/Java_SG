@@ -12,6 +12,8 @@ import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.service.Service;
 import mycompany.moviedatabase.service.ServiceImpl;
 import mycompany.moviedatabase.view.View;
+import mycompany.moviedatabase.view.UserIO;
+import mycompany.moviedatabase.view.UserIOImpl;
 
 /**
  *
@@ -20,7 +22,8 @@ import mycompany.moviedatabase.view.View;
 public class App {
 
     public static void main(String[] args) throws MovieDAOException {
-        View view = new View();
+        UserIO io = new UserIOImpl();
+        View view = new View(io);
         DAO dao = new DAOImpl();
         Service service = new ServiceImpl(dao);
         Controller controller = new Controller(view, service);

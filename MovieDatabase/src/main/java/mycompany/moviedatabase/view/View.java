@@ -11,7 +11,11 @@ package mycompany.moviedatabase.view;
  */
 public class View {
 
-    UserIO io = new UserIOImpl();
+    UserIO io;
+    
+    public View(UserIO io) {
+        this.io = io;
+    }
 
     public int displayMenu() {
         io.print("Select an option");

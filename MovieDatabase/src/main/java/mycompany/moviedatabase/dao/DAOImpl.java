@@ -46,28 +46,24 @@ public class DAOImpl implements DAO {
 
     @Override
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
-        for (DVD dvd : dvds) {
-            marshallMovie(dvd);
-        }
-    }
-
-    @Override
-    public void marshallMovie(DVD newDVD) throws MovieDAOException {
         try {
             write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
         } catch (IOException e) {
             throw new MovieDAOException("Could not add movie to database..", e);
         }
+        for (DVD dvd : dvds) {
 
-        write.println(
-                newDVD.getTitle() + DELIMETER
-                + newDVD.getDate() + DELIMETER
-                + newDVD.getMPAArating() + DELIMETER
-                + newDVD.getDirectorsName() + DELIMETER
-                + newDVD.getStudio() + DELIMETER
-                + newDVD.getRating()
-        );
-        write.flush();
+            write.println(
+                    dvd.getTitle() + DELIMETER
+                    + dvd.getDate() + DELIMETER
+                    + dvd.getMPAArating() + DELIMETER
+                    + dvd.getDirectorsName() + DELIMETER
+                    + dvd.getStudio() + DELIMETER
+                    + dvd.getRating()
+            );
+            write.flush();
+            
+        }
         write.close();
     }
 
@@ -83,6 +79,9 @@ public class DAOImpl implements DAO {
             String movieName = dvd.getTitle();
             if (movieName.equals(movieToRemove)) {
                 movieLibrary.remove(i);
+                if (movieLibrary.isEmpty()) {
+                    movieLibrary.clear();
+                }
                 break;
             }
         }
@@ -172,7 +171,7 @@ public class DAOImpl implements DAO {
         while (read.hasNextLine()) {
             String currentLine = read.nextLine();
             String[] currentTokens;
-            
+
             currentTokens = currentLine.split(DELIMETER);
 
             // create DVD with parsed line
@@ -181,6 +180,7 @@ public class DAOImpl implements DAO {
             // add DVD to movieLibrary
             movieLibrary.add(dvd);
         }
+        read.close();
 
     }
 
