@@ -6,7 +6,10 @@
 package mycompany.classroster.dao;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import mycompany.classroster.dto.ClassRosterDataValidationException;
+import mycompany.classroster.dto.ClassRosterDuplicateException;
+import mycompany.classroster.dto.ClassRosterPersistenceException;
 import mycompany.classroster.dto.Student;
 
 /**
@@ -23,19 +26,27 @@ public interface DAO {
 	     * @return the Student object associated with the given student id,  
 	     * null if no such student exists
 	     */
-	    Student getStudent(String lastName);
+	    public Student getStudent(String lastName);
 	    
-	    void removeStudent(String lastName);
+	    public void removeStudent(String lastName);
 
-    ArrayList<Integer> createArrayList(int grade1, int grade2, int grade3);
+            public ArrayList<Integer> createArrayList(int grade1, int grade2, int grade3);
 
-    Student createStudent(String firstName, String lastName, ArrayList<Integer> grades);
+            public Student createStudent(String firstName, String lastName, ArrayList<Integer> grades);
 
-    void addStudentToHashTable(Student newStudent);
+            public void addStudentToHashTable(Student newStudent);
 
-    ArrayList<Integer> findStudentGrades(String lastName);
+            public ArrayList<Integer> findStudentGrades(String lastName);
 
-    int calculateAverage(ArrayList<Integer> grades);
+            public int calculateAverage(ArrayList<Integer> grades);
 
-    String[] getStudents();
+            public String[] getStudents();
+
+            public void checkStudentProperties(Student newStudent)throws ClassRosterDuplicateException, ClassRosterDataValidationException;
+
+            public void readStudents() throws ClassRosterPersistenceException;
+
+            public HashMap<String, Student> getStudentMap();
+
+            public void writeStudents(HashMap<String, Student> students)  throws ClassRosterPersistenceException;
 }

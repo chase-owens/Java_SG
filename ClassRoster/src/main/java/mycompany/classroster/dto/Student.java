@@ -14,15 +14,21 @@ public class Student {
     private String firstName;
     private String lastName;
     private ArrayList<Integer> grades = new ArrayList<>();
+    final int id;
     
-    public Student(String first, String last, ArrayList<Integer> grades) {
+    public Student(String first, String last, ArrayList<Integer> grades, int id) {
         this.firstName = first;
         this.lastName = last;
         this.grades = grades;
+        this.id = id;
     }
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setFirstName(String firstName) {

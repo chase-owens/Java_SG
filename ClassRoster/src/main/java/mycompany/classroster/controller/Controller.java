@@ -6,6 +6,10 @@
 package mycompany.classroster.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import mycompany.classroster.dto.ClassRosterDataValidationException;
+import mycompany.classroster.dto.ClassRosterDuplicateException;
+import mycompany.classroster.dto.ClassRosterPersistenceException;
 import mycompany.classroster.dto.Student;
 import mycompany.classroster.service.Service;
 import mycompany.classroster.ui.View;
@@ -24,8 +28,10 @@ public class Controller {
         this.service = injectedService;
     }
 
-    public void run() {
+    public void run() throws ClassRosterPersistenceException, ClassRosterDuplicateException,
+            ClassRosterDataValidationException {
         boolean keepGoing = true;
+        readStudents();
 
         while (keepGoing) {
             int menuSelection = displayMenuSelection();
@@ -47,7 +53,7 @@ public class Controller {
                     displayStudents();
                     break;
                 case 6:
-                    view.exitProgram();
+                    exitProgram();
                     keepGoing = false;
                     break;
                 default:
@@ -56,12 +62,15 @@ public class Controller {
         }
 
     }
-    
+
     private int displayMenuSelection() {
         return view.getMenuSelection();
     }
 
-    private void addStudent() {
+    private void addStudent() throws
+            ClassRosterDuplicateException,
+            ClassRosterDataValidationException,
+            ClassRosterPersistenceException {
         // Get student first and last name
         String firstName = view.getFirstName();
         String lastName = view.getLastName();
@@ -76,8 +85,13 @@ public class Controller {
         // Instantiate student with names
         Student newStudent = service.createStudent(firstName, lastName, grades);
 
+        // Check to make sure not duplicate id, has names, and has grades
+        service.checkStudentProperties(newStudent);
+
         // Add student to students
         service.addStudentToHashTable(newStudent);
+        
+        service.writeAuditEntry("Student " + newStudent.getId() + " was created.");
     }
 
     private void removeStudent() {
@@ -122,6 +136,14 @@ public class Controller {
         view.printStudents(students);
     }
 
-    
+    private void readStudents() throws ClassRosterPersistenceException {
+        service.readStudents();
+    }
+
+    private void exitProgram() throws ClassRosterPersistenceException{
+        HashMap<String, Student> students = service.getStudentMap();
+        service.writeStudents(students);
+        view.exitProgram();
+    }
 
 }
