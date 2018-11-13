@@ -94,12 +94,14 @@ public class Controller {
         service.writeAuditEntry("Student " + newStudent.getId() + " was created.");
     }
 
-    private void removeStudent() {
+    private void removeStudent() throws ClassRosterPersistenceException{
         // Get student last name
         String lastName = view.getLastName();
 
         // Delete student form students
         service.removeStudent(lastName);
+        
+        service.writeAuditEntry(lastName + " was deleted rom the roster");
     }
 
     private void getStudentScores() {

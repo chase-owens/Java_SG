@@ -17,7 +17,7 @@ public class View {
 
     public int getMenuSelection() {
         io.print("Choose your option by entering the number associated with you option.");
-        String displayMessage = "1) Add student \t 2) Remove student \t 3) View a student's scores \n 4) Get student average \t 5) Display students \t 6) Quit";
+        String displayMessage = "1) Add student \t\t 2) Remove student \t 3) View a student's scores \n4) Get student average \t 5) Display students \t 6) Quit";
         return io.readInt(displayMessage, 1, 6);
     }
 
