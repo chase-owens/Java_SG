@@ -7,6 +7,7 @@ package mycompany.classroster.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import mycompany.classroster.dto.ClassRosterDataValidationException;
 import mycompany.classroster.dto.ClassRosterDuplicateException;
 import mycompany.classroster.dto.ClassRosterPersistenceException;
@@ -49,4 +50,8 @@ public interface DAO {
             public HashMap<String, Student> getStudentMap();
 
             public void writeStudents(HashMap<String, Student> students)  throws ClassRosterPersistenceException;
+            
+            public Set getStudentKeys();
+            
+            public void removeAllStudentsFromHashTable();
 }

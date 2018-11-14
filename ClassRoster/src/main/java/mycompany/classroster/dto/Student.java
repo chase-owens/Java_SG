@@ -5,6 +5,7 @@
  */
 package mycompany.classroster.dto;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -44,7 +45,7 @@ public class Student {
     }
     
     public String getFullName() {
-        return (this.lastName + ", " + this.firstName);
+        return (lastName + ", " + firstName);
     }
 
     public ArrayList<Integer> getGrades() {
@@ -54,4 +55,43 @@ public class Student {
     public void setGrades(ArrayList<Integer> grades) {
         this.grades = grades;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.firstName);
+        hash = 59 * hash + Objects.hashCode(this.lastName);
+        hash = 59 * hash + Objects.hashCode(this.grades);
+        hash = 59 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Student other = (Student) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this.grades, other.grades)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

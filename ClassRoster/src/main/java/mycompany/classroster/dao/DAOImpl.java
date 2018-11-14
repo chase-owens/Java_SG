@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 import mycompany.classroster.dto.ClassRosterDataValidationException;
 import mycompany.classroster.dto.ClassRosterDuplicateException;
 import mycompany.classroster.dto.ClassRosterPersistenceException;
@@ -117,7 +118,7 @@ public class DAOImpl implements DAO {
     @Override
     public void removeStudent(String lastName) {
         Student studentOfInterest = null;
-        String theKey;
+        String theKey = null;
         for (int i = 0; i < students.size(); i++) {
             String studentKey = Integer.toString(i);
             Student someStudent = students.get(studentKey);
@@ -127,8 +128,9 @@ public class DAOImpl implements DAO {
                 theKey = studentKey;
                 break;
             }
-            students.remove(studentKey);
+            
         }
+        students.remove(theKey);
     }
 
     @Override
@@ -207,6 +209,16 @@ public class DAOImpl implements DAO {
     @Override
     public HashMap<String, Student> getStudentMap() {
         return students;
+    }
+
+    @Override
+    public Set getStudentKeys() {
+        return students.keySet();
+    }
+
+    @Override
+    public void removeAllStudentsFromHashTable() {
+        students.clear();
     }
 
 }
