@@ -5,6 +5,7 @@
  */
 package mycompany.moviedatabase.dto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -12,16 +13,18 @@ import java.util.Objects;
  * @author chaseowens
  */
 public class DVD {
-    private String title, releaseDate, MPAArating, directorsName, studio, userRating;
-    
+
+    private String title, MPAArating, directorsName, studio, userRating;
+    LocalDateTime releaseDate;
+
     public DVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating) {
         this.title = title;
-        this.releaseDate = releaseDate;
+        this.releaseDate = LocalDateTime.parse(releaseDate);
         this.MPAArating = MPAArating;
         this.directorsName = directorsName;
         this.studio = studio;
         this.userRating = userRating;
-        
+
     }
 
     public String getTitle() {
@@ -32,11 +35,11 @@ public class DVD {
         this.title = title;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return releaseDate;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.releaseDate = date;
     }
 
@@ -116,6 +119,5 @@ public class DVD {
         }
         return true;
     }
-    
-    
+
 }

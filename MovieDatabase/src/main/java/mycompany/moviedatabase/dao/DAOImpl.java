@@ -121,7 +121,7 @@ public class DAOImpl implements DAO {
             }
         }
         information[0] = movieOfInterest.getTitle();
-        information[1] = movieOfInterest.getDate();
+        information[1] = movieOfInterest.getDate().toString();
         information[2] = movieOfInterest.getStudio();
         information[3] = movieOfInterest.getDirectorsName();
         information[4] = movieOfInterest.getMPAArating();
