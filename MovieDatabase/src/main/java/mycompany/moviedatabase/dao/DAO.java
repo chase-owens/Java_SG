@@ -35,4 +35,6 @@ public interface DAO {
 
     public List<DVD> getMovieList();
     
+    public void deleteList();
+    
 }

@@ -65,5 +65,4 @@ public abstract class DAOStubImpl implements DAO {
             throw new ClassRosterDuplicateException("Same Id");
         }
     }
-    
 }

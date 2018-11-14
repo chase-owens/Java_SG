@@ -183,6 +183,11 @@ public class DAOImpl implements DAO {
         read.close();
 
     }
+    
+    @Override
+    public void deleteList() {
+        movieLibrary.clear();
+    }
 
     @Override
     public List<DVD> getMovieList() {
