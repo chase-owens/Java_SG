@@ -8,56 +8,48 @@
  *
  * @author chaseowens
  */
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class InterestCalculator {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        BigDecimal rSum = new BigDecimal("0");
-        BigDecimal rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal four = new BigDecimal("4");
-        BigDecimal hundred = new BigDecimal("100");
-        BigDecimal one = BigDecimal.ONE;
+        double rSum = 0;
+        DecimalFormat df = new DecimalFormat(".##");
+        
 
         System.out.println("We are going to calculate ROI on your ivestment at different interest rates over different lengths of time with different amounts of principal invested.");
         System.out.println("Please enter the amount you wish to invest");
-        BigDecimal principal = new BigDecimal(input.nextLine());
-        BigDecimal principalFormatted = principal.setScale(2, RoundingMode.HALF_UP);
+        double principal = input.nextDouble();
 
         System.out.println("Please enter the annual interest rate quoted in percent");
-        BigDecimal annualInterest = new BigDecimal(input.nextDouble());
-        BigDecimal annualInterestFormatted = annualInterest.setScale(2, RoundingMode.HALF_UP);
+        double annualInterest = input.nextDouble();
 
         System.out.println("Please enter the number of years you wish to encrue your investment?");
         int totalYears = input.nextInt();
 
-        if (principal.signum() <= 0 || annualInterest.signum() <= 0 || totalYears < 1) {
-            System.out.println("Your principle after " + totalYears + "years at " + annualInterestFormatted.toString() + "interest rate for will be " + principalFormatted.toString());
+        if (principal <= 0 || annualInterest <= 0 || totalYears < 1) {
+            System.out.println("Your principle after " + totalYears + "years at " + annualInterest + "interest rate for will be " + principal);
         } else {
-            BigDecimal principalYearBegan = principal;
-            BigDecimal principalYearBeganFormatted = principalYearBegan.setScale(2, RoundingMode.HALF_UP);
+            double principalYearBegan = principal;
             int yearsPassed = 0;
-            BigDecimal quarterlyInterest = one.add(annualInterest.divide(four.divide(hundred, 2, RoundingMode.HALF_UP), 2, RoundingMode.HALF_UP));
 
             for (int month = 1; month < ((totalYears * 12) + 1); month++) {
                 if (month % 3 == 0) {
-                    BigDecimal newBalance = principal.multiply(quarterlyInterest);
+                    double newBalance = principal * (1 + ((annualInterest/4) / 100));
                     principal = newBalance;
-                    rSum.add(newBalance);
+                    rSum += newBalance - principalYearBegan;
                 }
                 if (month % 12 == 0) {
-                    BigDecimal interestEncrued = principal.subtract(principalYearBegan);
-                    BigDecimal interestEncruedFormatted = interestEncrued.setScale(2, RoundingMode.HALF_UP);
                     yearsPassed += 1;
-                    System.out.println("Year: " + yearsPassed + "    Principal year began: " + principalYearBeganFormatted.toString() + "    Annual Interest Encrued: " + interestEncruedFormatted.toString() + "    Principal at end of year: " + principalFormatted.toString());
-                    System.out.println("Interest accumulated this year: " + rSumFormatted.toString());
-                    rSum = BigDecimal.ZERO;
+                    System.out.println("Year: " + yearsPassed + "    Principal year began: " + df.format(principalYearBegan) + "    Annual Interest Encrued: " + df.format(principal - principalYearBegan) + "    Principal at end of year: " + df.format(principal));
+                    System.out.println("Interest accumulated this year: " + df.format(rSum));
+                    rSum = 0;
                     principalYearBegan = principal;
                 }
             }
         }
+
     }
 }

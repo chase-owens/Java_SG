@@ -17,6 +17,7 @@ public class InterestCalcBigD {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         BigDecimal rSum = new BigDecimal("0");
+        BigDecimal rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
         BigDecimal four = new BigDecimal("4");
         BigDecimal hundred = new BigDecimal("100");
         BigDecimal one = BigDecimal.ONE;
@@ -46,11 +47,11 @@ public class InterestCalcBigD {
                 if (month % 3 == 0) {
                     BigDecimal newBalance = principal.multiply(quarterlyInterestFormula);
                     principal = newBalance;
-                    rSum = rSum.add(newBalance);
+                    rSum = principal.subtract(principalYearBegan);
                 }
                 if (month % 12 == 0) {
                     BigDecimal interestEncrued = principal.subtract(principalYearBegan);
-                    BigDecimal rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
+                    rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
                     BigDecimal interestEncruedFormatted = interestEncrued.setScale(2, RoundingMode.HALF_UP);
                     yearsPassed += 1;
                     principalFormatted = principal.setScale(2, RoundingMode.HALF_UP);
