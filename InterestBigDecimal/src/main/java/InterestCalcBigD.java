@@ -12,12 +12,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Scanner;
 
-public class InterestCalculator {
+public class InterestCalcBigD {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         BigDecimal rSum = new BigDecimal("0");
-        BigDecimal rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
         BigDecimal four = new BigDecimal("4");
         BigDecimal hundred = new BigDecimal("100");
         BigDecimal one = BigDecimal.ONE;
@@ -38,20 +37,24 @@ public class InterestCalculator {
             System.out.println("Your principle after " + totalYears + "years at " + annualInterestFormatted.toString() + "interest rate for will be " + principalFormatted.toString());
         } else {
             BigDecimal principalYearBegan = principal;
-            BigDecimal principalYearBeganFormatted = principalYearBegan.setScale(2, RoundingMode.HALF_UP);
             int yearsPassed = 0;
-            BigDecimal quarterlyInterest = one.add(annualInterest.divide(four.divide(hundred, 2, RoundingMode.HALF_UP), 2, RoundingMode.HALF_UP));
+            BigDecimal quarterlyInterest = annualInterest.divide(four);
+            BigDecimal quarterlyInterestAsDecimal = quarterlyInterest.divide(hundred);
+            BigDecimal quarterlyInterestFormula = one.add(quarterlyInterestAsDecimal);
 
             for (int month = 1; month < ((totalYears * 12) + 1); month++) {
                 if (month % 3 == 0) {
-                    BigDecimal newBalance = principal.multiply(quarterlyInterest);
+                    BigDecimal newBalance = principal.multiply(quarterlyInterestFormula);
                     principal = newBalance;
-                    rSum.add(newBalance);
+                    rSum = rSum.add(newBalance);
                 }
                 if (month % 12 == 0) {
                     BigDecimal interestEncrued = principal.subtract(principalYearBegan);
+                    BigDecimal rSumFormatted = rSum.setScale(2, RoundingMode.HALF_UP);
                     BigDecimal interestEncruedFormatted = interestEncrued.setScale(2, RoundingMode.HALF_UP);
                     yearsPassed += 1;
+                    principalFormatted = principal.setScale(2, RoundingMode.HALF_UP);
+                    BigDecimal principalYearBeganFormatted = principalYearBegan.setScale(2, RoundingMode.HALF_UP);
                     System.out.println("Year: " + yearsPassed + "    Principal year began: " + principalYearBeganFormatted.toString() + "    Annual Interest Encrued: " + interestEncruedFormatted.toString() + "    Principal at end of year: " + principalFormatted.toString());
                     System.out.println("Interest accumulated this year: " + rSumFormatted.toString());
                     rSum = BigDecimal.ZERO;
