@@ -10,5 +10,5 @@ package com.mycompany.vendingmachine.dao;
  * @author chaseowens
  */
 public interface AuditDao {
-    public void writeAuditEntry(String entry) throws VendingMachinePersistenceError;
+    public void writeAuditEntry(String entry, String report) throws VendingMachinePersistenceError;
 }

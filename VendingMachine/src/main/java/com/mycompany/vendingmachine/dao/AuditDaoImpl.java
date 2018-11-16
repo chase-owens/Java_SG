@@ -18,7 +18,7 @@ public class AuditDaoImpl implements AuditDao {
     public static final String AUDIT_FILE = "audit.txt";
     
     @Override
-    public void writeAuditEntry(String entry) throws VendingMachinePersistenceError {
+    public void writeAuditEntry(String entry, String report) throws VendingMachinePersistenceError {
         PrintWriter read;
         
         try {
@@ -28,6 +28,6 @@ public class AuditDaoImpl implements AuditDao {
         }
         
         LocalDateTime timestamp = LocalDateTime.now();
-        read.println(timestamp.toString() + " : " + entry);
+        read.println(timestamp.toString() + " : " + entry + " : " + report);
     }
 }

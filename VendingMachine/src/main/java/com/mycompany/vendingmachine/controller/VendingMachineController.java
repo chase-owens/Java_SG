@@ -25,6 +25,7 @@ public class VendingMachineController {
     Service service;
     boolean keepGoing = true;
     BigDecimal $;
+    String selection;
 
     public VendingMachineController(View view, Service service) {
         this.view = view;
@@ -33,7 +34,6 @@ public class VendingMachineController {
 
     public void run() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
         
-        String selection;
         BigDecimal change;
 
         try {
@@ -55,6 +55,7 @@ public class VendingMachineController {
             
         } catch (InsufficientFundsError | OutOfStockException | VendingMachinePersistenceError e) {
             displayErrorMessage(e);
+            service.auditFile(selection, e.getMessage());
         }
 
     }
@@ -81,7 +82,7 @@ public class VendingMachineController {
         // Process Transaction, Update Inventory
         
         BigDecimal change = service.processTransaction($, selection);
-        service.auditFile(selection);
+        service.auditFile(selection, "successful");
         return change;
     }
     
