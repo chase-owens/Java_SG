@@ -6,60 +6,63 @@
 package com.mycompany.vendingmachine.dto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
  * @author chaseowens
  */
 public final class ChangeMaker {
-    int hundred, fifty, twenty, ten, five, one, quarter, dime, nickel, penny;
+    int hundred = 0, fifty = 0, twenty = 0, ten = 0, five = 0, one = 0, quarter = 0, dime = 0, nickel = 0, penny = 0;
     
     public ChangeMaker(BigDecimal change) {
         makeChange(change);
     }
     
     private void makeChange(BigDecimal change) {
-        BigDecimal changeOwed = change;
+        BigDecimal bdChange = change.setScale(2, RoundingMode.HALF_UP);
+        String changeToGive = bdChange.toString();
+        float changeOwed = Float.parseFloat(changeToGive);
         
-        while(changeOwed.compareTo(new BigDecimal("99.99")) > 0) {
+        while(changeOwed >= 100) {
             this.hundred += 1;
-            changeOwed.subtract(new BigDecimal("100"));
+            changeOwed -= 100;
         }
-        while(changeOwed.compareTo(new BigDecimal("49.99")) > 0) {
+        while(changeOwed >= 50) {
             this.fifty += 1;
-            changeOwed.subtract(new BigDecimal("50"));
+            changeOwed -= 50;
         }
-        while(changeOwed.compareTo(new BigDecimal("19.99")) > 0) {
+        while(changeOwed >= 20) {
             this.twenty += 1;
-            changeOwed.subtract(new BigDecimal("20"));
+            changeOwed -= 20;
         }
-        while(changeOwed.compareTo(new BigDecimal("9.99")) > 0) {
+        while(changeOwed >= 10) {
             this.ten += 1;
-            changeOwed.subtract(BigDecimal.TEN);
+            changeOwed -= 10;
         }
-        while(changeOwed.compareTo(new BigDecimal("4.99")) > 0) {
+        while(changeOwed >= 5) {
             this.five += 1;
-            changeOwed.subtract(new BigDecimal("5"));
+            changeOwed -= 5;
         }
-        while(changeOwed.compareTo(new BigDecimal(".99")) > 0) {
+        while(changeOwed >= 1) {
             this.one += 1;
-            changeOwed.subtract(BigDecimal.ONE);
+            changeOwed -= 1;
         }
-        while(changeOwed.compareTo(new BigDecimal(".24")) > 0) {
+        while(changeOwed >= .25) {
             this.quarter += 1;
-            changeOwed.subtract(new BigDecimal(".25"));
+            changeOwed -= .25;
         }
-        while(changeOwed.compareTo(new BigDecimal(".09")) > 0) {
+        while(changeOwed >= .10) {
             this.dime += 1;
-            changeOwed.subtract(new BigDecimal(".10"));
+            changeOwed -= .10;
         }
-        while(changeOwed.compareTo(new BigDecimal(".04")) > 0) {
+        while(changeOwed >= .05) {
             this.nickel += 1;
-            changeOwed.subtract(new BigDecimal(".05"));
+            changeOwed -= .05;
         }
-        while(changeOwed.compareTo(new BigDecimal(".005")) > 0) {
+        while(changeOwed >= .01) {
             this.penny += 1;
-            changeOwed.subtract(new BigDecimal(".01"));
+            changeOwed -= .01;
         }
     }
 

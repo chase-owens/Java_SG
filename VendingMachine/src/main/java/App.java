@@ -1,5 +1,7 @@
 
 import com.mycompany.vendingmachine.controller.VendingMachineController;
+import com.mycompany.vendingmachine.dao.AuditDao;
+import com.mycompany.vendingmachine.dao.AuditDaoImpl;
 import com.mycompany.vendingmachine.dao.Dao;
 import com.mycompany.vendingmachine.dao.DaoImpl;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
@@ -26,10 +28,10 @@ public class App {
         UserIO io = new UserIOImpl();
         View view = new View(io);
         Dao dao = new DaoImpl();
-        Service service = new ServiceImpl(dao);
+        AuditDao auditDao = new AuditDaoImpl();
+        Service service = new ServiceImpl(dao, auditDao);
         VendingMachineController VendingMachineControl = new VendingMachineController(view, service);
         VendingMachineControl.run();
-        
     }
     
 }

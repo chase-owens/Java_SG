@@ -24,5 +24,7 @@ public interface Service {
     public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError;
 
     public ChangeMaker makeChange(BigDecimal change);
+
+    public void auditFile(String selection) throws VendingMachinePersistenceError;
     
 }

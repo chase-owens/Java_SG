@@ -29,6 +29,7 @@ public class DaoImpl implements Dao {
     public static final String ITEM_INVENTORY = "inventory.txt";
     public static final String DELIMETER = "::";
 
+    @Override
     public void updateInventory(HashMap<String, Item> currentItems) throws VendingMachinePersistenceError {
         try {
             write = new PrintWriter(new FileWriter(ITEM_INVENTORY));
@@ -61,6 +62,7 @@ public class DaoImpl implements Dao {
 //        write.close();
     }
 
+    @Override
     public void getInventory() throws VendingMachinePersistenceError {
         Scanner read;
 

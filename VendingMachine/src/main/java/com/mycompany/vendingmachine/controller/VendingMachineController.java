@@ -43,6 +43,8 @@ public class VendingMachineController {
                 selection = selectItem();
                 change = processTransaction($, selection);
                 displayChangeOwed(change);
+                checkIfMakeAnotherTransaction();
+                
                 // display and return change, $ = 0, add exit option to display
                 // make change Class pass in change, have method setting dollars, quarters, dimes, etc.
                 
@@ -77,7 +79,10 @@ public class VendingMachineController {
 
     private BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
         // Process Transaction, Update Inventory
-        return service.processTransaction($, selection);
+        
+        BigDecimal change = service.processTransaction($, selection);
+        service.auditFile(selection);
+        return change;
     }
     
     // Ask Tobe how to handle both errors **** I think I answered it, but need to ask for confirmation
@@ -97,6 +102,13 @@ public class VendingMachineController {
         view.giveChange(changeOwed);
         
         $ = BigDecimal.ZERO;
+    }
+
+    private void checkIfMakeAnotherTransaction() {
+        String decision = view.checkIfMakeAnotherTransaction();
+        if (decision.startsWith("n")) {
+            keepGoing = false;
+        }
     }
 
 }

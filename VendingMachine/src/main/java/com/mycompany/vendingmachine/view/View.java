@@ -102,12 +102,17 @@ public class View {
             io.print("Dimes: " + changeOwed.getDime());
         }
         if (changeOwed.getFive() > 0) {
-            io.print("Nickles: " + changeOwed.getFive());
+            io.print("Nickles: " + changeOwed.getNickel());
         }
-        if (changeOwed.getOne() > 0) {
-            io.print("Pennies: " + changeOwed.getOne());
+        if (changeOwed.getPenny() > 0) {
+            io.print("Pennies: " + changeOwed.getPenny());
         }
         io.print("Thank you for your business!!");
+    }
+
+    public String checkIfMakeAnotherTransaction() {
+        String answer = io.readString("Do you want to do another transaction Y/N");
+        return answer.toLowerCase();
     }
 
 }

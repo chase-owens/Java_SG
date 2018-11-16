@@ -5,6 +5,7 @@
  */
 package com.mycompany.vendingmachine.service;
 
+import com.mycompany.vendingmachine.dao.AuditDao;
 import com.mycompany.vendingmachine.dao.Dao;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
@@ -20,9 +21,11 @@ import java.util.Collection;
  */
 public class ServiceImpl implements Service {
     Dao dao;
+    AuditDao audit;
     
-    public ServiceImpl(Dao dao) {
-        this.dao = dao;
+    public ServiceImpl(Dao injectedDao, AuditDao injectedAudit) {
+        this.dao = injectedDao;
+        this.audit = injectedAudit;
     }
 
     @Override
@@ -38,5 +41,10 @@ public class ServiceImpl implements Service {
     @Override
     public ChangeMaker makeChange(BigDecimal change) {
         return dao.makeChange(change);
+    }
+
+    @Override
+    public void auditFile(String selection) throws VendingMachinePersistenceError {
+        audit.writeAuditEntry(selection);
     }
 }

@@ -9,6 +9,7 @@ import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
  *
@@ -21,7 +22,9 @@ public interface Dao {
     public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError;
 
     public ChangeMaker makeChange(BigDecimal change);
-
     
+    public void getInventory() throws VendingMachinePersistenceError;
+    
+    public void updateInventory(HashMap<String, Item> currentItems) throws VendingMachinePersistenceError;
     
 }
