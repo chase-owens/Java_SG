@@ -114,10 +114,24 @@ public class VendingMachineController {
     }
 
     private void checkIfMakeAnotherTransaction() {
-        String decision = view.checkIfMakeAnotherTransaction();
-        if (decision.startsWith("n")) {
-            keepGoing = false;
+        String decision;
+        boolean validEntry = false;
+        while (!validEntry) {
+            
+            // Make another transaction?
+            decision = view.checkIfMakeAnotherTransaction();
+            
+            // Check answer for no
+            if (decision.startsWith("n")) {
+                keepGoing = false;
+                validEntry = true;
+            } else if (decision.startsWith("y")) {
+                validEntry = true;
+            } else {
+                view.explainKeepGoingRules();
+            }
         }
+
     }
 
     private void handleError(Exception e) throws VendingMachinePersistenceError {

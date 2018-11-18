@@ -109,4 +109,8 @@ public class View {
         io.print("You entered " + cash + "\n");
     }
 
+    public void explainKeepGoingRules() {
+        io.print("\nSimply enter 'yes' or 'no'. You can also just type 'y' for yes and 'n' for no\n");
+    }
+
 }

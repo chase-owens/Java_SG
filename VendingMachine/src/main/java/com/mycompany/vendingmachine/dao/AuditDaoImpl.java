@@ -33,7 +33,7 @@ public class AuditDaoImpl implements AuditDao {
         
         LocalDateTime datestamp = LocalDateTime.now();
         LocalTime timestamp = LocalTime.now();
-        DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("hh:mm");
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         write.println(datestamp.format(formatter) + " : " + timestamp.format(tf) + " : " + item.getName() + " : " + item.getInventoryCount() + " : " + report);
