@@ -5,6 +5,8 @@
  */
 package com.mycompany.vendingmachine.controller;
 
+import com.mycompany.vendingmachine.dao.GetEntryError;
+import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
@@ -24,7 +26,7 @@ public class VendingMachineController {
     View view;
     Service service;
     boolean keepGoing = true;
-    BigDecimal $;
+    BigDecimal moneyEntered, change;
     String selection;
 
     public VendingMachineController(View view, Service service) {
@@ -32,30 +34,22 @@ public class VendingMachineController {
         this.service = service;
     }
 
-    public void run() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
-        
-        BigDecimal change;
+    public void run() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GettingMoneyError, GetEntryError {
 
-        try {
-            while (keepGoing) {
-                displayItems();
-                $ = getMoney();
-                selection = selectItem();
-                change = processTransaction($, selection);
-                displayChangeOwed(change);
-                checkIfMakeAnotherTransaction();
-                
-                // display and return change, $ = 0, add exit option to display
-                // make change Class pass in change, have method setting dollars, quarters, dimes, etc.
-                
-                // I added updateInventory and getInventory to displayItems and processTransaction
-                
+        while (keepGoing) {
+            try {
+                while (keepGoing) {
+                    displayItems();
+                    getMoney();
+                    getSelection();
+                    processTransaction();
+                    checkIfMakeAnotherTransaction();
+                }
+                exitGracefully();
+
+            } catch (InsufficientFundsError | OutOfStockException | VendingMachinePersistenceError | GettingMoneyError e) {
+                handleError(e);
             }
-            exitGracefully();
-            
-        } catch (InsufficientFundsError | OutOfStockException | VendingMachinePersistenceError e) {
-            displayErrorMessage(e);
-            service.auditFile(selection, e.getMessage());
         }
 
     }
@@ -68,41 +62,55 @@ public class VendingMachineController {
         view.displayItems(items);
     }
 
-    private BigDecimal getMoney() {
+    private void getMoney() throws GettingMoneyError, VendingMachinePersistenceError {
+
+        boolean validCash = false;
+        BigDecimal cashEntered = null;
+        String cash = null;
         // Ask user to enter money
-        BigDecimal cash = new BigDecimal(view.getMoney());
-        return cash;
+
+        while (!validCash) {
+            try {
+                cash = view.getMoney();
+                cashEntered = service.checkMoney(cash);
+                validCash = true;
+            } catch (GettingMoneyError e) {
+                handleError(e);
+            }
+        }
+
+        view.displayMoneyEntered(cash);
+        moneyEntered = cashEntered;
     }
 
     private String selectItem() {
         return view.selectItem();
     }
 
-    private BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
+    private BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
         // Process Transaction, Update Inventory
-        
-        BigDecimal change = service.processTransaction($, selection);
-        service.auditFile(selection, "successful");
-        return change;
-    }
-    
-    // Ask Tobe how to handle both errors **** I think I answered it, but need to ask for confirmation
-    private void displayErrorMessage(Exception e) {
-        view.displayErrorMessage(e);
+
+        BigDecimal changeMade = service.processTransaction(money, selection);
+
+        Item item = service.getItem(selection);
+
+        service.auditFile(item, "successful");
+
+        return changeMade;
     }
 
     private void exitGracefully() {
         view.exitGracefully();
     }
 
-    private void displayChangeOwed(BigDecimal change) {
+    private void processTransaction() {
         view.displayChangeOwed(change);
-        
+
         ChangeMaker changeOwed = service.makeChange(change);
-        
+
         view.giveChange(changeOwed);
-        
-        $ = BigDecimal.ZERO;
+
+        moneyEntered = BigDecimal.ZERO;
     }
 
     private void checkIfMakeAnotherTransaction() {
@@ -110,6 +118,27 @@ public class VendingMachineController {
         if (decision.startsWith("n")) {
             keepGoing = false;
         }
+    }
+
+    private void handleError(Exception e) throws VendingMachinePersistenceError {
+        view.displayErrorMessage(e);
+        Item item = service.getItem(selection);
+        if (e.getMessage().equals("Insufficient funds") || e.getMessage().equals("Out of stock")) {
+            service.auditFile(item, e.getMessage());
+        }
+    }
+
+    private void getSelection() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
+        boolean validSelection = false;
+        do {
+            try {
+                selection = selectItem();
+                change = processTransaction(moneyEntered, selection);
+                validSelection = true;
+            } catch (GetEntryError e) {
+                handleError(e);
+            }
+        } while (!validSelection);
     }
 
 }

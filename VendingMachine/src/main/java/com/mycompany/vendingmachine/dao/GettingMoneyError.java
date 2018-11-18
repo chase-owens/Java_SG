@@ -5,12 +5,17 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.Item;
-
 /**
  *
  * @author chaseowens
  */
-public interface AuditDao {
-    public void writeAuditEntry(Item item, String report) throws VendingMachinePersistenceError;
+public class GettingMoneyError extends Exception {
+    
+    public GettingMoneyError(String message) {
+        super(message);
+    }
+    
+    public GettingMoneyError(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

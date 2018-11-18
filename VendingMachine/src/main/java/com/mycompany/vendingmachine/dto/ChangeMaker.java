@@ -6,84 +6,50 @@
 package com.mycompany.vendingmachine.dto;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  *
  * @author chaseowens
  */
 public final class ChangeMaker {
-    int hundred = 0, fifty = 0, twenty = 0, ten = 0, five = 0, one = 0, quarter = 0, dime = 0, nickel = 0, penny = 0;
+    int one = 0, quarter = 0, dime = 0, nickel = 0, penny = 0;
     
     public ChangeMaker(BigDecimal change) {
         makeChange(change);
     }
     
     private void makeChange(BigDecimal change) {
-        BigDecimal bdChange = change.setScale(2, RoundingMode.HALF_UP);
-        String changeToGive = bdChange.toString();
-        float changeOwed = Float.parseFloat(changeToGive);
         
-        while(changeOwed >= 100) {
-            this.hundred += 1;
-            changeOwed -= 100;
-        }
-        while(changeOwed >= 50) {
-            this.fifty += 1;
-            changeOwed -= 50;
-        }
-        while(changeOwed >= 20) {
-            this.twenty += 1;
-            changeOwed -= 20;
-        }
-        while(changeOwed >= 10) {
-            this.ten += 1;
-            changeOwed -= 10;
-        }
-        while(changeOwed >= 5) {
-            this.five += 1;
-            changeOwed -= 5;
-        }
-        while(changeOwed >= 1) {
-            this.one += 1;
-            changeOwed -= 1;
-        }
-        while(changeOwed >= .25) {
-            this.quarter += 1;
-            changeOwed -= .25;
-        }
-        while(changeOwed >= .10) {
-            this.dime += 1;
-            changeOwed -= .10;
-        }
-        while(changeOwed >= .05) {
-            this.nickel += 1;
-            changeOwed -= .05;
-        }
-        while(changeOwed >= .01) {
+        BigDecimal bDollar = BigDecimal.ONE, bQuarter = new BigDecimal(".25"), bDime = new BigDecimal(".10"), bNickel = new BigDecimal(".05"), bPenny = new BigDecimal(".01");
+        BigDecimal changeTotal = BigDecimal.ZERO;
+        
+        
+        BigDecimal[] getDollars = change.divideAndRemainder(bDollar);
+        BigDecimal[] getQuarters = getDollars[1].divideAndRemainder(bQuarter);
+        BigDecimal[] getDimes = getQuarters[1].divideAndRemainder(bDime);
+        BigDecimal[] getNickels = getDimes[1].divideAndRemainder(bNickel);
+        BigDecimal[] getPennies = getNickels[1].divideAndRemainder(bPenny);
+        
+        this.one = getDollars[0].intValueExact();
+        this.quarter = getQuarters[0].intValueExact();
+        this.dime = getDimes[0].intValueExact();
+        this.nickel = getNickels[0].intValueExact();
+        this.penny = getPennies[0].intValueExact();
+        
+        if (getPennies[1].compareTo(new BigDecimal(".005")) >= 0) {
             this.penny += 1;
-            changeOwed -= .01;
         }
-    }
-
-    public int getHundred() {
-        return hundred;
-    }
-
-    public int getFifty() {
-        return fifty;
-    }
-
-    public int getTwenty() {
-        return twenty;
-    }
-
-    public int getTen() {
-        return ten;
-    }
-
-    public int getFive() {
-        return five;
+        
+        if (( (quarter * 0.25) + (dime * 0.10) + (nickel * 0.05) + (penny * 0.01) ) == 1) {
+            this.one += 1;
+            this.quarter = 0;
+            this.dime = 0;
+            this.nickel = 0;
+            this.penny = 0;
+        }
+        
+        
+        
     }
 
     public int getOne() {

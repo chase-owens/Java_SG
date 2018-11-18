@@ -7,6 +7,8 @@ package com.mycompany.vendingmachine.service;
 
 import com.mycompany.vendingmachine.dao.AuditDao;
 import com.mycompany.vendingmachine.dao.Dao;
+import com.mycompany.vendingmachine.dao.GetEntryError;
+import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
@@ -34,7 +36,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
+    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError  {
         return dao.processTransaction($, selection);
     }
 
@@ -44,7 +46,17 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void auditFile(String selection, String report) throws VendingMachinePersistenceError {
+    public void auditFile(Item selection, String report) throws VendingMachinePersistenceError {
         audit.writeAuditEntry(selection, report);
+    }
+
+    @Override
+    public Item getItem(String selection) {
+        return dao.getItem(selection);
+    }
+
+    @Override
+    public BigDecimal checkMoney(String cash) throws GettingMoneyError {
+        return dao.checkMoney(cash);
     }
 }

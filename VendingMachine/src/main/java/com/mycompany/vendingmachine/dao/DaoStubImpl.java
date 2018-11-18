@@ -66,4 +66,22 @@ public class DaoStubImpl implements Dao{
             return null;
         }
     }
+
+    @Override
+    public Item getItem(String selection) {
+        if (items.get(selection).equals(onlyItem)) {
+            return onlyItem;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public BigDecimal checkMoney(String cash) throws GettingMoneyError {
+        if (Integer.parseInt(cash) > 0 && Integer.parseInt(cash) < 2125000000) {
+            return new BigDecimal(cash);
+        } else {
+            return null;
+        }
+    }
 }

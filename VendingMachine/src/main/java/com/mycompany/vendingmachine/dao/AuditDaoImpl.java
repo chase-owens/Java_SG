@@ -5,10 +5,13 @@
  */
 package com.mycompany.vendingmachine.dao;
 
+import com.mycompany.vendingmachine.dto.Item;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -16,18 +19,25 @@ import java.time.LocalDateTime;
  */
 public class AuditDaoImpl implements AuditDao {
     public static final String AUDIT_FILE = "audit.txt";
+    PrintWriter write;
     
     @Override
-    public void writeAuditEntry(String entry, String report) throws VendingMachinePersistenceError {
-        PrintWriter read;
+    public void writeAuditEntry(Item item, String report) throws VendingMachinePersistenceError {
+        
         
         try {
-            read = new PrintWriter(new FileWriter(AUDIT_FILE, true));
+            write = new PrintWriter(new FileWriter(AUDIT_FILE, true));
         } catch (IOException e) {
             throw new VendingMachinePersistenceError("Could not find audit file", e);
         }
         
-        LocalDateTime timestamp = LocalDateTime.now();
-        read.println(timestamp.toString() + " : " + entry + " : " + report);
+        LocalDateTime datestamp = LocalDateTime.now();
+        LocalTime timestamp = LocalTime.now();
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        write.println(datestamp.format(formatter) + " : " + timestamp.format(tf) + " : " + item.getName() + " : " + item.getInventoryCount() + " : " + report);
+        write.flush();
+        write.close();
     }
 }

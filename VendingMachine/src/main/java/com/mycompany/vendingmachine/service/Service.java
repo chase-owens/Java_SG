@@ -5,6 +5,8 @@
  */
 package com.mycompany.vendingmachine.service;
 
+import com.mycompany.vendingmachine.dao.GetEntryError;
+import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
@@ -21,10 +23,14 @@ public interface Service {
 
     public Collection<Item> getItems() throws VendingMachinePersistenceError;
 
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError;
+    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError ;
 
     public ChangeMaker makeChange(BigDecimal change);
 
-    public void auditFile(String selection, String report) throws VendingMachinePersistenceError;
+    public void auditFile(Item selection, String report) throws VendingMachinePersistenceError;
+
+    public Item getItem(String selection);
+
+    public BigDecimal checkMoney(String cash) throws GettingMoneyError;
     
 }

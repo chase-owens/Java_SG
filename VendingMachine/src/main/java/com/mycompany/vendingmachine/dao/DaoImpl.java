@@ -41,7 +41,7 @@ public class DaoImpl implements Dao {
         Collection<Item> itemsOnList = items.values();
         itemsOnList.stream().forEach(item -> {
             write.println(
-                    item.getName() + DELIMETER
+                    item.getName()+ DELIMETER
                     + item.getPrice().toString() + DELIMETER
                     + item.getInventoryCount()
             );
@@ -69,7 +69,7 @@ public class DaoImpl implements Dao {
         try {
             read = new Scanner(new BufferedReader(new FileReader(ITEM_INVENTORY)));
         } catch (FileNotFoundException e) {
-            throw new VendingMachinePersistenceError("Sorry could not find inventory", e);
+            throw new VendingMachinePersistenceError("Inventory Error", e);
         }
 
         while (read.hasNextLine()) {
@@ -97,19 +97,26 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
-        String entry = $.toString();
+    public BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
+
+        Item item = null;
+        int inventoryCount;
+        try {
+            item = items.get(selection);
+            inventoryCount = item.getInventoryCount();
+        } catch (NullPointerException e) {
+            throw new GetEntryError("Please enter the item as it appears in the display.");
+        }
+        //Item item = items.get(selection);
+        //inventoryCount = item.getInventoryCount();
         
-        // Bad case could break - how can we handle this..
-        Item item = items.get(selection);
-        int inventoryCount = item.getInventoryCount();
         BigDecimal change;
-        if ($.compareTo(item.getPrice()) < 0) {
-            throw new InsufficientFundsError("Insufficient Funds");
-        } else if (item.getInventoryCount() < 1) {
-            throw new OutOfStockException("Sorry none of those left");
+        if (item.getInventoryCount() < 1) {
+            throw new OutOfStockException("Out of stock");
+        } else if (money.compareTo(item.getPrice()) < 0) {
+            throw new InsufficientFundsError("Insufficient funds");
         } else {
-            change = $.subtract(item.getPrice());
+            change = money.subtract(item.getPrice());
             item.setInventoryCount(inventoryCount - 1);
             updateInventory(items);
         }
@@ -120,6 +127,30 @@ public class DaoImpl implements Dao {
     public ChangeMaker makeChange(BigDecimal change) {
         ChangeMaker changeOwed = new ChangeMaker(change);
         return changeOwed;
+    }
+
+    @Override
+    public Item getItem(String selection) {
+        return items.get(selection);
+    }
+
+    @Override
+    public BigDecimal checkMoney(String amountPaid) throws GettingMoneyError {
+        BigDecimal amountPaidBD;
+
+        try {
+            amountPaidBD = new BigDecimal(amountPaid);
+        } catch (IllegalArgumentException e) {
+            throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
+        }
+
+        if (amountPaidBD.compareTo(BigDecimal.ZERO) < 1) {
+            throw new GettingMoneyError("Try that again and I will call the police and send them a photo of you...");
+        } else if (amountPaidBD.compareTo(new BigDecimal("2125000000")) > 0) {
+            throw new GettingMoneyError("I see you big baller... That's so such money we don't know what to do with it. Please enter less than 2,125,000,000");
+        } else {
+            return amountPaidBD;
+        }
     }
 
 }
