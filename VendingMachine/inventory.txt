@@ -6,4 +6,4 @@ Unicorn::75000::25
 A Dream::100000::8
 The Meaning of Life::150000::15
 Trip to the Future::125000::9
-Ride on a Rainbow::50000::54
+Ride on a Rainbow::50000::52

@@ -1,19 +1,8 @@
-11-17-2018 : 20:11 : Ride on a Rainbow : 70 : successful
-11-17-2018 : 20:11 : Ride on a Rainbow : 69 : successful
-11-17-2018 : 20:11 : Ride on a Rainbow : 68 : successful
-11-17-2018 : 20:12 : Ride on a Rainbow : 67 : successful
-11-17-2018 : 20:12 : Ride on a Rainbow : 66 : successful
-11-17-2018 : 20:12 : Ride on a Rainbow : 65 : successful
-11-17-2018 : 20:13 : Ride on a Rainbow : 64 : successful
-11-17-2018 : 20:13 : Ride on a Rainbow : 63 : successful
-11-17-2018 : 20:14 : Ride on a Rainbow : 62 : successful
-11-17-2018 : 20:14 : Ride on a Rainbow : 61 : successful
-11-17-2018 : 20:15 : Ride on a Rainbow : 60 : successful
-11-17-2018 : 21:05 : Ride on a Rainbow : 59 : successful
-11-18-2018 : 13:47 : Ride on a Rainbow : 58 : successful
 11-18-2018 : 13:54 : Unicorn : 27 : successful
 11-18-2018 : 13:59 : Ride on a Rainbow : 57 : successful
 11-18-2018 : 14:01 : Ride on a Rainbow : 56 : successful
 11-18-2018 : 14:02 : Ride on a Rainbow : 56 : Insufficient funds
 11-18-2018 : 14:02 : Ride on a Rainbow : 55 : successful
 11-18-2018 : 03:07 : Ride on a Rainbow : 54 : successful
+11-18-2018 : 05:47 : Ride on a Rainbow : 53 : successful
+11-18-2018 : 05:48 : Ride on a Rainbow : 52 : successful
