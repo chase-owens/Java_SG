@@ -13,7 +13,11 @@ import java.util.ArrayList;
  */
 public class View {
 
-    UserIO io = new UserIOImpl();
+    UserIO io;  
+    
+    public View(UserIO io) {
+        this.io = io;
+    }
 
     public int getMenuSelection() {
         io.print("Choose your option by entering the number associated with you option.");

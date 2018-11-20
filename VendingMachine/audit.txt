@@ -6,3 +6,9 @@
 11-18-2018 : 03:07 : Ride on a Rainbow : 54 : successful
 11-18-2018 : 05:47 : Ride on a Rainbow : 53 : successful
 11-18-2018 : 05:48 : Ride on a Rainbow : 52 : successful
+11-19-2018 : 10:30 : Ride on a Rainbow : 51 : successful
+11-19-2018 : 02:00 : Ride on a Rainbow : 50 : successful
+11-19-2018 : 02:00 : Ride on a Rainbow : 50 : Insufficient funds
+11-19-2018 : 02:00 : Trip to Mars : 0 : Out of stock
+11-19-2018 : 02:02 : Unicorn : 20 : successful
+11-19-2018 : 02:03 : Trip to the Past : 8 : successful

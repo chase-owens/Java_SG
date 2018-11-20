@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class DAOTest {
     
-    private DAO dao = new DAOImpl();
+    private final DAO dao = new DAOImpl();
     ArrayList<Integer> grades = new ArrayList<>();
     Student newStudent;
 

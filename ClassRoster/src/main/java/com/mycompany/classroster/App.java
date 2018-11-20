@@ -6,16 +6,11 @@
 package com.mycompany.classroster;
 
 import mycompany.classroster.controller.Controller;
-import mycompany.classroster.dao.ClassRosterAuditDAO;
-import mycompany.classroster.dao.ClassRosterAuditDAOImpl;
-import mycompany.classroster.dao.DAO;
-import mycompany.classroster.dao.DAOImpl;
 import mycompany.classroster.dto.ClassRosterDataValidationException;
 import mycompany.classroster.dto.ClassRosterDuplicateException;
 import mycompany.classroster.dto.ClassRosterPersistenceException;
-import mycompany.classroster.service.Service;
-import mycompany.classroster.service.ServiceImpl;
-import mycompany.classroster.ui.View;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -24,11 +19,21 @@ import mycompany.classroster.ui.View;
 public class App {
     public static void main(String[] args) throws ClassRosterPersistenceException, ClassRosterDuplicateException,
             ClassRosterDataValidationException {
-        View view = new View();
-        DAO dao = new DAOImpl();
-        ClassRosterAuditDAO auditDao = new ClassRosterAuditDAOImpl();
-        Service service = new ServiceImpl(dao, auditDao);
-        Controller controller = new Controller(view, service);
-        controller.run();
+//        View view = new View();
+//        DAO dao = new DAOImpl();
+//        ClassRosterAuditDAO auditDao = new ClassRosterAuditDAOImpl();
+//        Service service = new ServiceImpl(dao, auditDao);
+//        Controller controller = new Controller(view, service);
+//        controller.run();
+
+          // Instantiate Spring Container
+          ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+          
+          // Get controller
+          Controller controller = ctx.getBean("controller", Controller.class);
+          
+          // Call run
+          controller.run();
+          
     }
 }

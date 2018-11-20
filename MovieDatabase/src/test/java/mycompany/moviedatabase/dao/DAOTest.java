@@ -98,7 +98,7 @@ public class DAOTest {
     public void testGetMovieInfo() {
         String[] information = new String[6];
         information[0] = tester.getTitle();
-        information[1] = tester.getDate();
+        information[1] = tester.getDate().toString();
         information[2] = tester.getStudio();
         information[3] = tester.getDirectorsName();
         information[4] = tester.getMPAArating();
@@ -119,7 +119,7 @@ public class DAOTest {
         dao.addMovieToList(tester);
         assertEquals(1, dao.findMoviesMatching(tester.getTitle()).length);
 
-        DVD tester2 = dao.makeDVD(tester.getTitle() + tester.getTitle(), tester.getDate(), tester.getMPAArating(), tester.getDirectorsName(), tester.getStudio(), tester.getRating());
+        DVD tester2 = dao.makeDVD(tester.getTitle() + tester.getTitle(), tester.getDate().toString(), tester.getMPAArating(), tester.getDirectorsName(), tester.getStudio(), tester.getRating());
         dao.addMovieToList(tester2);
         assertEquals(2, dao.findMoviesMatching(tester.getTitle()).length);
     }
