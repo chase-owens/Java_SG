@@ -18,13 +18,13 @@
     <!-- Bean definitions go here -->
     
     <!-- daostubs and service -->
+    
+    <!-- serviceLayertest -->
     <bean id="daoStub" class="com.mycompany.vendingmachine.dao.DaoStubImpl"/>
     <bean id="auditDaoImpl" class="com.mycompany.vendingmachine.dao.AuditDaoImpl"/>
     <bean id="serviceLayer" class="com.mycompany.vendingmachine.service.ServiceImpl">
         <constructor-arg ref="daoStub"/>
         <constructor-arg ref="auditDaoImpl"/>
     </bean>
-    
-    <!-- serviceLayertest -->
    
 </beans>
