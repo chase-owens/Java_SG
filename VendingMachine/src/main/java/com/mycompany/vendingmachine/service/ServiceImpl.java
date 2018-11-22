@@ -46,8 +46,8 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void auditFile(Item selection, String report) throws VendingMachinePersistenceError {
-        audit.writeAuditEntry(selection, report);
+    public void auditFile(String report) throws VendingMachinePersistenceError {
+        //audit.writeAuditEntry(selection, report);
     }
 
     @Override

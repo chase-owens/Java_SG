@@ -83,8 +83,17 @@ public class VendingMachineController {
         moneyEntered = cashEntered;
     }
 
-    private String selectItem() {
-        return view.selectItem();
+    private void getSelection() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
+        boolean validSelection = false;
+        do {
+            try {
+                selection = view.selectItem();
+                change = processTransaction(moneyEntered, selection);
+                validSelection = true;
+            } catch (GetEntryError e) {
+                handleError(e);
+            }
+        } while (!validSelection);
     }
 
     private BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
@@ -94,7 +103,7 @@ public class VendingMachineController {
 
         Item item = service.getItem(selection);
 
-        service.auditFile(item, "successful");
+        service.auditFile(item.toString() + " : " + "successful");
 
         return changeMade;
     }
@@ -107,6 +116,16 @@ public class VendingMachineController {
         view.displayChangeOwed(change);
 
         ChangeMaker changeOwed = service.makeChange(change);
+
+        view.giveChange(changeOwed);
+
+        moneyEntered = BigDecimal.ZERO;
+    }
+    
+    private void giveRefund() {
+        view.displayChangeOwed(moneyEntered);
+
+        ChangeMaker changeOwed = service.makeChange(moneyEntered);
 
         view.giveChange(changeOwed);
 
@@ -138,21 +157,9 @@ public class VendingMachineController {
         view.displayErrorMessage(e);
         Item item = service.getItem(selection);
         if (e.getMessage().equals("Insufficient funds") || e.getMessage().equals("Out of stock")) {
-            service.auditFile(item, e.getMessage());
+            service.auditFile(item.toString() + " : " + e.getMessage());
+            giveRefund();
         }
-    }
-
-    private void getSelection() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
-        boolean validSelection = false;
-        do {
-            try {
-                selection = selectItem();
-                change = processTransaction(moneyEntered, selection);
-                validSelection = true;
-            } catch (GetEntryError e) {
-                handleError(e);
-            }
-        } while (!validSelection);
     }
 
 }

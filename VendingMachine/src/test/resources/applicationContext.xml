@@ -19,10 +19,10 @@
     
     <!-- daostubs and service -->
     <bean id="daoStub" class="com.mycompany.vendingmachine.dao.DaoStubImpl"/>
-    <bean id="auditDaoStub" class="com.mycompany.vendingmachine.dao.AuditDaoImplStub"/>
+    <bean id="auditDaoImpl" class="com.mycompany.vendingmachine.dao.AuditDaoImpl"/>
     <bean id="serviceLayer" class="com.mycompany.vendingmachine.service.ServiceImpl">
         <constructor-arg ref="daoStub"/>
-        <constructor-arg ref="auditDaoStub"/>
+        <constructor-arg ref="auditDaoImpl"/>
     </bean>
     
     <!-- serviceLayertest -->

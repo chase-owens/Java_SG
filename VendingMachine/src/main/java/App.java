@@ -13,27 +13,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author chaseowens
  */
 public class App {
-    public static void main(String[] args)  throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GettingMoneyError, GetEntryError  {
-        
+
+    public static void main(String[] args) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GettingMoneyError, GetEntryError {
+
         // Using Spring Frameork
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         VendingMachineController controller = ctx.getBean("controller", VendingMachineController.class);
         controller.run();
-
-
-//        UserIO io = new UserIOImpl();
-//        View view = new View(io);
-//        Dao dao = new DaoImpl();
-//        AuditDao auditDao = new AuditDaoImpl();
-//        Service service = new ServiceImpl(dao, auditDao);
-//        VendingMachineController VendingMachineControl = new VendingMachineController(view, service);
-//        VendingMachineControl.run();
     }
-    
+
 }

@@ -22,6 +22,11 @@ public class Item {
         this.price = price;
         this.inventoryCount = inventoryCount;
     }
+    
+    @Override
+    public String toString() {
+        return "Name: " + name + ": InventoryCount: " + inventoryCount;
+    }
 
     public String getName() {
         return name;

@@ -40,4 +40,24 @@ public class AuditDaoImpl implements AuditDao {
         write.flush();
         write.close();
     }
+    
+    @Override
+    public void writeAuditEntryWithString(String report) throws VendingMachinePersistenceError {
+        
+        
+        try {
+            write = new PrintWriter(new FileWriter(AUDIT_FILE, true));
+        } catch (IOException e) {
+            throw new VendingMachinePersistenceError("Could not find audit file", e);
+        }
+        
+        LocalDateTime datestamp = LocalDateTime.now();
+        LocalTime timestamp = LocalTime.now();
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("hh:mm");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        write.println(datestamp.format(formatter) + " : " + timestamp.format(tf) + " : " + report);
+        write.flush();
+        write.close();
+    }
 }

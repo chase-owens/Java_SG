@@ -12,3 +12,10 @@
 11-19-2018 : 02:00 : Trip to Mars : 0 : Out of stock
 11-19-2018 : 02:02 : Unicorn : 20 : successful
 11-19-2018 : 02:03 : Trip to the Past : 8 : successful
+11-22-2018 : 01:01 : processTransaction : 34579238Ride on a Rainbow
+11-22-2018 : 01:44 : auditFile : Name: A Wish |InventoryCount: 3 : Insufficient funds
+11-22-2018 : 01:47 : auditFile : Name: Trip to Mars |InventoryCount: 0 : Out of stock
+11-22-2018 : 01:49 : auditFile : Name: Trip to Mars |InventoryCount: 0 : Out of stock
+11-22-2018 : 01:53 : auditFile : Name: Trip to Mars |InventoryCount: 0 : Out of stock
+11-22-2018 : 01:56 : nullName: Trip to Mars |InventoryCount: 0 : Out of stock
+11-22-2018 : 01:56 :  Name: Trip to Mars |InventoryCount: 0 : Out of stock

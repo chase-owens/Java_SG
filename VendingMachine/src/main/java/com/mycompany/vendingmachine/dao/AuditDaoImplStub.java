@@ -17,5 +17,10 @@ public class AuditDaoImplStub implements AuditDao{
     public void writeAuditEntry(Item item, String report) throws VendingMachinePersistenceError {
         // Do nothing
     }
+
+    @Override
+    public void writeAuditEntryWithString(String report) throws VendingMachinePersistenceError {
+        // Do nothing
+    }
     
 }

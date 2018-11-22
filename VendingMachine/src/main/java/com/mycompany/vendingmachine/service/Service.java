@@ -27,7 +27,7 @@ public interface Service {
 
     public ChangeMaker makeChange(BigDecimal change);
 
-    public void auditFile(Item selection, String report) throws VendingMachinePersistenceError;
+    public void auditFile(String report) throws VendingMachinePersistenceError;
 
     public Item getItem(String selection);
 

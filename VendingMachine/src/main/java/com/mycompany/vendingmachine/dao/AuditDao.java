@@ -13,4 +13,6 @@ import com.mycompany.vendingmachine.dto.Item;
  */
 public interface AuditDao {
     public void writeAuditEntry(Item item, String report) throws VendingMachinePersistenceError;
+    
+    public void writeAuditEntryWithString(String report) throws VendingMachinePersistenceError;
 }
