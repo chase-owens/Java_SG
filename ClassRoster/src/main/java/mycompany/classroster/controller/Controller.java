@@ -91,7 +91,7 @@ public class Controller {
         // Add student to students
         service.addStudentToHashTable(newStudent);
         
-        service.writeAuditEntry("Student " + newStudent.getId() + " was created.");
+        //service.writeAuditEntry("Student " + newStudent.getId() + " was created.");
     }
 
     private void removeStudent() throws ClassRosterPersistenceException{
@@ -101,7 +101,7 @@ public class Controller {
         // Delete student form students
         service.removeStudent(lastName);
         
-        service.writeAuditEntry(lastName + " was deleted rom the roster");
+        //service.writeAuditEntry(lastName + " was deleted rom the roster");
     }
 
     private void getStudentScores() {

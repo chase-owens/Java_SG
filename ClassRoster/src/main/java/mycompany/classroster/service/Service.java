@@ -51,7 +51,7 @@ public interface Service {
 
             public void writeStudents(HashMap<String, Student> students) throws ClassRosterPersistenceException;
 
-            public void writeAuditEntry(String string) throws ClassRosterPersistenceException;
+//            public void writeAuditEntry(String string) throws ClassRosterPersistenceException;
 
 
 }

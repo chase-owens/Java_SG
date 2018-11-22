@@ -49,7 +49,7 @@ public class DAOImpl implements DAO {
         for (Student student : currentStudents) {
             ArrayList<Integer> grades = student.getGrades();
             
-            write.print(
+            write.println(
                     student.getFirstName() + DELIMETER
                     + student.getLastName() + DELIMETER +
                             grades.get(0) + DELIMETER +

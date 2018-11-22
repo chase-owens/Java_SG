@@ -7,7 +7,6 @@ package mycompany.classroster.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import mycompany.classroster.dao.ClassRosterAuditDAO;
 import mycompany.classroster.dao.DAO;
 import mycompany.classroster.dto.ClassRosterDataValidationException;
 import mycompany.classroster.dto.ClassRosterDuplicateException;
@@ -22,11 +21,9 @@ public class ServiceImpl implements Service {
 
     // Calls DAO 
     DAO dao;
-    ClassRosterAuditDAO auditDao;
 
-    public ServiceImpl(DAO injectedDAO, ClassRosterAuditDAO injectedAuditDao) {
+    public ServiceImpl(DAO injectedDAO) {
         this.dao = injectedDAO;
-        this.auditDao = injectedAuditDao;
     }
 
     @Override
@@ -89,9 +86,9 @@ public class ServiceImpl implements Service {
         dao.writeStudents(students);
     }
 
-    @Override
-    public void writeAuditEntry(String string) throws ClassRosterPersistenceException {
-        auditDao.writeAuditEntry(string);
-    }
+//    @Override
+//    public void writeAuditEntry(String string) throws ClassRosterPersistenceException {
+//        //auditDao.writeAuditEntry(string);
+//    }
 
 }

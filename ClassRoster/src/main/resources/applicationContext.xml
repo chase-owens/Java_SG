@@ -28,7 +28,7 @@
     <bean id="daoAudit" class="mycompany.classroster.dao.ClassRosterAuditDAOImpl"/>
     <bean id="service" class="mycompany.classroster.service.ServiceImpl">
         <constructor-arg ref="dao"/>
-        <constructor-arg ref="daoAudit"/>
+<!--   After adding aspect J, I was able to decouple AuditDao from service     <constructor-arg ref="daoAudit"/>-->
     </bean>
     
     <!--Add controller with view and service -->
@@ -36,6 +36,25 @@
         <constructor-arg ref="view"/>
         <constructor-arg ref="service"/>
     </bean>
+    
+    <bean id="advice" class="com.mycompany.classroster.advice.LoggingAdvice">
+        <constructor-arg ref="daoAudit"/>
+    </bean>
+    
+    <aop:config>
+        <aop:aspect ref="advice">
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* mycompany.classroster.service.ServiceImpl.createStudent(..))"
+            />
+         
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* mycompany.classroster.service.ServiceImpl.removeStudent(..))"
+            />
+           
+        </aop:aspect>
+    </aop:config>
     
     
    

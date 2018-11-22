@@ -23,6 +23,11 @@ public class Student {
         this.grades = grades;
         this.id = id;
     }
+    
+    @Override
+    public String toString() {
+        return "id: " + id + "|firstName: " + firstName + "|lastName: " + lastName;
+    }
 
     public String getFirstName() {
         return firstName;

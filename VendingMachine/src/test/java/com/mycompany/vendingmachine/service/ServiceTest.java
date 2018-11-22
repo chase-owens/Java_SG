@@ -5,10 +5,6 @@
  */
 package com.mycompany.vendingmachine.service;
 
-import com.mycompany.vendingmachine.dao.AuditDao;
-import com.mycompany.vendingmachine.dao.AuditDaoImpl;
-import com.mycompany.vendingmachine.dao.Dao;
-import com.mycompany.vendingmachine.dao.DaoStubImpl;
 import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import java.math.BigDecimal;
 import org.junit.After;
@@ -16,25 +12,25 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author chaseowens
  */
 public class ServiceTest {
-    Dao dao = new DaoStubImpl();
-    AuditDao audit = new AuditDaoImpl();
     
-    Service service = new ServiceImpl(dao, audit);
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");  
+    Service service = ctx.getBean("serviceLayer", ServiceImpl.class);
     
-//    public ServiceTest(Dao dao, AuditDao audit) {
-//        this.dao = dao;
-//        this.audit = audit;
-//    }
+//    Dao dao = new DaoStubImpl();
+//    AuditDao audit = new AuditDaoImpl();
+//    
+//    Service service = new ServiceImpl(dao, audit);
     
     @BeforeClass
     public static void setUpClass() {
