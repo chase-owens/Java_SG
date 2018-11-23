@@ -17,17 +17,22 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author chaseowens
  */
 public class DaoTest {
+    
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    DaoImpl dao = ctx.getBean("daoTest", DaoImpl.class);
 
-    private final Dao dao = new DaoImpl();
-
-    public DaoTest() {
-    }
+//    private final Dao dao = new DaoImpl();
+//
+//    public DaoTest() {
+//    }
 
     @BeforeClass
     public static void setUpClass() {

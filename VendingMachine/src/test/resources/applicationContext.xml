@@ -14,10 +14,12 @@
           http://www.springframework.org/schema/context/spring-context.xsd
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
-
-    <!-- Bean definitions go here -->
     
     <!-- daostubs and service -->
+    <bean id="daoImpl" class="com.mycompany.vendingmachine.dao.DaoImpl"/>
+    <bean id="daoTest" class="com.mycompany.vendingmachine.dao.DatTest">
+        <constructor-arg ref="daoImpl"/>
+    </bean>
     
     <!-- serviceLayertest -->
     <bean id="daoStub" class="com.mycompany.vendingmachine.dao.DaoStubImpl"/>
