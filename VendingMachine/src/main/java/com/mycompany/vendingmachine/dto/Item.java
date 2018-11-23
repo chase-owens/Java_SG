@@ -25,7 +25,7 @@ public class Item {
     
     @Override
     public String toString() {
-        return "Name: " + name + ": InventoryCount: " + inventoryCount;
+        return "Name: " + name + " : InventoryCount : " + inventoryCount;
     }
 
     public String getName() {

@@ -113,4 +113,8 @@ public class View {
         io.print("\nSimply enter 'yes' or 'no'. You can also just type 'y' for yes and 'n' for no\n");
     }
 
+    public void giveRefund(BigDecimal changeOwed) {
+        io.print("Here's your money back " + (changeOwed.toString()));
+    }
+
 }

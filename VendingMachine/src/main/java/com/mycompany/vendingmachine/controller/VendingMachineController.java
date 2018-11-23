@@ -123,10 +123,10 @@ public class VendingMachineController {
     }
     
     private void giveRefund() {
-        view.displayChangeOwed(moneyEntered);
+        view.giveRefund(moneyEntered);
 
         ChangeMaker changeOwed = service.makeChange(moneyEntered);
-
+        
         view.giveChange(changeOwed);
 
         moneyEntered = BigDecimal.ZERO;

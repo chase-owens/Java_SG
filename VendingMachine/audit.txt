@@ -19,3 +19,8 @@
 11-22-2018 : 01:53 : auditFile : Name: Trip to Mars |InventoryCount: 0 : Out of stock
 11-22-2018 : 01:56 : nullName: Trip to Mars |InventoryCount: 0 : Out of stock
 11-22-2018 : 01:56 :  Name: Trip to Mars |InventoryCount: 0 : Out of stock
+11-22-2018 : 04:02 :  Name: A Wish: InventoryCount: 3 : Insufficient funds
+11-22-2018 : 04:06 :  Name: A Wish: InventoryCount: 3 : Insufficient funds
+11-22-2018 : 04:07 :  Name: A Wish: InventoryCount: 3 : Insufficient funds
+11-22-2018 : 04:07 :  Name: A Wish: InventoryCount: 3 : Insufficient funds
+11-22-2018 : 04:21 :  Name: A Wish : InventoryCount : 3 : Insufficient funds
