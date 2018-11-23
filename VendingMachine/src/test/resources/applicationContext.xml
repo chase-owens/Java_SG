@@ -16,10 +16,10 @@
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
     
     <!-- daostubs and service -->
-    <bean id="daoImpl" class="com.mycompany.vendingmachine.dao.DaoImpl"/>
-    <bean id="daoTest" class="com.mycompany.vendingmachine.dao.DatTest">
+<!--    <bean id="daoImpl" class="com.mycompany.vendingmachine.dao.DaoImpl"/>
+    <bean id="daoTest" class="com.mycompany.vendingmachine.dao.DaoTest">
         <constructor-arg ref="daoImpl"/>
-    </bean>
+    </bean>-->
     
     <!-- serviceLayertest -->
     <bean id="daoStub" class="com.mycompany.vendingmachine.dao.DaoStubImpl"/>
