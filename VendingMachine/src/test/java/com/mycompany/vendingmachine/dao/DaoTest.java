@@ -17,6 +17,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -24,9 +26,12 @@ import org.junit.Test;
  */
 public class DaoTest {
 
-    private final Dao dao = new DaoImpl();
+    private final Dao dao;
+    //  = new DaoImpl()
 
     public DaoTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        dao = ctx.getBean("daoImpl", DaoImpl.class);
     }
 
     @BeforeClass
@@ -160,22 +165,22 @@ public class DaoTest {
 
     @Test
     public void checkMoney() throws GettingMoneyError {
-        
+
         String test = "1000";
         assertEquals(new BigDecimal(test), dao.checkMoney(test));
-        
+
         try {
             dao.checkMoney("asddf");
             fail("Please enter a real number without any letters or commas");
         } catch (GettingMoneyError e) {
         }
-        
+
         try {
             dao.checkMoney("1,000");
             fail("Please enter a real number without any letters or commas");
         } catch (GettingMoneyError e) {
         }
-        
+
         try {
             dao.checkMoney("-1");
             fail("Try that again and I will call the police and send them a photo of you...");

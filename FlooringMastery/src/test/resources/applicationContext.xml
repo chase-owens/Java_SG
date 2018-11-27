@@ -14,16 +14,7 @@
           http://www.springframework.org/schema/context/spring-context.xsd
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
-    
-    <!-- daostubs and service -->
-    <bean id="daoImpl" class="com.mycompany.vendingmachine.dao.DaoImpl"/>
-    
-    <!-- serviceLayertest -->
-    <bean id="daoStub" class="com.mycompany.vendingmachine.dao.DaoStubImpl"/>
-    <bean id="auditDaoImpl" class="com.mycompany.vendingmachine.dao.AuditDaoImpl"/>
-    <bean id="serviceLayer" class="com.mycompany.vendingmachine.service.ServiceImpl">
-        <constructor-arg ref="daoStub"/>
-        <constructor-arg ref="auditDaoImpl"/>
-    </bean>
+
+    <!-- Bean definitions go here -->
    
 </beans>

@@ -7,7 +7,6 @@ package com.mycompany.vendingmachine.advice;
 
 import com.mycompany.vendingmachine.dao.AuditDao;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
-import com.mycompany.vendingmachine.dto.Item;
 import org.aspectj.lang.JoinPoint;
 
 /**
