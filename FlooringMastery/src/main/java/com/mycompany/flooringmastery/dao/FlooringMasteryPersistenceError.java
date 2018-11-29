@@ -11,7 +11,7 @@ package com.mycompany.flooringmastery.dao;
  */
 public class FlooringMasteryPersistenceError extends Exception {
     
-    public FlooringMasteryPersistenceError(String message) {
-        super(message);
+    public FlooringMasteryPersistenceError(String message, Throwable cause) {
+        super(message, cause);
     }
 }

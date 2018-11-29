@@ -8,8 +8,14 @@ package com.mycompany.flooringmastery.control;
 import com.mycompany.flooringmastery.dao.DataValidationException;
 import com.mycompany.flooringmastery.dao.DateNotFoundException;
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceError;
+import com.mycompany.flooringmastery.model.DateValidationObject;
+import com.mycompany.flooringmastery.model.Product;
+import com.mycompany.flooringmastery.model.PurchaseOrder;
+import com.mycompany.flooringmastery.model.StateTax;
 import com.mycompany.flooringmastery.service.Service;
 import com.mycompany.flooringmastery.view.View;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 /**
  *
@@ -28,6 +34,7 @@ public class Controller {
     }
 
     public void run() throws FlooringMasteryPersistenceError, DateNotFoundException, DataValidationException {
+        loadFiles();
         try {
             while (keepGoing) {
                 displayMenu();
@@ -68,49 +75,53 @@ public class Controller {
         selection = view.getSelection();
     }
 
-    private void displayOrders() throws DateNotFoundException, DataValidationException {
-        String[] formattedDate = null;
-        boolean validEntry = false;
-        
+    private void displayOrders() throws DateNotFoundException, DataValidationException, FlooringMasteryPersistenceError {
+
         // Get date
-        while (!validEntry) {
-            try {
-                String date = view.getDateOfOrder();
-                formattedDate = date.split("-");
-                int month = Integer.parseInt(formattedDate[0]);
-                int day = Integer.parseInt(formattedDate[1]);
-                int year = Integer.parseInt(formattedDate[2]);
-                if (month < 1 || month > 12 || day < 1 || day > 31 || formattedDate[0].length() != 2 || formattedDate[1].length() != 2 || formattedDate[2].length() != 4) {
-                    throw new DataValidationException("This is not in correct format");
-                } else if (year < 2000) {
-                    throw new DataValidationException("We were not in business at that time");
-                } else if (year > 2020) {
-                    throw new DataValidationException("We are not taking orders for that date at this time..");
-                } else {
-                    validEntry = true;
-                }
-            } catch (UnsupportedOperationException | NumberFormatException | ArrayIndexOutOfBoundsException | DataValidationException e) {
-                view.handleError(e);
-            }
+        String date = getDate();
+
+        // Check for file and get orders
+        HashMap<String, PurchaseOrder> existingOrders = service.getOrders(date);
+
+        // Print orders
+        view.printOrders(existingOrders);
+    }
+
+    private void addOrder() throws DataValidationException, FlooringMasteryPersistenceError, DateNotFoundException {
+        // Get date and validate
+        String date = getDateAndCheckDateNotInThePast();
+
+        // Convert date
+        LocalDate parsedDate = LocalDate.parse(date);
+
+        // Make sure date is today or in the future
+        // Get order information
+        String[] info = view.getOrderInfo();
+
+        // validate product
+        Product product = service.validateProduct(info[2]);
+
+        // validate state
+        StateTax stateTaxRate = service.validateState(info[1]);
+
+        // Create purchaseOrderObject
+        PurchaseOrder po = service.createPurchaseOrder(info[0], product, stateTaxRate, info[3], parsedDate);
+
+        // Display order details get confirmation
+        boolean decision = view.placeOrder(po);
+
+        if (decision = true) {
+            // Check if file exists with that date Add order to HashMap
+            service.addOrderToOrdersMap(po);
+
+            // Display confirmation message
         }
 
-        // Check for file
-        
-        
-        // Get orders from that file
-        // Print orders
     }
 
-    private void addOrder() {
-        // Get date to add order
-
-        // Get order information
-        // Add orderObject
-        // Add order to HashMap
-    }
-
-    private void editOrder() throws DateNotFoundException {
+    private void editOrder() throws DateNotFoundException, DataValidationException {
         // Get date
+        String date = getDateAndCheckDateNotInThePast();
 
         // Get order number
         // Get order
@@ -118,8 +129,9 @@ public class Controller {
         // Edit order
     }
 
-    private void removeOrder() throws DateNotFoundException {
+    private void removeOrder() throws DateNotFoundException, DataValidationException {
         // Get date
+        String date = getDateAndCheckDateNotInThePast();
 
         // Get order number
         // Get order
@@ -140,6 +152,43 @@ public class Controller {
 
     private void handleError(Exception e) {
         view.handleError(e);
+    }
+
+    private String getDate() {
+        String date = null;
+        boolean validEntry = false;
+        while (!validEntry) {
+            try {
+                date = view.getDateOfOrder();
+                DateValidationObject questionableDate = new DateValidationObject(date);
+                validEntry = questionableDate.validate();
+            } catch (DataValidationException e) {
+                handleError(e);
+            }
+
+        }
+        return date;
+    }
+
+    private void loadFiles() throws FlooringMasteryPersistenceError {
+        service.loadFiles();
+    }
+
+    private String getDateAndCheckDateNotInThePast() {
+        String date = null;
+        boolean canFulfill = false;
+
+        while (!canFulfill) {
+            try {
+                date = getDate();
+                DateValidationObject dateEntered = new DateValidationObject(date);
+                canFulfill = dateEntered.checkNotPast();
+            } catch (DataValidationException e) {
+                handleError(e);
+            }
+        }
+
+        return date;
     }
 
 }
