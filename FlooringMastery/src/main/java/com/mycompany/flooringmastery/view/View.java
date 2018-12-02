@@ -261,5 +261,9 @@ public class View {
         io.print("Hmm... That's more of a do it yourself project!");
         io.print("We will have to charge you for an order of at least 10 square feet");
     }
+
+    public void confirmOrderSaved() {
+        io.print("Your current work has been saved");
+    }
     
 }

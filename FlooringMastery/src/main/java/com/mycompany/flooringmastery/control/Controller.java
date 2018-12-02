@@ -99,11 +99,7 @@ public class Controller {
 
     private void addOrder() throws DataValidationException, FlooringMasteryPersistenceError, DateNotFoundException {
         // Get date and validate that date is not in the past
-        String date = getDateAndCheckDateNotInThePast(), area = null;
-        boolean valid = false;
-        Product product = null;
-        StateTax stateTaxRate = null;
-        BigDecimal areaBD = BigDecimal.ZERO;
+        String date = getDateAndCheckDateNotInThePast();
 
         // Load date
         service.loadOrders(date);
@@ -112,53 +108,19 @@ public class Controller {
         LocalDate parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
         // Get order information
-        Set<String> states = service.getStatesServiced();
         Set<String> products = service.getProductsOffered();
-        //String[] info = view.getOrderInfo(states, products);
 
         // Get user info name, area, state, and product
         String name = view.getUserName();
 
         // Get area
-        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
-            try {
-                areaBD = view.getUserArea();
-                area = areaBD.toString();
-                valid = true;
-                if (areaBD.compareTo(BigDecimal.TEN) == -1) {
-                    valid = false;
-                    view.informUserOrderTooSmall();
-                }
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
-
-        }
-        valid = false;
+        String area = getArea();
 
         // State and taxRate
-        while (!valid) {
-            try {
-                String state = view.getUserState(states);
-                stateTaxRate = service.validateState(state);
-                valid = true;
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
-
-        }
-        valid = false;
+        StateTax stateTaxRate = getState();
 
         // validate product takes in product name
-        while (!valid) {
-            try {
-                String productString = view.getProductType(products);
-                product = service.validateProduct(productString);
-                valid = true;
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
-        }
+        Product product = getProduct();
 
         // Create purchaseOrderObject
         PurchaseOrder po = service.createPurchaseOrder(name, product, stateTaxRate, area, parsedDate);
@@ -180,11 +142,6 @@ public class Controller {
     }
 
     private void editOrder() throws DateNotFoundException, DataValidationException, FlooringMasteryPersistenceError {
-        boolean valid = false;
-        Product product = null;
-        StateTax stateTaxRate = null;
-        BigDecimal areaBD = BigDecimal.ZERO;
-        String area = null, state = null, productString = null;
 
         // Get date
         String date = getDateAndCheckDateNotInThePast();
@@ -201,75 +158,20 @@ public class Controller {
 
         // Display Order
         view.displayOrderInformation(po);
-
-        // Get new order info
-        Set<String> states = service.getStatesServiced();
-        Set<String> products = service.getProductsOffered();
-
+        
         // Get user info name, area, state, and product
-        String name = view.getUserNewName(po);
-        if (name.equals("")) {
-            name = po.getCustomerName();
-        }
+        String name = updateName(po);
 
-        // Get area
-        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
-            try {
-                areaBD = view.getNewUserArea(po);
-                if (areaBD == null) {
-                    area = po.getArea().toString();
-                    valid = true;
+        // Get new area
+        String area = updateArea(po);
 
-                } else {
-                    area = areaBD.toString();
-                    valid = true;
-                    if (areaBD.compareTo(BigDecimal.TEN) == -1) {
-                        valid = false;
-                        view.informUserOrderTooSmall();
-                    }
-                }
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
+        // Get new State and taxRate
+        StateTax stateTaxRate = updateStateTax(po);
 
-        }
-        valid = false;
-
-        // State and taxRate
-        while (!valid) {
-            try {
-                state = view.getNewUserState(states, po);
-                if (state.equals("")) {
-                    valid = true;
-                    stateTaxRate = service.validateState(po.getState());
-                } else {
-                    stateTaxRate = service.validateState(state);
-                    valid = true;
-                }
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
-
-        }
-        valid = false;
-
-        // validate product takes in product name
-        while (!valid) {
-            try {
-                productString = view.getNewProductType(products, po);
-                if (productString.equals("")) {
-                    product = service.validateProduct(po.getProductType());
-                    valid = true;
-                } else {
-                    product = service.validateProduct(productString);
-                    valid = true;
-                }
-
-            } catch (DataValidationException e) {
-                view.handleError(e);
-            }
-        }
-
+        // Get new Product details
+        Product product = updateProduct(po);
+        
+        // Update product details
         PurchaseOrder updatedPO = service.updatePO(name, product, stateTaxRate, area, po);
 
         // Display order details get confirmation
@@ -312,6 +214,9 @@ public class Controller {
     private void saveOrder() throws FlooringMasteryPersistenceError {
         // Go through orders hashMap
         service.saveOrders();
+        
+        // Display confirmation message
+        view.confirmOrderSaved();
 
         // auditFile "saveOrders"
         service.audit("saveOrders");
@@ -365,6 +270,147 @@ public class Controller {
         }
 
         return date;
+    }
+
+    public String getArea() {
+        boolean valid = false;
+        String area = null;
+        BigDecimal areaBD = BigDecimal.ZERO;
+
+        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
+            try {
+                areaBD = view.getUserArea();
+                area = areaBD.toString();
+                valid = true;
+                if (areaBD.compareTo(BigDecimal.TEN) == -1) {
+                    valid = false;
+                    view.informUserOrderTooSmall();
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+
+        return area;
+    }
+
+    public StateTax getState() {
+        boolean valid = false;
+        StateTax stateTaxRate = null;
+        Set<String> states = service.getStatesServiced();
+
+        while (!valid) {
+            try {
+                String state = view.getUserState(states);
+                stateTaxRate = service.validateState(state);
+                valid = true;
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        return stateTaxRate;
+    }
+
+    public Product getProduct() {
+        boolean valid = false;
+        Product product = null;
+        Set<String> products = service.getProductsOffered();
+
+        while (!valid) {
+            try {
+                String productString = view.getProductType(products);
+                product = service.validateProduct(productString);
+                valid = true;
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+        }
+        return product;
+    }
+    
+    public String updateName(PurchaseOrder po) {
+        String name = view.getUserNewName(po);
+        if (name.equals("")) {
+            name = po.getCustomerName();
+        }
+        return name;
+    }
+
+    private String updateArea(PurchaseOrder po) {
+        boolean valid = false;
+        BigDecimal areaBD = BigDecimal.ZERO;
+        String area = null;
+        
+        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
+            try {
+                areaBD = view.getNewUserArea(po);
+                if (areaBD == null) {
+                    area = po.getArea().toString();
+                    valid = true;
+                } else {
+                    area = areaBD.toString();
+                    valid = true;
+                    if (areaBD.compareTo(BigDecimal.TEN) == -1) {
+                        valid = false;
+                        view.informUserOrderTooSmall();
+                    }
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        return area;
+    }
+
+    private StateTax updateStateTax(PurchaseOrder po) {
+        boolean valid = false;
+        StateTax stateTaxRate = null;
+        String state = null;
+        Set<String> states = service.getStatesServiced();
+        
+        while (!valid) {
+            try {
+                state = view.getNewUserState(states, po);
+                if (state.equals("")) {
+                    valid = true;
+                    stateTaxRate = service.validateState(po.getState());
+                } else {
+                    stateTaxRate = service.validateState(state);
+                    valid = true;
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        return stateTaxRate;
+    }
+
+    private Product updateProduct(PurchaseOrder po) {
+        boolean valid = false;
+        Product product = null;
+        String productString = null;
+        Set<String> products = service.getProductsOffered();
+        
+        while (!valid) {
+            try {
+                productString = view.getNewProductType(products, po);
+                if (productString.equals("")) {
+                    product = service.validateProduct(po.getProductType());
+                    valid = true;
+                } else {
+                    product = service.validateProduct(productString);
+                    valid = true;
+                }
+
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+        }
+        return product;
     }
 
 }
