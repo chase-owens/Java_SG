@@ -326,7 +326,7 @@ public class DaoImplProduction implements Dao {
             String stringDate = key.format(df);
             boolean fileExists = checkIfFileExists(stringDate);
             String[] stringDateWithoutDashes = stringDate.split("-");
-            String orders = "Orders_" + stringDateWithoutDashes[1] + stringDateWithoutDashes[2] + stringDateWithoutDashes[0];
+            String orders = "Orders_" + stringDateWithoutDashes[0] + stringDateWithoutDashes[1] + stringDateWithoutDashes[2];
             String folderPath = "/Users/chaseowens/Desktop/bitbucket/chase-owens-individual-work/FlooringMastery/src/main/java/com/mycompany/flooringmastery/orders/";
             File folder = new File(folderPath + orders);
             File file = new File(folder + "/" + orders + ".txt");
