@@ -13,8 +13,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
@@ -33,11 +38,12 @@ public class DaoImplProduction implements Dao {
     @Override
     public Product validateProduct(String productNameEntered) throws DataValidationException {
         BigDecimal[] productDetails;
-        try {
-            productDetails = products.get(productNameEntered);
-        } catch (UnsupportedOperationException e) {
-            throw new DataValidationException("We don't have that product", e);
+
+        if (products.get(productNameEntered) == null) {
+            throw new DataValidationException("We don't have that product");
         }
+
+        productDetails = products.get(productNameEntered);
 
         Product product = new Product(productNameEntered, productDetails[0], productDetails[1]);
         return product;
@@ -47,11 +53,10 @@ public class DaoImplProduction implements Dao {
     @Override
     public StateTax validateState(String stateEntered) throws DataValidationException {
         BigDecimal taxRate;
-        try {
-            taxRate = states.get(stateEntered);
-        } catch (UnsupportedOperationException e) {
-            throw new DataValidationException("We don't serve that state", e);
+        if (states.get(stateEntered) == null) {
+            throw new DataValidationException("We don't serve that state");
         }
+        taxRate = states.get(stateEntered);
 
         StateTax stateTax = new StateTax(stateEntered, taxRate);
         return stateTax;
@@ -79,15 +84,14 @@ public class DaoImplProduction implements Dao {
             String state = null;
             BigDecimal taxRate = null;
 
-            if (currentTokens[0].length() == 2) {
+            if (currentLine.contains(".")) {
                 state = currentTokens[0];
-            }
-
-            if (currentTokens[1].contains(".")) {
                 taxRate = new BigDecimal(currentTokens[1]);
             }
+            if (states != null) {
+                states.put(state, taxRate);
+            }
 
-            states.put(state, taxRate);
         }
         read.close();
     }
@@ -96,7 +100,6 @@ public class DaoImplProduction implements Dao {
         Scanner read;
         String product;
         BigDecimal costPerSquareFoot, laborPerSquareFoot;
-        BigDecimal[] productCosts = new BigDecimal[2];
 
         try {
             read = new Scanner(new BufferedReader(new FileReader("products.txt")));
@@ -110,7 +113,8 @@ public class DaoImplProduction implements Dao {
             currentTokens = currentLine.split(",");
 
             if (currentLine.contains(".")) {
-                product = currentTokens[0];
+                BigDecimal[] productCosts = new BigDecimal[2];
+                product = currentTokens[0].toLowerCase();
                 costPerSquareFoot = new BigDecimal(currentTokens[1]);
                 laborPerSquareFoot = new BigDecimal(currentTokens[2]);
 
@@ -130,34 +134,52 @@ public class DaoImplProduction implements Dao {
     }
 
     @Override
-    public void addOrderToOrderMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException {
-        HashMap<String, PurchaseOrder> existingOrders = new HashMap<>();
+    public PurchaseOrder addOrderToOrderMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException {
+        HashMap<String, PurchaseOrder> existingOrders;
         boolean hasExistingOrders = checkIfFileExists(po.getDate().toString());
+        boolean ordersInMap = checkIfOrderExistsInMap(po.getDate());
         Set<Integer> orderNumbers;
         int maxOrderNumber;
 
-        if (hasExistingOrders) {
-            existingOrders = getOrders(po.getDate().toString());
+//        if (hasExistingOrders && !ordersInMap) {
+//            loadOrders(po.getDate().toString());
+//            existingOrders = ordersMap.get(po.getDate());
+//        }
+        if (ordersInMap) {
+            existingOrders = ordersMap.get(po.getDate());
+        } else {
+            existingOrders = new HashMap<>();
+        }
+
+        if (existingOrders.size() > 0) {
             Set<String> orderNumStrings = existingOrders.keySet();
             try {
                 orderNumbers = orderNumStrings.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toSet());
                 maxOrderNumber = orderNumbers.stream().collect(Collectors.reducing(Integer::max)).get();
                 String newMax = Integer.toString(maxOrderNumber + 1);
+                po.setOrderNumber(newMax);
                 existingOrders.put(newMax, po);
-                ordersMap.put(po.getDate(), existingOrders);
             } catch (NumberFormatException e) {
                 throw new DateNotFoundException("The order numbers are out of whack!!");
             }
         } else {
-            existingOrders.put("1", po);
+            po.setOrderNumber("1");
+            existingOrders.put(po.getOrderNumber(), po);
             ordersMap.put(po.getDate(), existingOrders);
         }
+        return po;
 
     }
 
     public boolean checkIfFileExists(String date) throws FlooringMasteryPersistenceError {
         String[] dateWithoutDashes = date.split("-");
-        File file = new File("Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2] + ".txt");
+
+        String fileName = "Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2];
+        String folderPath = "/Users/chaseowens/Desktop/bitbucket/chase-owens-individual-work/FlooringMastery/src/main/java/com/mycompany/flooringmastery/orders/" + fileName + "/";
+        File file = new File(folderPath + fileName + ".txt");
+
+//        String order = "Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2];
+//        File file = new File(order + ".txt");
         boolean fileExists;
 
         try {
@@ -168,21 +190,28 @@ public class DaoImplProduction implements Dao {
         return fileExists;
     }
 
+    public boolean checkIfOrderExistsInMap(LocalDate date) throws FlooringMasteryPersistenceError {
+        boolean orderExists = ordersMap.containsKey(date);
+        return orderExists;
+    }
+
     @Override
-    public HashMap<String, PurchaseOrder> getOrders(String date) throws FlooringMasteryPersistenceError, DateNotFoundException {
-        String[] dateWithoutDashes = date.split("-");
-        HashMap<String, PurchaseOrder> orders = new HashMap<>();
-        LocalDate ld = LocalDate.parse(date);
+    public void loadOrders(String date) throws FlooringMasteryPersistenceError {
+        boolean exists = checkIfFileExists(date);
+        LocalDate ld = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        boolean inMap = checkIfOrderExistsInMap(ld);
 
-        // Name file
-        File file = new File("Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2] + ".txt");
+        if (exists && !inMap) {
+            String[] dateWithoutDashes = date.split("-");
 
-        // Check if file exists
-        boolean fileExists = checkIfFileExists(date);
+            String fileName = "Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2];
+            String folderPath = "/Users/chaseowens/Desktop/bitbucket/chase-owens-individual-work/FlooringMastery/src/main/java/com/mycompany/flooringmastery/orders/" + fileName + "/";
+            File file = new File(folderPath + fileName + ".txt");
 
-        if (fileExists) {
+            //File file = new File("Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2] + ".txt");
+            HashMap<String, PurchaseOrder> currentOrders = new HashMap<>();
+
             Scanner read;
-            Gson gson = new Gson();
 
             try {
                 read = new Scanner(new BufferedReader(new FileReader(file)));
@@ -191,16 +220,159 @@ public class DaoImplProduction implements Dao {
             }
 
             while (read.hasNextLine()) {
-                PurchaseOrder order = gson.fromJson(read.nextLine(), PurchaseOrder.class);
-                orders.put(order.getOrderNumber(), order);
+                Gson gson = new Gson();
+                String json = read.nextLine();
+                PurchaseOrder order = gson.fromJson(json, PurchaseOrder.class);
+                currentOrders.put(order.getOrderNumber(), order);
             }
-            return orders;
-        } else if (ordersMap.containsKey(ld)) {
-            orders = ordersMap.get(ld);
-            return orders;
-        } else {
-            throw new DateNotFoundException("Sorry we don't have any orders for that date.");
+            ordersMap.put(ld, currentOrders);
         }
 
+    }
+
+    @Override
+    public HashMap<String, PurchaseOrder> getOrders(String date) throws FlooringMasteryPersistenceError, DateNotFoundException {
+        String[] dateWithoutDashes = date.split("-");
+        HashMap<String, PurchaseOrder> orders;
+        LocalDate ld = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+
+        // Name file
+        String fileName = "Orders_" + dateWithoutDashes[0] + dateWithoutDashes[1] + dateWithoutDashes[2];
+        String folderPath = "/Users/chaseowens/Desktop/bitbucket/chase-owens-individual-work/FlooringMastery/src/main/java/com/mycompany/flooringmastery/orders/";
+        File folder = new File(folderPath + fileName);
+        File file = new File(folder + "/" + fileName + ".txt");
+
+        // Check if file exists
+        boolean fileExists = checkIfFileExists(date);
+        boolean ordersInMap = checkIfOrderExistsInMap(ld);
+
+        if (fileExists && !ordersInMap) {
+            loadOrders(date);
+            orders = ordersMap.get(ld);
+        } else if (ordersInMap) {
+            orders = ordersMap.get(ld);
+        } else {
+            throw new DateNotFoundException("Could not find that date");
+        }
+
+        if (ordersMap.get(ld).isEmpty()) {
+            throw new DateNotFoundException("Could not find that date");
+        }
+        return orders;
+
+    }
+
+    @Override
+    public Set<String> getStatesServiced() {
+        return states.keySet();
+    }
+
+    @Override
+    public Set<String> getProductsOffered() {
+        return products.keySet();
+    }
+
+    @Override
+    public void removeOrder(String date, String orderNumber) throws FlooringMasteryPersistenceError, DateNotFoundException {
+        HashMap<String, PurchaseOrder> currentOrders = getOrders(date);
+        currentOrders.remove(orderNumber);
+    }
+
+    @Override
+    public PurchaseOrder getOrder(String date, String orderNumber) throws FlooringMasteryPersistenceError, DateNotFoundException, DataValidationException {
+        HashMap<String, PurchaseOrder> currentOrders = getOrders(date);
+        PurchaseOrder po;
+        try {
+            po = currentOrders.get(orderNumber);
+        } catch (NullPointerException e) {
+            throw new DataValidationException("That order number does not exist");
+        }
+
+        return po;
+    }
+
+    @Override
+    public PurchaseOrder updatePO(String name, Product product, StateTax stateTaxRate, String area, PurchaseOrder po) {
+        if (!po.getCustomerName().equals(name)) {
+            po.setCustomerName(name);
+        }
+        if (!po.getProductType().equals(product.getProduct())) {
+            po.setProductType(product.getProduct());
+            po.setMaterialCostPerSquareFoot(product.getCostPerSquareFoot());
+            po.setLaborCostPerSquareFoot(product.getLaborPerSquareFoot());
+        }
+        if (!po.getState().equals(stateTaxRate.getState())) {
+            po.setState(stateTaxRate.getState());
+            po.setTaxRate(stateTaxRate.getTaxRate());
+        }
+        String areaString = po.getArea().toString();
+        if (!areaString.equals(area)) {
+            po.setArea(new BigDecimal(area));
+        }
+        // update laborCost, materialCost, tax, total
+        po.updatePODetails();
+        return po;
+    }
+
+    @Override
+    public void saveOrders() throws FlooringMasteryPersistenceError {
+        Gson gson = new Gson();
+
+        Set<LocalDate> keys = ordersMap.keySet();
+
+        for (LocalDate key : keys) {
+            PrintWriter write;
+            String stringDate = key.toString();
+            boolean fileExists = checkIfFileExists(stringDate);
+            String[] stringDateWithoutDashes = stringDate.split("-");
+            String orders = "Orders_" + stringDateWithoutDashes[1] + stringDateWithoutDashes[2] + stringDateWithoutDashes[0];
+            String folderPath = "/Users/chaseowens/Desktop/bitbucket/chase-owens-individual-work/FlooringMastery/src/main/java/com/mycompany/flooringmastery/orders/";
+            File folder = new File(folderPath + orders);
+            File file = new File(folder + "/" + orders + ".txt");
+            HashMap<String, PurchaseOrder> ordersToWrite = ordersMap.get(key);
+
+            if (fileExists) {
+                if (ordersToWrite.isEmpty()) {
+                    boolean deleted = file.delete();
+                    folder.delete();
+                } else {
+                    try {
+                        write = new PrintWriter(new FileWriter(file));
+                    } catch (IOException e) {
+                        throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
+                    }
+
+                    Collection<PurchaseOrder> actualOrders = ordersToWrite.values();
+                    actualOrders.stream().forEach(order -> {
+                        write.println(gson.toJson(order));
+                        write.flush();
+
+                    });
+                    write.close();
+                }
+            } else {
+
+                if (ordersToWrite.isEmpty()) {
+                    boolean deleted = file.delete();
+                    folder.delete();
+                } else {
+                    try {
+                        folder.mkdir();
+                        file.createNewFile();
+                        write = new PrintWriter(new FileWriter(file));
+                    } catch (IOException e) {
+                        throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
+                    }
+                    Collection<PurchaseOrder> actualOrders = ordersToWrite.values();
+                    actualOrders.stream().forEach(order -> {
+                        write.println(gson.toJson(order));
+                        write.flush();
+                    });
+                    write.close();
+                }
+
+            }
+
+        }
     }
 }

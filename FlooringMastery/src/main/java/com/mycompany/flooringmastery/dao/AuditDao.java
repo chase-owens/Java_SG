@@ -5,10 +5,20 @@
  */
 package com.mycompany.flooringmastery.dao;
 
+import com.mycompany.flooringmastery.model.PurchaseOrder;
+
 /**
  *
  * @author chaseowens
  */
 public interface AuditDao {
+
+    public void writeAuditEntry(String displayOrders, String date) throws FlooringMasteryPersistenceError;
+
+    public void writeAuditEntry(String addOrder, String date, PurchaseOrder po) throws FlooringMasteryPersistenceError;
+
+    public void writeAuditEntry(String editFile, String date, String orderNumber) throws FlooringMasteryPersistenceError;
+
+    public void writeAuditEntry(String saveOrders) throws FlooringMasteryPersistenceError;
     
 }

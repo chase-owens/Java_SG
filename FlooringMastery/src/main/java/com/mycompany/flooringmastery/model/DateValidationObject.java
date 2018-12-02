@@ -8,6 +8,7 @@ package com.mycompany.flooringmastery.model;
 import com.mycompany.flooringmastery.dao.DataValidationException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -34,18 +35,17 @@ public class DateValidationObject {
                 throw new DataValidationException("We were not in business at that time");
             } else if (year > 2020) {
                 throw new DataValidationException("We are not taking orders for that date at this time..");
-            } else {
-                return validEntry = true;
             }
         } catch (UnsupportedOperationException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
             throw new DataValidationException("That's not the correct format");
         }
+        return validEntry = true;
     }
 
     public boolean checkNotPast() throws DataValidationException {
         boolean canFulfill;
         LocalDate now = LocalDate.now();
-        LocalDate dateEntered = LocalDate.parse(this.date);
+        LocalDate dateEntered = LocalDate.parse(this.date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
         Period diff = now.until(dateEntered);
         if (diff.getDays() >= 0) {
             canFulfill = true;
@@ -54,10 +54,5 @@ public class DateValidationObject {
         }
         
         return canFulfill;
-    }
-    
-    public LocalDate convert() {
-        LocalDate parsedDate = LocalDate.parse(this.date);
-        return parsedDate;
     }
 }

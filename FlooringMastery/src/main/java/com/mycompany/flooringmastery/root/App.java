@@ -8,7 +8,7 @@ package com.mycompany.flooringmastery.root;
 import com.mycompany.flooringmastery.dao.DataValidationException;
 import com.mycompany.flooringmastery.dao.DateNotFoundException;
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceError;
-import com.mycompany.flooringmastery.mediator.Mediator;
+import com.mycompany.flooringmastery.control.Mediator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

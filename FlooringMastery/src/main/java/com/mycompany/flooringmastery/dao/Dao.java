@@ -10,6 +10,7 @@ import com.mycompany.flooringmastery.model.PurchaseOrder;
 import com.mycompany.flooringmastery.model.StateTax;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Set;
 /**
  *
  * @author chaseowens
@@ -24,8 +25,22 @@ public interface Dao {
 
     public PurchaseOrder createPurchaseOrder(String name, Product product, StateTax stateTaxRate, String area, LocalDate date);
 
-    public void addOrderToOrderMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException;
+    public PurchaseOrder addOrderToOrderMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException;
 
     public HashMap<String, PurchaseOrder> getOrders(String date) throws FlooringMasteryPersistenceError, DateNotFoundException;
+
+    public Set<String> getStatesServiced();
+
+    public Set<String> getProductsOffered();
+
+    public void removeOrder(String date, String orderNumber)throws FlooringMasteryPersistenceError, DateNotFoundException;
+
+    public PurchaseOrder getOrder(String date, String orderNumber)throws FlooringMasteryPersistenceError, DateNotFoundException, DataValidationException;
+
+    public PurchaseOrder updatePO(String name, Product product, StateTax stateTaxRate, String area, PurchaseOrder po);
+
+    public void saveOrders() throws FlooringMasteryPersistenceError;
+
+    public void loadOrders(String date) throws FlooringMasteryPersistenceError;
     
 }

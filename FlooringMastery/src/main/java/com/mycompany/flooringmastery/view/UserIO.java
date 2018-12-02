@@ -24,9 +24,9 @@ public interface UserIO {
 
     float readFloat(String prompt, float min, float max);
 
-    int readInt(String prompt);
+    int readInt(String prompt) throws DataValidationException;
 
-    int readInt(String prompt, int min, int max);
+    int readInt(String prompt, int min, int max)  throws DataValidationException;
 
     long readLong(String prompt);
 
@@ -35,4 +35,6 @@ public interface UserIO {
     String readString(String prompt);
     
     BigDecimal readBigDecimal(String prompt) throws DataValidationException;
+    
+    public BigDecimal readBigDecimalWithPossibilityOfNull(String prompt) throws DataValidationException;
 }

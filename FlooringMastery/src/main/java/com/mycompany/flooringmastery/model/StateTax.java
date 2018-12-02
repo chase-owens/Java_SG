@@ -6,6 +6,7 @@
 package com.mycompany.flooringmastery.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -19,6 +20,10 @@ public class StateTax {
         this.state = state;
         this.taxRate = taxRate;
     }
+    
+    public StateTax() {
+        
+    }
 
     public String getState() {
         return state;
@@ -27,5 +32,35 @@ public class StateTax {
     public BigDecimal getTaxRate() {
         return taxRate;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.state);
+        hash = 59 * hash + Objects.hashCode(this.taxRate);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final StateTax other = (StateTax) obj;
+        if (!Objects.equals(this.state, other.state)) {
+            return false;
+        }
+        if (!Objects.equals(this.taxRate, other.taxRate)) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }

@@ -5,10 +5,31 @@
  */
 package com.mycompany.flooringmastery.dao;
 
+import com.mycompany.flooringmastery.model.PurchaseOrder;
+
 /**
  *
  * @author chaseowens
  */
-public class AuditDaoImplStub {
+public class AuditDaoImplStub implements AuditDao {
     
+    @Override
+    public void writeAuditEntry(String displayOrders, String date) throws FlooringMasteryPersistenceError {
+        // Smile
+    }
+
+    @Override
+    public void writeAuditEntry(String addOrder, String date, PurchaseOrder po) throws FlooringMasteryPersistenceError {
+        // Smile
+    }
+
+    @Override
+    public void writeAuditEntry(String editFile, String date, String orderNumber) throws FlooringMasteryPersistenceError {
+        // Smile
+    }
+
+    @Override
+    public void writeAuditEntry(String saveOrders) throws FlooringMasteryPersistenceError {
+        // Smile
+    }
 }

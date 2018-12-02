@@ -69,25 +69,36 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public int readInt(String prompt) {
+    public int readInt(String prompt) throws DataValidationException {
         System.out.println(prompt);
-        int num = Integer.parseInt(sc.nextLine());
+        int num = 0;
+        try {
+            num = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            throw new DataValidationException("please enter a number without any decimals or commas");
+        }
+
         return num;
     }
 
     @Override
-    public int readInt(String prompt, int min, int max) {
+    public int readInt(String prompt, int min, int max) throws DataValidationException {
         boolean isIn = false;
         int num = 0;
-        while (isIn == false) {
-            System.out.println(prompt);
-            num = Integer.parseInt(sc.nextLine());
-            if (num < min || num > max) {
-                System.out.println("Must be within range!");
-            } else {
-                isIn = true;
+        try {
+            while (isIn == false) {
+                System.out.println(prompt);
+                num = Integer.parseInt(sc.nextLine());
+                if (num < min || num > max) {
+                    System.out.println("Must be within range!");
+                } else {
+                    isIn = true;
+                }
             }
+        } catch (NumberFormatException e) {
+            throw new DataValidationException("That was not a number between 1 and 6", e);
         }
+
         return num;
     }
 
@@ -112,6 +123,26 @@ public class UserIOImpl implements UserIO {
     public BigDecimal readBigDecimal(String prompt) throws DataValidationException {
         System.out.println(prompt);
         String answer = sc.nextLine();
+        BigDecimal bdAnswer;
+
+        try {
+            bdAnswer = new BigDecimal(answer);
+        } catch (IllegalArgumentException e) {
+            throw new DataValidationException("Please enter a real number without any letters or commas", e);
+        }
+
+        return bdAnswer;
+    }
+    
+    @Override
+    public BigDecimal readBigDecimalWithPossibilityOfNull(String prompt) throws DataValidationException {
+        System.out.println(prompt);
+        String answer = sc.nextLine();
+        
+        if (answer.equals("")) {
+            return null;
+        }
+        
         BigDecimal bdAnswer;
 
         try {

@@ -14,8 +14,11 @@ import com.mycompany.flooringmastery.model.PurchaseOrder;
 import com.mycompany.flooringmastery.model.StateTax;
 import com.mycompany.flooringmastery.service.Service;
 import com.mycompany.flooringmastery.view.View;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -35,43 +38,47 @@ public class Controller {
 
     public void run() throws FlooringMasteryPersistenceError, DateNotFoundException, DataValidationException {
         loadFiles();
-        try {
-            while (keepGoing) {
-                displayMenu();
-                getSelection();
-                switch (selection) {
-                    case 1:
-                        displayOrders();
-                        break;
-                    case 2:
-                        addOrder();
-                        break;
-                    case 3:
-                        editOrder();
-                        break;
-                    case 4:
-                        removeOrder();
-                        break;
-                    case 5:
-                        saveOrder();
-                        break;
-                    case 6:
-                        exitGracefully();
-                        break;
-                    default:
-                        throw new DataValidationException("Invalid entry");
+
+        while (keepGoing) {
+            try {
+                while (keepGoing) {
+                    displayMenu();
+                    getSelection();
+                    switch (selection) {
+                        case 1:
+                            displayOrders();
+                            break;
+                        case 2:
+                            addOrder();
+                            break;
+                        case 3:
+                            editOrder();
+                            break;
+                        case 4:
+                            removeOrder();
+                            break;
+                        case 5:
+                            saveOrder();
+                            break;
+                        case 6:
+                            exitGracefully();
+                            break;
+                        default:
+                            throw new DataValidationException("Invalid entry");
+                    }
                 }
+            } catch (DateNotFoundException | FlooringMasteryPersistenceError | DataValidationException e) {
+                handleError(e);
             }
-        } catch (DateNotFoundException | FlooringMasteryPersistenceError | DataValidationException e) {
-            handleError(e);
         }
+
     }
 
     private void displayMenu() {
         view.displayMenu();
     }
 
-    private void getSelection() {
+    private void getSelection() throws DataValidationException {
         selection = view.getSelection();
     }
 
@@ -85,64 +92,229 @@ public class Controller {
 
         // Print orders
         view.printOrders(existingOrders);
+
+        // Audit - String[] - "displayOrders" + "date"
+        service.audit("displayOrders", date);
     }
 
     private void addOrder() throws DataValidationException, FlooringMasteryPersistenceError, DateNotFoundException {
-        // Get date and validate
-        String date = getDateAndCheckDateNotInThePast();
+        // Get date and validate that date is not in the past
+        String date = getDateAndCheckDateNotInThePast(), area = null;
+        boolean valid = false;
+        Product product = null;
+        StateTax stateTaxRate = null;
+        BigDecimal areaBD = BigDecimal.ZERO;
+
+        // Load date
+        service.loadOrders(date);
 
         // Convert date
-        LocalDate parsedDate = LocalDate.parse(date);
+        LocalDate parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
-        // Make sure date is today or in the future
         // Get order information
-        String[] info = view.getOrderInfo();
+        Set<String> states = service.getStatesServiced();
+        Set<String> products = service.getProductsOffered();
+        //String[] info = view.getOrderInfo(states, products);
 
-        // validate product
-        Product product = service.validateProduct(info[2]);
+        // Get user info name, area, state, and product
+        String name = view.getUserName();
 
-        // validate state
-        StateTax stateTaxRate = service.validateState(info[1]);
+        // Get area
+        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
+            try {
+                areaBD = view.getUserArea();
+                area = areaBD.toString();
+                valid = true;
+                if (areaBD.compareTo(BigDecimal.TEN) == -1) {
+                    valid = false;
+                    view.informUserOrderTooSmall();
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        valid = false;
+
+        // State and taxRate
+        while (!valid) {
+            try {
+                String state = view.getUserState(states);
+                stateTaxRate = service.validateState(state);
+                valid = true;
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        valid = false;
+
+        // validate product takes in product name
+        while (!valid) {
+            try {
+                String productString = view.getProductType(products);
+                product = service.validateProduct(productString);
+                valid = true;
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+        }
 
         // Create purchaseOrderObject
-        PurchaseOrder po = service.createPurchaseOrder(info[0], product, stateTaxRate, info[3], parsedDate);
+        PurchaseOrder po = service.createPurchaseOrder(name, product, stateTaxRate, area, parsedDate);
 
         // Display order details get confirmation
         boolean decision = view.placeOrder(po);
 
         if (decision = true) {
             // Check if file exists with that date Add order to HashMap
-            service.addOrderToOrdersMap(po);
+            PurchaseOrder confirmedPO = service.addOrderToOrdersMap(po);
 
             // Display confirmation message
+            view.displayConfirmation(confirmedPO);
         }
 
+        // auditFile "addOrder" + "date" + "PO"
+        service.audit("addOrder", date, po);
+
     }
 
-    private void editOrder() throws DateNotFoundException, DataValidationException {
+    private void editOrder() throws DateNotFoundException, DataValidationException, FlooringMasteryPersistenceError {
+        boolean valid = false;
+        Product product = null;
+        StateTax stateTaxRate = null;
+        BigDecimal areaBD = BigDecimal.ZERO;
+        String area = null, state = null, productString = null;
+
         // Get date
         String date = getDateAndCheckDateNotInThePast();
 
+        // Get existing orders and display them to user
+        HashMap<String, PurchaseOrder> currentOrders = service.getOrders(date);
+        view.printOrders(currentOrders);
+
         // Get order number
+        String orderNumber = view.getOrderNumber();
+
         // Get order
-        // Get new order information
-        // Edit order
+        PurchaseOrder po = service.getOrder(date, orderNumber);
+
+        // Display Order
+        view.displayOrderInformation(po);
+
+        // Get new order info
+        Set<String> states = service.getStatesServiced();
+        Set<String> products = service.getProductsOffered();
+
+        // Get user info name, area, state, and product
+        String name = view.getUserNewName(po);
+        if (name.equals("")) {
+            name = po.getCustomerName();
+        }
+
+        // Get area
+        while (!valid && areaBD.compareTo(BigDecimal.TEN) < 0) {
+            try {
+                areaBD = view.getNewUserArea(po);
+                if (areaBD == null) {
+                    area = po.getArea().toString();
+                    valid = true;
+
+                } else {
+                    area = areaBD.toString();
+                    valid = true;
+                    if (areaBD.compareTo(BigDecimal.TEN) == -1) {
+                        valid = false;
+                        view.informUserOrderTooSmall();
+                    }
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        valid = false;
+
+        // State and taxRate
+        while (!valid) {
+            try {
+                state = view.getNewUserState(states, po);
+                if (state.equals("")) {
+                    valid = true;
+                    stateTaxRate = service.validateState(po.getState());
+                } else {
+                    stateTaxRate = service.validateState(state);
+                    valid = true;
+                }
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+
+        }
+        valid = false;
+
+        // validate product takes in product name
+        while (!valid) {
+            try {
+                productString = view.getNewProductType(products, po);
+                if (productString.equals("")) {
+                    product = service.validateProduct(po.getProductType());
+                    valid = true;
+                } else {
+                    product = service.validateProduct(productString);
+                    valid = true;
+                }
+
+            } catch (DataValidationException e) {
+                view.handleError(e);
+            }
+        }
+
+        PurchaseOrder updatedPO = service.updatePO(name, product, stateTaxRate, area, po);
+
+        // Display order details get confirmation
+        boolean decision = view.placeOrder(updatedPO);
+
+        if (decision = true) {
+
+            // Display confirmation message
+            view.displayConfirmation(updatedPO);
+        }
+
+        // auditFile "editFile" "date" "orderNumber"
+        service.audit("editFile", date, orderNumber);
     }
 
-    private void removeOrder() throws DateNotFoundException, DataValidationException {
+    private void removeOrder() throws DateNotFoundException, DataValidationException, FlooringMasteryPersistenceError {
         // Get date
         String date = getDateAndCheckDateNotInThePast();
 
+        // Put in hashMap if not already there
+        service.loadOrders(date);
+
+        // Get existing orders and display them to user
+        HashMap<String, PurchaseOrder> currentOrders = service.getOrders(date);
+        view.printOrders(currentOrders);
+
         // Get order number
-        // Get order
+        String orderNumber = view.getOrderNumber();
+
         // Remove order
+        service.removeOrder(date, orderNumber);
+
+        // Display confirmation message
+        view.confirmOrderRemoved(orderNumber);
+
+        // auditFile "removeOrder" "date" "orderNumber"
+        service.audit("removeOrder", date, orderNumber);
     }
 
     private void saveOrder() throws FlooringMasteryPersistenceError {
         // Go through orders hashMap
+        service.saveOrders();
 
-        // If date does not have file - Create new file
-        // Write order to respective file
+        // auditFile "saveOrders"
+        service.audit("saveOrders");
     }
 
     private void exitGracefully() {
@@ -150,11 +322,14 @@ public class Controller {
         view.sayGoodbye();
     }
 
-    private void handleError(Exception e) {
+    private void handleError(Exception e) throws FlooringMasteryPersistenceError {
         view.handleError(e);
+
+        // auditFile "errorMessage"
+        service.audit(e.getMessage());
     }
 
-    private String getDate() {
+    private String getDate() throws FlooringMasteryPersistenceError {
         String date = null;
         boolean validEntry = false;
         while (!validEntry) {
@@ -174,10 +349,11 @@ public class Controller {
         service.loadFiles();
     }
 
-    private String getDateAndCheckDateNotInThePast() {
+    private String getDateAndCheckDateNotInThePast() throws FlooringMasteryPersistenceError {
         String date = null;
         boolean canFulfill = false;
 
+        // Might remove while - Try/Catch critical
         while (!canFulfill) {
             try {
                 date = getDate();

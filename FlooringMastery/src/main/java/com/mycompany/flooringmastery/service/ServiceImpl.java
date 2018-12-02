@@ -15,6 +15,7 @@ import com.mycompany.flooringmastery.model.PurchaseOrder;
 import com.mycompany.flooringmastery.model.StateTax;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -50,12 +51,67 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void addOrderToOrdersMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException {
-        dao.addOrderToOrderMap(po);
+    public PurchaseOrder addOrderToOrdersMap(PurchaseOrder po) throws FlooringMasteryPersistenceError, DateNotFoundException {
+        return dao.addOrderToOrderMap(po);
     }
 
     @Override
     public HashMap<String, PurchaseOrder> getOrders(String date) throws FlooringMasteryPersistenceError, DateNotFoundException {
         return dao.getOrders(date);
+    }
+
+    @Override
+    public Set<String> getStatesServiced() {
+        return dao.getStatesServiced();
+    }
+
+    @Override
+    public Set<String> getProductsOffered() {
+        return dao.getProductsOffered();
+    }
+
+    @Override
+    public void removeOrder(String date, String orderNumber) throws FlooringMasteryPersistenceError, DateNotFoundException {
+        dao.removeOrder(date, orderNumber);
+    }
+
+    @Override
+    public PurchaseOrder getOrder(String date, String orderNumber) throws FlooringMasteryPersistenceError, DateNotFoundException, DataValidationException {
+        return dao.getOrder(date, orderNumber);
+    }
+
+    @Override
+    public PurchaseOrder updatePO(String name, Product product, StateTax stateTaxRate, String area, PurchaseOrder po) {
+        return dao.updatePO(name, product, stateTaxRate, area, po);
+    }
+
+    @Override
+    public void saveOrders() throws FlooringMasteryPersistenceError {
+        dao.saveOrders();
+    }
+
+    @Override
+    public void audit(String displayOrders, String date) throws FlooringMasteryPersistenceError {
+        //auditDao.writeAuditEntry(displayOrders, date);
+    }
+
+    @Override
+    public void audit(String addOrder, String date, PurchaseOrder po) throws FlooringMasteryPersistenceError {
+        //auditDao.writeAuditEntry(addOrder, date, po);
+    }
+
+    @Override
+    public void audit(String editFile, String date, String orderNumber) throws FlooringMasteryPersistenceError {
+        //auditDao.writeAuditEntry(editFile, date, orderNumber);
+    }
+
+    @Override
+    public void audit(String saveOrders) throws FlooringMasteryPersistenceError {
+        //auditDao.writeAuditEntry(saveOrders);
+    }
+
+    @Override
+    public void loadOrders(String date) throws FlooringMasteryPersistenceError {
+        dao.loadOrders(date);
     }
 }

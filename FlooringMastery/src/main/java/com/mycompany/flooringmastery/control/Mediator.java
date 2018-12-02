@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.flooringmastery.mediator;
+package com.mycompany.flooringmastery.control;
 
 import com.mycompany.flooringmastery.control.Controller;
 import com.mycompany.flooringmastery.dao.DataValidationException;
