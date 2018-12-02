@@ -322,7 +322,8 @@ public class DaoImplProduction implements Dao {
 
         for (LocalDate key : keys) {
             PrintWriter write;
-            String stringDate = key.toString();
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            String stringDate = key.format(df);
             boolean fileExists = checkIfFileExists(stringDate);
             String[] stringDateWithoutDashes = stringDate.split("-");
             String orders = "Orders_" + stringDateWithoutDashes[1] + stringDateWithoutDashes[2] + stringDateWithoutDashes[0];
@@ -333,11 +334,11 @@ public class DaoImplProduction implements Dao {
 
             if (fileExists) {
                 if (ordersToWrite.isEmpty()) {
-                    boolean deleted = file.delete();
+                    file.delete();
                     folder.delete();
                 } else {
                     try {
-                        write = new PrintWriter(new FileWriter(file));
+                        write = new PrintWriter(new FileWriter(file, true));
                     } catch (IOException e) {
                         throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
                     }
@@ -353,7 +354,7 @@ public class DaoImplProduction implements Dao {
             } else {
 
                 if (ordersToWrite.isEmpty()) {
-                    boolean deleted = file.delete();
+                    file.delete();
                     folder.delete();
                 } else {
                     try {

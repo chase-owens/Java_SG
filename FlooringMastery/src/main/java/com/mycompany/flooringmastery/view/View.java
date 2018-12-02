@@ -9,6 +9,7 @@ import com.mycompany.flooringmastery.dao.DataValidationException;
 import com.mycompany.flooringmastery.model.PurchaseOrder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -149,6 +150,7 @@ public class View {
     }
 
     public void displayOrderInformation(PurchaseOrder po) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         io.print(po.getCustomerName());
         io.print(po.getState() + "Tax rate: " + po.getTaxRate());
         io.print("Material type: " + po.getProductType() + "\nMaterial cost per square foot: " + po.getMaterialCostPerSquareFoot().toString() + "\tLabor cost per square foot " + po.getLaborCostPerSquareFoot().toString());
@@ -157,7 +159,7 @@ public class View {
         io.print("Subtotal: " + po.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
         io.print("Tax: " + po.getTax().setScale(2, RoundingMode.HALF_UP).toString());
         io.print("Total: " + po.getTotal().setScale(2, RoundingMode.HALF_UP).toString());
-        io.print("Date scheduled: " + po.getDate().toString() + "\n");
+        io.print("Date scheduled: " + po.getDate().format(df) + "\n");
     }
 
     private boolean getDecision() {
