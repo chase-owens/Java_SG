@@ -1,1 +1,0 @@
-{"orderNumber":"1","customerName":"Curly","productType":"wood","state":"OH","area":500,"materialCost":2575.00,"laborCost":2375.00,"tax":309.3750,"total":5259.3750,"materialCostPerSquareFoot":5.15,"laborCostPerSquareFoot":4.75,"subTotal":4950.00,"taxRate":6.25,"date":{"year":2020,"month":12,"day":20}}

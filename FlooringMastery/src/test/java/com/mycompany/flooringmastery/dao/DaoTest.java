@@ -141,7 +141,7 @@ public class DaoTest {
     @Test
     public void testGetOrders() throws FlooringMasteryPersistenceError, DateNotFoundException {
         int orders = 3;
-        assertEquals(orders, dao.getOrders("12-25-2020").size());
+        assertEquals(orders, dao.getOrders("12-25-2017").size());
     }
 
     /**

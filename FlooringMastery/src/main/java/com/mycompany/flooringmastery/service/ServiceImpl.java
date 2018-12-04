@@ -31,13 +31,13 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public StateTax validateState(String stateEntered) throws DataValidationException {
-        return dao.validateState(stateEntered);
+    public StateTax createState(String stateEntered) throws DataValidationException {
+        return dao.createState(stateEntered);
     }
 
     @Override
-    public Product validateProduct(String productNameEntered)  throws DataValidationException  {
-        return dao.validateProduct(productNameEntered);
+    public Product createProduct(String productNameEntered)  throws DataValidationException  {
+        return dao.createProduct(productNameEntered);
     }
 
     @Override
@@ -113,5 +113,19 @@ public class ServiceImpl implements Service {
     @Override
     public void loadOrders(String date) throws FlooringMasteryPersistenceError {
         dao.loadOrders(date);
+    }
+
+    @Override
+    public boolean validate(String entry, Set<String> alternatives) {
+        boolean valid = false;
+        
+        for (String availableAlternative : alternatives) {
+            if (entry.toLowerCase().equals(availableAlternative)) {
+                valid = true;
+            } else {
+                valid = false;
+            }
+        }
+        return valid;
     }
 }

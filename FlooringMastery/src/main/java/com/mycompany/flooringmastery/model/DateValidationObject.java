@@ -50,7 +50,7 @@ public class DateValidationObject {
         if (diff.getDays() >= 0) {
             canFulfill = true;
         } else {
-            throw new DataValidationException("We cannot edit past orders or fulfill an order in the past");
+            throw new DataValidationException("You cannot change the past");
         }
         
         return canFulfill;

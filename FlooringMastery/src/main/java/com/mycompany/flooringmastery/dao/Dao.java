@@ -17,9 +17,9 @@ import java.util.Set;
  */
 public interface Dao {
 
-    public Product validateProduct(String productNameEntered) throws DataValidationException;
+    public Product createProduct(String productNameEntered) throws DataValidationException;
 
-    public StateTax validateState(String stateEntered) throws DataValidationException;
+    public StateTax createState(String stateEntered) throws DataValidationException;
 
     public void loadFiles()throws FlooringMasteryPersistenceError;
 

@@ -36,14 +36,12 @@ public class DaoImplProduction implements Dao {
     HashMap<LocalDate, HashMap<String, PurchaseOrder>> ordersMap = new HashMap<>();
 
     @Override
-    public Product validateProduct(String productNameEntered) throws DataValidationException {
-        BigDecimal[] productDetails;
-
+    public Product createProduct(String productNameEntered) throws DataValidationException {
         if (products.get(productNameEntered) == null) {
             throw new DataValidationException("We don't have that product");
         }
 
-        productDetails = products.get(productNameEntered);
+        BigDecimal[] productDetails = products.get(productNameEntered);
 
         Product product = new Product(productNameEntered, productDetails[0], productDetails[1]);
         return product;
@@ -51,12 +49,11 @@ public class DaoImplProduction implements Dao {
     }
 
     @Override
-    public StateTax validateState(String stateEntered) throws DataValidationException {
-        BigDecimal taxRate;
+    public StateTax createState(String stateEntered) throws DataValidationException {
         if (states.get(stateEntered) == null) {
             throw new DataValidationException("We don't serve that state");
         }
-        taxRate = states.get(stateEntered);
+        BigDecimal taxRate = states.get(stateEntered);
 
         StateTax stateTax = new StateTax(stateEntered, taxRate);
         return stateTax;
@@ -255,6 +252,7 @@ public class DaoImplProduction implements Dao {
             throw new DateNotFoundException("Could not find that date");
         }
 
+        // Maybe put this in remove method
         if (ordersMap.get(ld).isEmpty()) {
             throw new DateNotFoundException("Could not find that date");
         }
@@ -338,7 +336,7 @@ public class DaoImplProduction implements Dao {
                     folder.delete();
                 } else {
                     try {
-                        write = new PrintWriter(new FileWriter(file, true));
+                        write = new PrintWriter(new FileWriter(file));
                     } catch (IOException e) {
                         throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
                     }
@@ -353,24 +351,19 @@ public class DaoImplProduction implements Dao {
                 }
             } else {
 
-                if (ordersToWrite.isEmpty()) {
-                    file.delete();
-                    folder.delete();
-                } else {
-                    try {
-                        folder.mkdir();
-                        file.createNewFile();
-                        write = new PrintWriter(new FileWriter(file));
-                    } catch (IOException e) {
-                        throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
-                    }
-                    Collection<PurchaseOrder> actualOrders = ordersToWrite.values();
-                    actualOrders.stream().forEach(order -> {
-                        write.println(gson.toJson(order));
-                        write.flush();
-                    });
-                    write.close();
+                try {
+                    folder.mkdir();
+                    file.createNewFile();
+                    write = new PrintWriter(new FileWriter(file));
+                } catch (IOException e) {
+                    throw new FlooringMasteryPersistenceError("The inventory could not be updated. Please contact your manager", e);
                 }
+                Collection<PurchaseOrder> actualOrders = ordersToWrite.values();
+                actualOrders.stream().forEach(order -> {
+                    write.println(gson.toJson(order));
+                    write.flush();
+                });
+                write.close();
 
             }
 

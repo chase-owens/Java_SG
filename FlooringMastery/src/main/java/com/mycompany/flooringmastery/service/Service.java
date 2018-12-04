@@ -21,9 +21,9 @@ import java.util.Set;
  */
 public interface Service {
 
-    public StateTax validateState(String string) throws DataValidationException ;
+    public StateTax createState(String string) throws DataValidationException ;
 
-    public Product validateProduct(String string) throws DataValidationException ;
+    public Product createProduct(String string) throws DataValidationException ;
 
     public void loadFiles() throws FlooringMasteryPersistenceError;
 
@@ -54,5 +54,7 @@ public interface Service {
     public void audit(String saveOrders) throws FlooringMasteryPersistenceError;
 
     public void loadOrders(String date) throws FlooringMasteryPersistenceError;
+
+    public boolean validate(String state, Set<String> states);
     
 }
