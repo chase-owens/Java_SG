@@ -29,10 +29,20 @@
         <constructor-arg ref="dao"/>
     </bean>
     
+    <bean id="daoSQL" class="mycompany.moviedatabase.dao.DAOImplSQL"/>
+    <bean id="serviceSQL" class="mycompany.moviedatabase.service.ServiceImpl">
+        <constructor-arg ref="daoSQL"/>
+    </bean>
+    
     <!-- Controller with View and Service-->
     <bean id="controller" class="mycompany.moviedatabase.controller.Controller">
         <constructor-arg ref="view"/>
         <constructor-arg ref="service"/>
+    </bean>
+    
+    <bean id="controllerSQL" class="mycompany.moviedatabase.controller.Controller">
+        <constructor-arg ref="view"/>
+        <constructor-arg ref="serviceSQL"/>
     </bean>
    
 </beans>

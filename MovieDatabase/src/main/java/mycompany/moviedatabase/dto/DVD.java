@@ -17,6 +17,10 @@ public class DVD {
     private String title, MPAArating, directorsName, studio, userRating;
     LocalDateTime releaseDate;
 
+    public DVD() {
+
+    }
+
     public DVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating) {
         this.title = title;
         this.releaseDate = LocalDateTime.parse(releaseDate);
@@ -41,6 +45,10 @@ public class DVD {
 
     public void setDate(LocalDateTime date) {
         this.releaseDate = date;
+    }
+    
+    public void setDate(String date) {
+        this.releaseDate = LocalDateTime.parse(date);
     }
 
     public String getMPAArating() {

@@ -25,7 +25,7 @@ public class DAOTest {
     DAO dao = new DAOImpl();
     DVD tester;
 
-    public DAOTest(DAO dao) {
+    public DAOTest() {
         this.tester = new DVD("a", "a", "a", "a", "a", "a");
     }
 

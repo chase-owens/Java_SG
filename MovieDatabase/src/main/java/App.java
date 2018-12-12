@@ -1,5 +1,8 @@
 
 import mycompany.moviedatabase.controller.Controller;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,17 +15,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author chaseowens
  */
-public class App {
+@SpringBootApplication
+public class App implements CommandLineRunner{
 
     public static void main(String[] args) {
-        // Instantiate Spring Container
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        // Get controller
-        Controller controller = ctx.getBean("controller", Controller.class);
-
-        // Call run
-        controller.run();
+        SpringApplication.run(App.class, args);
     }
 
+    /**
+     *
+     * @param args
+     */
+    @Override
+    public void run(String... args) {
+    // Instantiate Spring Container
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    // Get controller
+    Controller controller = ctx.getBean("controllerSQL", Controller.class);
+    // Call run
+    controller.run ();  
+    }
+
+    
 }
+
+
