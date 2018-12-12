@@ -12,11 +12,13 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author chaseowens
  */
+@Component
 public class AuditDaoImpl implements AuditDao {
     public static final String AUDIT_FILE = "audit.txt";
     PrintWriter write;

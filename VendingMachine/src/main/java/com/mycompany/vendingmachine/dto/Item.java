@@ -23,6 +23,10 @@ public class Item {
         this.inventoryCount = inventoryCount;
     }
     
+    public Item() {
+        
+    }
+    
     @Override
     public String toString() {
         return "Name: " + name + " : InventoryCount : " + inventoryCount;

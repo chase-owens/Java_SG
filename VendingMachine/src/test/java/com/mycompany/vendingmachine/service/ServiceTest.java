@@ -25,7 +25,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ServiceTest {
     
     ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");  
-    Service service = ctx.getBean("serviceLayer", ServiceImpl.class);
+    VMService service = ctx.getBean("serviceLayer", ServiceImpl.class);
     
 //    Dao dao = new DaoStubImpl();
 //    AuditDao audit = new AuditDaoImpl();

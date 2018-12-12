@@ -16,13 +16,18 @@ import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author chaseowens
  */
-public class ServiceImpl implements Service {
+@Service
+public class ServiceImpl implements VMService {
+    @Autowired
     Dao dao;
+    @Autowired
     AuditDao audit;
     
     public ServiceImpl(Dao injectedDao, AuditDao injectedAudit) {

@@ -5,8 +5,11 @@ import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,13 +20,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author chaseowens
  */
-public class App {
-
+@ComponentScan("com.mycompany.vendingmachine")
+@SpringBootApplication
+public class App implements CommandLineRunner {
+    @Autowired
+    private VendingMachineController controller;
+        
     public static void main(String[] args) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GettingMoneyError, GetEntryError {
+        SpringApplication.run(App.class, args);
+    }
 
-        // Using Spring Frameork
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        VendingMachineController controller = ctx.getBean("controller", VendingMachineController.class);
+    @Override
+    public void run(String... args) throws Exception {  
         controller.run();
     }
 

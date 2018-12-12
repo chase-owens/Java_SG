@@ -12,13 +12,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author chaseowens
  */
+@Component
 public class View {
-
+    @Autowired
     UserIO io;
 
     public View(UserIO io) {

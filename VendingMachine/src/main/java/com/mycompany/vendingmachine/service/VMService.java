@@ -19,7 +19,7 @@ import java.util.Collection;
  *
  * @author chaseowens
  */
-public interface Service {
+public interface VMService {
 
     public Collection<Item> getItems() throws VendingMachinePersistenceError;
 

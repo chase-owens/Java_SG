@@ -21,20 +21,31 @@
         <constructor-arg ref="userIO"/>
     </bean>
     
-    <!-- DAO and Service -->
+    <!-- DAOs and Services -->
     <bean id="vendingMachineDao" class="com.mycompany.vendingmachine.dao.DaoImpl"/>
     <bean id="auditDao" class="com.mycompany.vendingmachine.dao.AuditDaoImpl"/>
+    <bean id="vendingMachineDaoSQL" class="com.mycompany.vendingmachine.dao.VendingMachineDaoImplSql"/>
+    
     <bean id="service" class="com.mycompany.vendingmachine.service.ServiceImpl">
         <constructor-arg ref="vendingMachineDao"/>
         <constructor-arg ref="auditDao"/>
     </bean>
+    <bean id="serviceSql" class="com.mycompany.vendingmachine.service.ServiceImpl">
+        <constructor-arg ref="vendingMachineDaoSQL"/>
+        <constructor-arg ref="auditDao"/>
+    </bean>
     
-    <!-- Controller -->
+    <!-- Controllers -->
     <bean id="controller" class="com.mycompany.vendingmachine.controller.VendingMachineController">
         <constructor-arg ref="view"/>
         <constructor-arg ref="service" />
     </bean>
+    <bean id="controllerSql" class="com.mycompany.vendingmachine.controller.VendingMachineController">
+        <constructor-arg ref="view"/>
+        <constructor-arg ref="serviceSql" />
+    </bean>
     
+    <!-- Advice -->
     <bean id="advice" class="com.mycompany.vendingmachine.advice.LoggingAdvice">
         <constructor-arg ref="auditDao"/>
     </bean>

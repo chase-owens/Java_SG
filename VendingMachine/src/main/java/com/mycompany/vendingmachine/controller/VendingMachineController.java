@@ -12,24 +12,28 @@ import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
 import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
-import com.mycompany.vendingmachine.service.Service;
+import com.mycompany.vendingmachine.service.VMService;
 import com.mycompany.vendingmachine.view.View;
 import java.math.BigDecimal;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author chaseowens
  */
+@Controller
 public class VendingMachineController {
-
+    @Autowired
     View view;
-    Service service;
+    @Autowired
+    VMService service;
     boolean keepGoing = true;
     BigDecimal moneyEntered, change;
     String selection;
 
-    public VendingMachineController(View view, Service service) {
+    public VendingMachineController(View view, VMService service) {
         this.view = view;
         this.service = service;
     }
