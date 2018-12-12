@@ -64,7 +64,7 @@ public class DaoTest {
     public void testValidateProduct() throws DataValidationException, FlooringMasteryPersistenceError {
         dao.loadFiles();
         Product wood = new Product("wood", new BigDecimal("5.15"), new BigDecimal("4.75"));
-        assertEquals(wood, dao.validateProduct("wood"));
+        assertEquals(wood, dao.createProduct("wood"));
     }
 
     /**
@@ -77,7 +77,7 @@ public class DaoTest {
     public void testValidateState() throws DataValidationException, FlooringMasteryPersistenceError {
         dao.loadFiles();
         StateTax test = new StateTax("OH", new BigDecimal("6.25"));
-        assertEquals(test, dao.validateState("OH"));
+        assertEquals(test, dao.createState("OH"));
     }
 
     /**
@@ -90,7 +90,7 @@ public class DaoTest {
     public void testLoadFiles() throws FlooringMasteryPersistenceError, DataValidationException {
         // Before loading
         try {
-            dao.validateProduct("wood");
+            dao.createProduct("wood");
             fail("We don't have that product");
         } catch (DataValidationException e) {
 
@@ -99,7 +99,7 @@ public class DaoTest {
         // After loading
         dao.loadFiles();
         Product wood = new Product("wood", new BigDecimal("5.15"), new BigDecimal("4.75"));
-        assertEquals(wood, dao.validateProduct("wood"));
+        assertEquals(wood, dao.createProduct("wood"));
     }
 
     /**

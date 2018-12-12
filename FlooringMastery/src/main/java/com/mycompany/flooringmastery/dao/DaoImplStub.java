@@ -38,7 +38,7 @@ public class DaoImplStub implements Dao {
     }
 
     @Override
-    public Product validateProduct(String productNameEntered) throws DataValidationException {
+    public Product createProduct(String productNameEntered) throws DataValidationException {
         if (productNameEntered.equals("wood")) {
             return this.wood;
         } else {
@@ -47,7 +47,7 @@ public class DaoImplStub implements Dao {
     }
 
     @Override
-    public StateTax validateState(String stateEntered) throws DataValidationException {
+    public StateTax createState(String stateEntered) throws DataValidationException {
         StateTax state = null;
         if (stateEntered.equals("OH")) {
             state = this.ohio;

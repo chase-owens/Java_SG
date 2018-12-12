@@ -62,10 +62,10 @@ public class ServiceTest {
     public void testValidateState() throws DataValidationException {
         
         StateTax dummyState = new StateTax("OH", new BigDecimal("6.25"));
-        assertEquals(dummyState, service.validateState("OH"));
+        assertEquals(dummyState, service.createState("OH"));
         
         try {
-            service.validateState("TX");
+            service.createState("TX");
             fail("We don't serve that state");
         } catch (DataValidationException e) {
 
@@ -82,10 +82,10 @@ public class ServiceTest {
     public void testValidateProduct() throws DataValidationException {
         
         Product dummyProduct = new Product("wood", new BigDecimal("5.15"), new BigDecimal("4.75"));
-        assertEquals(dummyProduct, service.validateProduct("wood"));
+        assertEquals(dummyProduct, service.createProduct("wood"));
         
         try {
-            service.validateProduct("slate");
+            service.createProduct("slate");
             fail("We don't have that product");
         } catch (DataValidationException e) {
 

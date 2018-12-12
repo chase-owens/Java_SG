@@ -32,7 +32,7 @@ public class DaoImplTraining implements Dao {
     HashMap<LocalDate, HashMap<String, PurchaseOrder>> ordersMap = new HashMap<>();
 
     @Override
-    public Product validateProduct(String productNameEntered) throws DataValidationException {
+    public Product createProduct(String productNameEntered) throws DataValidationException {
         BigDecimal[] productDetails;
 
         if (products.get(productNameEntered) == null) {
@@ -47,7 +47,7 @@ public class DaoImplTraining implements Dao {
     }
 
     @Override
-    public StateTax validateState(String stateEntered) throws DataValidationException {
+    public StateTax createState(String stateEntered) throws DataValidationException {
         BigDecimal taxRate;
         if (states.get(stateEntered) == null) {
             throw new DataValidationException("We don't serve that state");
