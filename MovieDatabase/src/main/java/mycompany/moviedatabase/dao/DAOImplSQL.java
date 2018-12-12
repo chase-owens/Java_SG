@@ -5,25 +5,24 @@
  */
 package mycompany.moviedatabase.dao;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author chaseowens
  */
+@Repository
 public class DAOImplSQL implements DAO {
 
     @Autowired
     private JdbcTemplate jdbc;
 
-    List<DVD> movieLibrary = new ArrayList<>();
-
+    //List<DVD> movieLibrary = new ArrayList<>();
     /**
      *
      * @param title
@@ -63,6 +62,7 @@ public class DAOImplSQL implements DAO {
 
     @Override
     public String[] getAllMovies() {
+        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
         String[] movieList = new String[movieLibrary.size()];
         int count = 0;
         for (DVD movie : movieLibrary) {
@@ -75,6 +75,7 @@ public class DAOImplSQL implements DAO {
 
     @Override
     public String[] getMovieInfo(String movie) {
+        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
         String[] information = new String[6];
         DVD movieOfInterest = null;
         for (DVD dvd : movieLibrary) {
@@ -95,23 +96,16 @@ public class DAOImplSQL implements DAO {
 
     @Override
     public String[] findMoviesMatching(String query) {
-        int numberOfMatches = 0;
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            if (title.contains(query)) {
-                numberOfMatches += 1;
-            }
-        }
+        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary WHERE title LIKE ?", new DVDMapper(), query+"%");
 
-        String[] moviesMatching = new String[numberOfMatches];
+        String[] moviesMatching = new String[movieLibrary.size()];
         int count = 0;
 
         for (DVD movie : movieLibrary) {
             String title = movie.getTitle();
-            if (title.contains(query)) {
-                moviesMatching[count] = title;
-                count += 1;
-            }
+            moviesMatching[count] = title;
+            count += 1;
+
         }
         return moviesMatching;
     }
@@ -124,7 +118,7 @@ public class DAOImplSQL implements DAO {
 
     @Override
     public void deleteList() {
-        movieLibrary.clear();
+        //movieLibrary.clear();
     }
 
     @Override

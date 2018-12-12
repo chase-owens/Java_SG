@@ -9,13 +9,16 @@ import java.util.List;
 import mycompany.moviedatabase.dao.DAO;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author chaseowens
  */
+@Component
 public class ServiceImpl implements Service {
-
+    @Autowired
     DAO dao;
 
     public ServiceImpl(DAO injectedDAO) {

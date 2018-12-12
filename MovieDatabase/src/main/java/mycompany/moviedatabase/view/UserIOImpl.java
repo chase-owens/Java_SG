@@ -6,11 +6,13 @@
 package mycompany.moviedatabase.view;
 
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author chaseowens
  */
+@Component
 public class UserIOImpl implements UserIO {
     final Scanner sc = new Scanner(System.in);
 

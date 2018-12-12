@@ -10,17 +10,21 @@ import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.view.View;
 import mycompany.moviedatabase.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author chaseowens
  */
-public class Controller {
-
+@Controller
+public class DVDController {
+    @Autowired
     View view;
+    @Autowired
     Service service;
 
-    public Controller(View injectedView, Service injectedService) {
+    public DVDController(View injectedView, Service injectedService) {
         this.view = injectedView;
         this.service = injectedService;
     }

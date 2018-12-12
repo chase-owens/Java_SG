@@ -1,10 +1,10 @@
 
-import mycompany.moviedatabase.controller.Controller;
+import mycompany.moviedatabase.controller.DVDController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,9 +15,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author chaseowens
  */
+@ComponentScan("mycompany.moviedatabase")
 @SpringBootApplication
 public class App implements CommandLineRunner{
-
+    @Autowired
+    private DVDController controller;
+    
+    public App() {
+        
+    }
+    
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
@@ -28,10 +35,6 @@ public class App implements CommandLineRunner{
      */
     @Override
     public void run(String... args) {
-    // Instantiate Spring Container
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    // Get controller
-    Controller controller = ctx.getBean("controllerSQL", Controller.class);
     // Call run
     controller.run ();  
     }
