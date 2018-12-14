@@ -5,34 +5,39 @@
  */
 package com.mycompany.vendingmachine.dao;
 
+import com.mycompany.vendingmachine.TestApplicationConfiguration;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  *
  * @author chaseowens
  */
-public class DaoTest {
 
-    private final Dao dao;
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = TestApplicationConfiguration.class)
+public class DaoTest {
+    
+    @Autowired
+    Dao dao;
     //  = new DaoImpl()
 
-    public DaoTest() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        dao = ctx.getBean("daoImpl", DaoImpl.class);
-    }
+//    public DaoTest() {
+//        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        dao = ctx.getBean("daoImpl", DaoImpl.class);
+//    }
 
     @BeforeClass
     public static void setUpClass() {
@@ -57,7 +62,7 @@ public class DaoTest {
      */
     @Test
     public void testGetItems() throws VendingMachinePersistenceError {
-        int inventorySize = 9;
+        int inventorySize = 2;
         assertEquals(inventorySize, dao.getItems().size());
     }
 
@@ -126,12 +131,7 @@ public class DaoTest {
 
     @Test
     public void getInventory() throws VendingMachinePersistenceError {
-
-        // getItem is predicated on the items having already been retreived from the inventory
-        // before the inventory is loaded calling getItem will return null or throw nullPointerException
-        assertNull(dao.getItem("Unicorn"));
-        dao.getInventory();
-        assertNotNull(dao.getItem("Unicorn"));
+        //Does nothing
     }
 
     @Test

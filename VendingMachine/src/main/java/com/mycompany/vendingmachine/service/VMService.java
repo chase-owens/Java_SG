@@ -14,11 +14,13 @@ import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.Collection;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author chaseowens
  */
+@Service
 public interface VMService {
 
     public Collection<Item> getItems() throws VendingMachinePersistenceError;
