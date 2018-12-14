@@ -57,7 +57,7 @@ public class DAOImplSQL implements DAO {
 
     @Override
     public void editRating(String title, String newRating) {
-        jdbc.update("UPDATE dvdLibrary SET MPAARating = ? WHERE title = ?", newRating, title);
+        jdbc.update("UPDATE dvdLibrary SET userRating = ? WHERE title = ?", newRating, title);
     }
 
     @Override

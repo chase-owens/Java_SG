@@ -5,6 +5,7 @@
  */
 package mycompany.moviedatabase.dao;
 
+import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import org.junit.After;
@@ -15,22 +16,32 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  *
  * @author chaseowens
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = TestApplicationConfiguration.class)
 public class DAOTest {
-
-    DAO dao = new DAOImpl();
+    
+    @Autowired
+    DAO dao;
+    
     DVD tester;
+    
 
     public DAOTest() {
-        this.tester = new DVD("a", "a", "a", "a", "a", "a");
+        this.tester = new DVD("a", "1999-01-01", "a", "a", "a", "a");
     }
 
     @BeforeClass
     public static void setUpClass() {
+        
     }
 
     @AfterClass
@@ -39,12 +50,15 @@ public class DAOTest {
 
     @Before
     public void setUp() {
-        dao.deleteList();
+        List<DVD> movieLibrary = dao.getMovieList();
+        for (DVD dvd : movieLibrary) {
+            dao.removeMovie(dvd.getTitle());
+        }
     }
 
     @After
     public void tearDown() throws MovieDAOException {
-        dao.loadMovies();
+        
     }
 
     /**
@@ -52,7 +66,7 @@ public class DAOTest {
      */
     @Test
     public void testMakeDVD() {
-        DVD newMovie = dao.makeDVD("a", "a", "a", "a", "a", "a");
+        DVD newMovie = dao.makeDVD("a", "1999-01-01", "a", "a", "a", "a");
         assertEquals(newMovie, tester);
     }
 
