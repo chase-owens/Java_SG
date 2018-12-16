@@ -5,6 +5,8 @@
  */
 package mycompany.moviedatabase.view;
 
+import java.util.List;
+import mycompany.moviedatabase.dto.DVD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -67,38 +69,17 @@ public class View {
         return io.readString("Enter the new rating: ");
     }
 
-    public void displayTitles(String[] movies) {
-        for (String movie : movies) {
-            io.print(movie);
-        }
+    public void displayTitles(List<DVD> movies) {
+        movies.stream().forEach(dvd -> io.print(dvd.getTitle()));
     }
 
-    public void displayInfo(String[] movieInfo) {
-        for (int i = 0; i < movieInfo.length; i++) {
-            switch(i) {
-                case 0:
-                    io.print("Movie title: " + movieInfo[0]);
-                    break;
-                case 1:
-                    io.print("Release date: " + movieInfo[1]);
-                    break;
-                case 2:
-                    io.print("MPAA rating: " + movieInfo[2]);
-                    break;
-                case 3:
-                    io.print("Director's name: " + movieInfo[3]);
-                    break;
-                case 4:
-                    io.print("Studio: " + movieInfo[4]);
-                    break;
-                case 5:
-                    io.print("Your rating: " + movieInfo[5]);
-                    break;
-                default:
-                    break;
-                    
-            }
-        }
+    public void displayInfo(DVD dvd) {
+        io.print("Movie title: " + dvd.getTitle());
+        io.print("Release date: " + dvd.getDate().toString());
+        io.print("MPAA rating: " + dvd.getMPAArating());
+        io.print("Director's name: " + dvd.getDirectorsName());
+        io.print("Studio: " + dvd.getStudio());
+        io.print("Your rating: " + dvd.getRating());
     }
 
     public String getQuery() {

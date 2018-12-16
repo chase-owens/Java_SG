@@ -51,17 +51,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public String[] getAllMovies() {
-        return dao.getAllMovies();
-    }
-
-    @Override
-    public String[] getMovieInfo(String movie) {
-        return dao.getMovieInfo(movie);
-    }
-
-    @Override
-    public String[] findMoviesMatching(String query) {
+    public List<DVD> findMoviesMatching(String query) {
         return dao.findMoviesMatching(query);
     }
 
@@ -73,6 +63,11 @@ public class ServiceImpl implements Service {
     @Override
     public List<DVD> getMovieList() {
         return dao.getMovieList();
+    }
+
+    @Override
+    public DVD getMovie(String movie) {
+        return dao.getMovie(movie);
     }
 
 }

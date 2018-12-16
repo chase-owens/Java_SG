@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class DVDController {
+
     @Autowired
     View view;
     @Autowired
@@ -97,8 +98,9 @@ public class DVDController {
     }
 
     private void removeMovie() {
-        // Get movie name
-        String movieToRemove = view.setTitle();
+        
+        //display movie titlesand get title of ovie to remove
+        String movieToRemove = displayNameAndGetTitle();
 
         // Find remove movie
         service.removeMovie(movieToRemove);
@@ -108,9 +110,9 @@ public class DVDController {
     }
 
     private void editRating() {
-
-        // get movie Title
-        String title = view.setTitle();
+        
+        //display movie titles and get movie title of movie to edit
+        String title = displayNameAndGetTitle();
 
         // get rating
         String newRating = view.getNewRating();
@@ -122,7 +124,7 @@ public class DVDController {
     private void listAllMovies() {
 
         // get movie titles
-        String[] movies = service.getAllMovies();
+        List<DVD> movies = service.getMovieList();
 
         // display movie titles
         view.displayTitles(movies);
@@ -130,13 +132,13 @@ public class DVDController {
 
     private void getMovieInfo() {
         // get movie title
-        String movie = view.setTitle();
+        String movie = displayNameAndGetTitle();
 
         // retrieve information
-        String[] movieInfo = service.getMovieInfo(movie);
+        DVD dvd = service.getMovie(movie);
 
         // display info
-        view.displayInfo(movieInfo);
+        view.displayInfo(dvd);
     }
 
     private void movieSearch() {
@@ -144,10 +146,10 @@ public class DVDController {
         String query = view.getQuery();
 
         // find movies
-        String[] moviesFound = service.findMoviesMatching(query);
+        List<DVD> moviesFound = service.findMoviesMatching(query);
 
         // display movie
-        view.printMoviesFound(moviesFound);
+        view.displayTitles(moviesFound);
     }
 
     private void exitGracefully() {
@@ -164,6 +166,17 @@ public class DVDController {
 
         // marshall list of movies
         service.marshallMovies(dvds);
+    }
+    
+    public String displayNameAndGetTitle() {
+        //display movie titles
+        List<DVD> movies = service.getMovieList();
+        view.displayTitles(movies);
+        
+        // Get movie Title
+        String movie = view.setTitle();
+        
+        return movie;
     }
 
 }

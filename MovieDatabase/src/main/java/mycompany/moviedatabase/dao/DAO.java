@@ -25,16 +25,14 @@ public interface DAO {
 
     public void editRating(String title, String newRating);
 
-    public String[] getAllMovies();
-
-    public String[] getMovieInfo(String movie);
-
-    public String[] findMoviesMatching(String query);
+    public List<DVD> findMoviesMatching(String query);
 
     public void loadMovies() throws MovieDAOException;
 
     public List<DVD> getMovieList();
     
     public void deleteList();
+
+    public DVD getMovie(String movie);
     
 }

@@ -43,49 +43,36 @@ public class DAOImpl implements DAO {
         DVD dvd = new DVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
         return dvd;
     }
-
-    @Override
-    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
-        try {
-            write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
-        } catch (IOException e) {
-            throw new MovieDAOException("Could not add movie to database..", e);
-        }
-        for (DVD dvd : dvds) {
-
-            write.println(
-                    dvd.getTitle() + DELIMETER
-                    + dvd.getDate() + DELIMETER
-                    + dvd.getMPAArating() + DELIMETER
-                    + dvd.getDirectorsName() + DELIMETER
-                    + dvd.getStudio() + DELIMETER
-                    + dvd.getRating()
-            );
-            write.flush();
-            
-        }
-        write.close();
-    }
-
+    
     @Override
     public void addMovieToList(DVD newDVD) {
         movieLibrary.add(newDVD);
     }
 
     @Override
-    public void removeMovie(String movieToRemove) {
-        for (int i = 0; i < movieLibrary.size(); i++) {
-            DVD dvd = movieLibrary.get(i);
-            String movieName = dvd.getTitle();
-            if (movieName.equals(movieToRemove)) {
-                movieLibrary.remove(i);
-                if (movieLibrary.isEmpty()) {
-                    movieLibrary.clear();
-                }
-                break;
+    public List<DVD> getMovieList() {
+        return movieLibrary;
+    }
+
+    @Override
+    public DVD getMovie(String movieTitle) {
+        int movieIndex = getMovieIndex(movieTitle);
+        DVD dvd = movieLibrary.get(movieIndex);
+        return dvd;
+    }
+    
+    @Override
+    public List<DVD> findMoviesMatching(String query) {
+        List<DVD> matches = null;
+        for (DVD movie : movieLibrary) {
+            String title = movie.getTitle();
+            if (title.contains(query)) {
+                matches.add(movie);
             }
         }
+        return matches;
     }
+
 
     @Override
     public void editRating(String title, String newRating) {
@@ -97,62 +84,33 @@ public class DAOImpl implements DAO {
             }
         }
     }
-
+    
     @Override
-    public String[] getAllMovies() {
-        String[] movieList = new String[movieLibrary.size()];
-        int count = 0;
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            movieList[count] = title;
-            count += 1;
+    public void removeMovie(String movieToRemove) {
+        int i = getMovieIndex(movieToRemove);
+        movieLibrary.remove(i);
+        if (movieLibrary.isEmpty()) {
+            movieLibrary.clear();
         }
-        return movieList;
     }
 
     @Override
-    public String[] getMovieInfo(String movie) {
-        String[] information = new String[6];
-        DVD movieOfInterest = null;
-        for (DVD dvd : movieLibrary) {
-            String movieTitle = dvd.getTitle();
-            if (movieTitle.equals(movie)) {
-                movieOfInterest = dvd;
-            }
-        }
-        information[0] = movieOfInterest.getTitle();
-        information[1] = movieOfInterest.getDate().toString();
-        information[2] = movieOfInterest.getStudio();
-        information[3] = movieOfInterest.getDirectorsName();
-        information[4] = movieOfInterest.getMPAArating();
-        information[5] = movieOfInterest.getRating();
-
-        return information;
+    public void deleteList() {
+        movieLibrary.clear();
     }
 
-    @Override
-    public String[] findMoviesMatching(String query) {
-        int numberOfMatches = 0;
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            if (title.contains(query)) {
-                numberOfMatches += 1;
+    public int getMovieIndex(String movieTitle) {
+        int index = 0;
+        for (int i = 0; i < movieLibrary.size(); i++) {
+            DVD dvd = movieLibrary.get(i);
+            String movieName = dvd.getTitle();
+            if (movieName.equals(movieTitle)) {
+                index = i;
             }
         }
-
-        String[] moviesMatching = new String[numberOfMatches];
-        int count = 0;
-
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            if (title.contains(query)) {
-                moviesMatching[count] = title;
-                count += 1;
-            }
-        }
-        return moviesMatching;
+        return index;
     }
-
+    
     @Override
     public void loadMovies() throws MovieDAOException {
 
@@ -185,13 +143,26 @@ public class DAOImpl implements DAO {
     }
     
     @Override
-    public void deleteList() {
-        movieLibrary.clear();
-    }
+    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
+        try {
+            write = new PrintWriter(new FileWriter(MOVIE_DATABASE));
+        } catch (IOException e) {
+            throw new MovieDAOException("Could not add movie to database..", e);
+        }
+        for (DVD dvd : dvds) {
 
-    @Override
-    public List<DVD> getMovieList() {
-        return movieLibrary;
+            write.println(
+                    dvd.getTitle() + DELIMETER
+                    + dvd.getDate() + DELIMETER
+                    + dvd.getMPAArating() + DELIMETER
+                    + dvd.getDirectorsName() + DELIMETER
+                    + dvd.getStudio() + DELIMETER
+                    + dvd.getRating()
+            );
+            write.flush();
+
+        }
+        write.close();
     }
 
 }

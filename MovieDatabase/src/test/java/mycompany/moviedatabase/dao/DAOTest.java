@@ -75,10 +75,8 @@ public class DAOTest {
      */
     @Test
     public void testAddMovieToList() {
-        assertEquals(0, dao.getAllMovies().length);
         assertEquals(0, dao.getMovieList().size());
         dao.addMovieToList(tester);
-        assertEquals(1, dao.getAllMovies().length);
         assertEquals(1, dao.getMovieList().size());
     }
 
@@ -88,9 +86,9 @@ public class DAOTest {
     @Test
     public void testRemoveMovie() {
         dao.addMovieToList(tester);
-        assertEquals(1, dao.getAllMovies().length);
+        assertEquals(1, dao.getMovieList().size());
         dao.removeMovie(tester.getTitle());
-        assertEquals(0, dao.getAllMovies().length);
+        assertEquals(0, dao.getMovieList().size());
     }
 
     /**
@@ -101,27 +99,8 @@ public class DAOTest {
         String ratingBefore = tester.getRating();
         dao.addMovieToList(tester);
         dao.editRating(tester.getTitle(), ratingBefore + ratingBefore);
-        String[] info = dao.getMovieInfo(tester.getTitle());
-        assertNotEquals(ratingBefore, info[5]);
-    }
-
-    /**
-     * Test of getMovieInfo method, of class DAO.
-     */
-    @Test
-    public void testGetMovieInfo() {
-        String[] information = new String[6];
-        information[0] = tester.getTitle();
-        information[1] = tester.getDate().toString();
-        information[2] = tester.getStudio();
-        information[3] = tester.getDirectorsName();
-        information[4] = tester.getMPAArating();
-        information[5] = tester.getRating();
-        
-        dao.addMovieToList(tester);
-        
-        String[] retreivedInformation = dao.getMovieInfo(tester.getTitle());
-        assertArrayEquals(information, retreivedInformation);
+        DVD dvd = dao.getMovie(tester.getTitle());
+        assertNotEquals(ratingBefore, dvd.getRating());
     }
 
     /**
@@ -129,12 +108,12 @@ public class DAOTest {
      */
     @Test
     public void testFindMoviesMatching() {
-        assertEquals(0, dao.findMoviesMatching("").length);
+        assertEquals(0, dao.findMoviesMatching("").size());
         dao.addMovieToList(tester);
-        assertEquals(1, dao.findMoviesMatching(tester.getTitle()).length);
+        assertEquals(1, dao.findMoviesMatching(tester.getTitle()).size());
 
         DVD tester2 = dao.makeDVD(tester.getTitle() + tester.getTitle(), tester.getDate().toString(), tester.getMPAArating(), tester.getDirectorsName(), tester.getStudio(), tester.getRating());
         dao.addMovieToList(tester2);
-        assertEquals(2, dao.findMoviesMatching(tester.getTitle()).length);
+        assertEquals(2, dao.findMoviesMatching(tester.getTitle()).size());
     }
 }

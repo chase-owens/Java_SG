@@ -40,19 +40,27 @@ public class DAOImplSQL implements DAO {
     }
 
     @Override
-    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
-        // Not using that anymore
-    }
-
-    @Override
     public void addMovieToList(DVD newDVD) {
         jdbc.update("INSERT INTO dvdLibrary(title, releaseDate, MPAARating, director, studio, userRating) VALUES (?,?,?,?,?,?)",
                 newDVD.getTitle(), newDVD.getDate().toString(), newDVD.getMPAArating(), newDVD.getDirectorsName(), newDVD.getStudio(), newDVD.getRating());
     }
+    
+    @Override
+    public List<DVD> getMovieList() {
+        List<DVD> dvds = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
+        return dvds;
+    }
 
     @Override
-    public void removeMovie(String movieToRemove) {
-        jdbc.update("DELETE FROM dvdLibrary WHERE title = ?", movieToRemove);
+    public DVD getMovie(String movie) {
+        DVD dvd = jdbc.queryForObject("SELECT * FROM dvdLibrary WHERE title = ?", new DVDMapper(), movie);
+        return dvd;
+    }
+
+    @Override
+    public List<DVD> findMoviesMatching(String query) {
+        List<DVD> matches = jdbc.query("SELECT * FROM dvdLibrary WHERE title LIKE ?", new DVDMapper(), query+"%");
+        return matches;
     }
 
     @Override
@@ -61,59 +69,8 @@ public class DAOImplSQL implements DAO {
     }
 
     @Override
-    public String[] getAllMovies() {
-        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
-        String[] movieList = new String[movieLibrary.size()];
-        int count = 0;
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            movieList[count] = title;
-            count += 1;
-        }
-        return movieList;
-    }
-
-    @Override
-    public String[] getMovieInfo(String movie) {
-        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
-        String[] information = new String[6];
-        DVD movieOfInterest = null;
-        for (DVD dvd : movieLibrary) {
-            String movieTitle = dvd.getTitle();
-            if (movieTitle.equals(movie)) {
-                movieOfInterest = dvd;
-            }
-        }
-        information[0] = movieOfInterest.getTitle();
-        information[1] = movieOfInterest.getDate().toString();
-        information[2] = movieOfInterest.getStudio();
-        information[3] = movieOfInterest.getDirectorsName();
-        information[4] = movieOfInterest.getMPAArating();
-        information[5] = movieOfInterest.getRating();
-
-        return information;
-    }
-
-    @Override
-    public String[] findMoviesMatching(String query) {
-        List<DVD> movieLibrary = jdbc.query("SELECT * FROM dvdLibrary WHERE title LIKE ?", new DVDMapper(), query+"%");
-
-        String[] moviesMatching = new String[movieLibrary.size()];
-        int count = 0;
-
-        for (DVD movie : movieLibrary) {
-            String title = movie.getTitle();
-            moviesMatching[count] = title;
-            count += 1;
-
-        }
-        return moviesMatching;
-    }
-
-    @Override
-    public void loadMovies() throws MovieDAOException {
-        //movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
-
+    public void removeMovie(String movieToRemove) {
+        jdbc.update("DELETE FROM dvdLibrary WHERE title = ?", movieToRemove);
     }
 
     @Override
@@ -122,8 +79,13 @@ public class DAOImplSQL implements DAO {
     }
 
     @Override
-    public List<DVD> getMovieList() {
-        List<DVD> dvds = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
-        return dvds;
+    public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
+        // Not using that anymore
+    }
+
+    @Override
+    public void loadMovies() throws MovieDAOException {
+        //movieLibrary = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
+
     }
 }
