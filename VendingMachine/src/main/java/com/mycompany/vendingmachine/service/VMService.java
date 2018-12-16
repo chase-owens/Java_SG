@@ -31,7 +31,7 @@ public interface VMService {
 
     public void auditFile(String report) throws VendingMachinePersistenceError;
 
-    public Item getItem(String selection);
+    public Item getItem(String selection) throws GetEntryError;
 
     public BigDecimal checkMoney(String cash) throws GettingMoneyError;
     

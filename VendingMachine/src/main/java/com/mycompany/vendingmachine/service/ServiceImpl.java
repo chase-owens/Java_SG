@@ -25,11 +25,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ServiceImpl implements VMService {
+
     @Autowired
     Dao dao;
     @Autowired
     AuditDao audit;
-    
+
     public ServiceImpl(Dao injectedDao, AuditDao injectedAudit) {
         this.dao = injectedDao;
         this.audit = injectedAudit;
@@ -41,13 +42,26 @@ public class ServiceImpl implements VMService {
     }
 
     @Override
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError  {
-        return dao.processTransaction($, selection);
+    public BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
+        Item item = dao.getItem(selection);
+        int inventoryCount = item.getInventoryCount();
+        BigDecimal change;
+        
+        if (item.getInventoryCount() < 1) {
+            throw new OutOfStockException("Out of stock");
+        } else if (money.compareTo(item.getPrice()) < 0) {
+            throw new InsufficientFundsError("Insufficient funds");
+        } else {
+            change = money.subtract(item.getPrice());
+            dao.updateItem(selection);
+        }
+        return change;
     }
 
     @Override
     public ChangeMaker makeChange(BigDecimal change) {
-        return dao.makeChange(change);
+        ChangeMaker changeOwed = new ChangeMaker(change);
+        return changeOwed;
     }
 
     @Override
@@ -56,12 +70,26 @@ public class ServiceImpl implements VMService {
     }
 
     @Override
-    public Item getItem(String selection) {
+    public Item getItem(String selection)  throws GetEntryError{
         return dao.getItem(selection);
     }
 
     @Override
     public BigDecimal checkMoney(String cash) throws GettingMoneyError {
-        return dao.checkMoney(cash);
+        BigDecimal money;
+
+        try {
+            money = new BigDecimal(cash);
+        } catch (IllegalArgumentException e) {
+            throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
+        }
+
+        if (money.compareTo(BigDecimal.ZERO) < 1) {
+            throw new GettingMoneyError("Try that again and I will call the police and send them a photo of you...");
+        }
+        if (money.compareTo(new BigDecimal("2125000000")) > 0) {
+            throw new GettingMoneyError("I see you big baller... That's so such money we don't know what to do with it. Please enter less than 2,125,000,000");
+        }
+        return money;
     }
 }

@@ -5,7 +5,6 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -35,17 +34,6 @@ public class DaoStubImpl implements Dao{
         }
         
     }
-    
-
-    @Override
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
-        BigDecimal change = $.subtract(onlyItem.getPrice());
-        if (change.compareTo(BigDecimal.ZERO) == 0) {
-            return change;
-        } else {
-            return null;
-        }
-    }
 
     @Override
     public void getInventory() throws VendingMachinePersistenceError {
@@ -58,17 +46,13 @@ public class DaoStubImpl implements Dao{
     }
 
     @Override
-    public ChangeMaker makeChange(BigDecimal change) {
-        ChangeMaker changeOwed = new ChangeMaker(change);
-        if (change.compareTo(BigDecimal.ZERO) > 0) {
-            return changeOwed;
-        } else {
-            return null;
+    public Item getItem(String selection) throws GetEntryError {
+        try {
+            items.get(selection).equals(onlyItem);
+        } catch (NullPointerException e) {
+            throw new GetEntryError("Please enter the item as it appears in the display.");
         }
-    }
-
-    @Override
-    public Item getItem(String selection) {
+        
         if (items.get(selection).equals(onlyItem)) {
             return onlyItem;
         } else {
@@ -77,11 +61,7 @@ public class DaoStubImpl implements Dao{
     }
 
     @Override
-    public BigDecimal checkMoney(String cash) throws GettingMoneyError {
-        if (Integer.parseInt(cash) > 0 && Integer.parseInt(cash) < 2125000000) {
-            return new BigDecimal(cash);
-        } else {
-            return null;
-        }
+    public void updateItem(String selection) throws GetEntryError, VendingMachinePersistenceError {
+        this.onlyItem.setInventoryCount(this.onlyItem.getInventoryCount() - 1);
     }
 }

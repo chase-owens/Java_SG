@@ -7,12 +7,12 @@ package com.mycompany.vendingmachine.service;
 
 import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.TestApplicationConfiguration;
+import com.mycompany.vendingmachine.dao.GetEntryError;
 import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -78,7 +78,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void testGetItem() {
+    public void testGetItem() throws GetEntryError {
         assertEquals("Unicorn", service.getItem("Unicorn").getName());
     }
 

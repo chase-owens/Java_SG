@@ -18,17 +18,13 @@ import java.util.HashMap;
 public interface Dao {
 
     public Collection<Item> getItems() throws VendingMachinePersistenceError ;
-
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError ;
-
-    public ChangeMaker makeChange(BigDecimal change);
     
     public void getInventory() throws VendingMachinePersistenceError;
     
     public void updateInventory(HashMap<String, Item> currentItems) throws VendingMachinePersistenceError;
 
-    public Item getItem(String selection);
+    public Item getItem(String selection) throws GetEntryError;
 
-    public BigDecimal checkMoney(String cash) throws GettingMoneyError;
+    public void updateItem(String selection) throws GetEntryError, VendingMachinePersistenceError;
     
 }

@@ -5,7 +5,6 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -49,17 +48,13 @@ public class DaoImpl implements Dao {
         });
 
         write.close();
-
-        // First attempt using enhanced for loop
-//        for (Item item : itemsOnList) {
-//            write.print(
-//                    item.getName() + DELIMETER
-//                    + item.getPrice().toString() + DELIMETER
-//                    + item.getInventoryCount()
-//            );
-//            write.flush();
-//        }
-//        write.close();
+    }
+    
+    @Override
+    public void updateItem(String selection) throws GetEntryError, VendingMachinePersistenceError {
+        Item item= getItem(selection);
+        item.setInventoryCount(item.getInventoryCount() - 1);
+        updateInventory(items);
     }
 
     @Override
@@ -97,60 +92,14 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
-
+    public Item getItem(String selection) throws GetEntryError {
         Item item = null;
-        int inventoryCount;
         try {
             item = items.get(selection);
-            inventoryCount = item.getInventoryCount();
         } catch (NullPointerException e) {
             throw new GetEntryError("Please enter the item as it appears in the display.");
         }
-        //Item item = items.get(selection);
-        //inventoryCount = item.getInventoryCount();
-        
-        BigDecimal change;
-        if (item.getInventoryCount() < 1) {
-            throw new OutOfStockException("Out of stock");
-        } else if (money.compareTo(item.getPrice()) < 0) {
-            throw new InsufficientFundsError("Insufficient funds");
-        } else {
-            change = money.subtract(item.getPrice());
-            item.setInventoryCount(inventoryCount - 1);
-            updateInventory(items);
-        }
-        return change;
-    }
-
-    @Override
-    public ChangeMaker makeChange(BigDecimal change) {
-        ChangeMaker changeOwed = new ChangeMaker(change);
-        return changeOwed;
-    }
-
-    @Override
-    public Item getItem(String selection) {
-        return items.get(selection);
-    }
-
-    @Override
-    public BigDecimal checkMoney(String amountPaid) throws GettingMoneyError {
-        BigDecimal amountPaidBD;
-
-        try {
-            amountPaidBD = new BigDecimal(amountPaid);
-        } catch (IllegalArgumentException e) {
-            throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
-        }
-
-        if (amountPaidBD.compareTo(BigDecimal.ZERO) < 1) {
-            throw new GettingMoneyError("Try that again and I will call the police and send them a photo of you...");
-        } else if (amountPaidBD.compareTo(new BigDecimal("2125000000")) > 0) {
-            throw new GettingMoneyError("I see you big baller... That's so such money we don't know what to do with it. Please enter less than 2,125,000,000");
-        } else {
-            return amountPaidBD;
-        }
+        return item;
     }
 
 }

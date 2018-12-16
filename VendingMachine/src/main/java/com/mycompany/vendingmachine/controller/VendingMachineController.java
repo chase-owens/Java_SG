@@ -66,7 +66,7 @@ public class VendingMachineController {
         view.displayItems(items);
     }
 
-    private void getMoney() throws GettingMoneyError, VendingMachinePersistenceError {
+    private void getMoney() throws GettingMoneyError, VendingMachinePersistenceError, GetEntryError {
 
         boolean validCash = false;
         BigDecimal cashEntered = null;
@@ -87,7 +87,7 @@ public class VendingMachineController {
         moneyEntered = cashEntered;
     }
 
-    private void getSelection() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError {
+    private void getSelection() throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
         boolean validSelection = false;
         do {
             try {
@@ -157,7 +157,7 @@ public class VendingMachineController {
 
     }
 
-    private void handleError(Exception e) throws VendingMachinePersistenceError {
+    private void handleError(Exception e) throws VendingMachinePersistenceError, GetEntryError {
         view.displayErrorMessage(e);
         Item item = service.getItem(selection);
         if (e.getMessage().equals("Insufficient funds") || e.getMessage().equals("Out of stock")) {
