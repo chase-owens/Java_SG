@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceImpl implements Service {
+
     @Autowired
     DAO dao;
 
@@ -32,26 +33,33 @@ public class ServiceImpl implements Service {
 
     @Override
     public void addMovieToList(DVD newDVD) {
-        dao.addMovieToList(newDVD);
+        if (newDVD != null) {
+            dao.addMovieToList(newDVD);
+        }
     }
-    
+
     @Override
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException {
         dao.marshallMovies(dvds);
     }
 
     @Override
-    public void removeMovie(String movieToRemove) {
+    public void removeMovie(String movieToRemove) throws MovieDAOException {
+        if (!checkIfMovieExists(movieToRemove)) {
+            throw new MovieDAOException("That doesn't appear to be the name of the movie");
+        }
         dao.removeMovie(movieToRemove);
     }
 
     @Override
-    public void editRating(String title, String newRating) {
-        dao.editRating(title, newRating);
+    public void editRating(String title, String newRating) throws MovieDAOException {
+        if (!checkIfMovieExists(title)) {
+            dao.editRating(title, newRating);
+        }
     }
 
     @Override
-    public List<DVD> findMoviesMatching(String query) {
+    public List<DVD> findMoviesMatching(String query) throws MovieDAOException {
         return dao.findMoviesMatching(query);
     }
 
@@ -61,13 +69,25 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<DVD> getMovieList() {
+    public List<DVD> getMovieList() throws MovieDAOException {
+        if (dao.getMovieList().isEmpty()) {
+            throw new MovieDAOException("There are no movies in the Library");
+        }
         return dao.getMovieList();
     }
 
     @Override
-    public DVD getMovie(String movie) {
+    public DVD getMovie(String movie) throws MovieDAOException {
+        if (!checkIfMovieExists(movie)) {
+            throw new MovieDAOException("That movie is not in the library");
+        }
         return dao.getMovie(movie);
+    }
+
+    @Override
+    public boolean checkIfMovieExists(String movie) throws MovieDAOException {
+       boolean exists = dao.getMovie(movie) == null ? false : true;
+       return exists;
     }
 
 }

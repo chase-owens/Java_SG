@@ -9,12 +9,8 @@ package mycompany.moviedatabase.dto;
  *
  * @author chaseowens
  */
-public class MovieDAOException extends Exception {
-    public MovieDAOException(String message, Throwable cause) {
-        super(message, cause); 
+public class DataPersistenceError extends Exception {
+    public DataPersistenceError (String message, Throwable cause) {
+        super (message, cause);
     }
-    public MovieDAOException(String message) {
-        super(message);
-    }
-    
 }

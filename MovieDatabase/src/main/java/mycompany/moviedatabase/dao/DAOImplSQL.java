@@ -9,6 +9,7 @@ import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -44,33 +45,66 @@ public class DAOImplSQL implements DAO {
         jdbc.update("INSERT INTO dvdLibrary(title, releaseDate, MPAARating, director, studio, userRating) VALUES (?,?,?,?,?,?)",
                 newDVD.getTitle(), newDVD.getDate().toString(), newDVD.getMPAArating(), newDVD.getDirectorsName(), newDVD.getStudio(), newDVD.getRating());
     }
-    
+
     @Override
-    public List<DVD> getMovieList() {
-        List<DVD> dvds = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
+    public List<DVD> getMovieList() throws MovieDAOException {
+        List<DVD> dvds;
+        try {
+            dvds = jdbc.query("SELECT * FROM dvdLibrary", new DVDMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new MovieDAOException("Could not find that in the database", e);
+        }
+
         return dvds;
     }
 
     @Override
-    public DVD getMovie(String movie) {
-        DVD dvd = jdbc.queryForObject("SELECT * FROM dvdLibrary WHERE title = ?", new DVDMapper(), movie);
+    public DVD getMovie(String movie) throws MovieDAOException {
+        DVD dvd;
+
+        try {
+            dvd = jdbc.queryForObject("SELECT * FROM dvdLibrary WHERE title = ?", new DVDMapper(), movie);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MovieDAOException("Could not find that in the database", e);
+        }
+
         return dvd;
     }
 
     @Override
-    public List<DVD> findMoviesMatching(String query) {
-        List<DVD> matches = jdbc.query("SELECT * FROM dvdLibrary WHERE title LIKE ?", new DVDMapper(), query+"%");
+    public List<DVD> findMoviesMatching(String query) throws MovieDAOException {
+        List<DVD> matches;
+        
+        try {
+            matches = jdbc.query("SELECT * FROM dvdLibrary WHERE title LIKE ?", new DVDMapper(), query + "%");
+        } catch (EmptyResultDataAccessException e) {
+            throw new MovieDAOException("Could not find that in the database", e);
+        }
         return matches;
     }
 
     @Override
-    public void editRating(String title, String newRating) {
-        jdbc.update("UPDATE dvdLibrary SET userRating = ? WHERE title = ?", newRating, title);
+    public void editRating(String title, String newRating) throws MovieDAOException {
+        
+        try {
+            jdbc.update("UPDATE dvdLibrary SET userRating = ? WHERE title = ?", newRating, title);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MovieDAOException("Could not find that in the database", e);
+        }
+        
+        
     }
 
     @Override
-    public void removeMovie(String movieToRemove) {
-        jdbc.update("DELETE FROM dvdLibrary WHERE title = ?", movieToRemove);
+    public void removeMovie(String movieToRemove) throws MovieDAOException {
+        
+        try {
+            jdbc.update("DELETE FROM dvdLibrary WHERE title = ?", movieToRemove);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MovieDAOException("Could not find that in the database", e);
+        }
+        
+        
     }
 
     @Override

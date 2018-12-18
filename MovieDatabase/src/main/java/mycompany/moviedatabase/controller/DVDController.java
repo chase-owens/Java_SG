@@ -7,6 +7,8 @@ package mycompany.moviedatabase.controller;
 
 import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.DataPersistenceError;
+import mycompany.moviedatabase.dto.DateFormatException;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.view.View;
 import mycompany.moviedatabase.service.Service;
@@ -30,43 +32,44 @@ public class DVDController {
         this.service = injectedService;
     }
 
-    public void run() {
-        try {
-            boolean keepGoing = true;
-            loadMovies();
-
-            while (keepGoing) {
-                int selection = displayMenu();
-                switch (selection) {
-                    case 1:
-                        addMovie();
-                        break;
-                    case 2:
-                        removeMovie();
-                        break;
-                    case 3:
-                        editRating();
-                        break;
-                    case 4:
-                        listAllMovies();
-                        break;
-                    case 5:
-                        getMovieInfo();
-                        break;
-                    case 6:
-                        movieSearch();
-                        break;
-                    case 7:
-                        marshallMovies();
-                        exitGracefully();
-                        keepGoing = false;
-                        break;
-                    default:
-                        break;
+    public void run() throws DateFormatException {
+        boolean keepGoing = true;
+        while (keepGoing) {
+            try {
+                loadMovies();
+                while (keepGoing) {
+                    int selection = displayMenu();
+                    switch (selection) {
+                        case 1:
+                            addMovie();
+                            break;
+                        case 2:
+                            removeMovie();
+                            break;
+                        case 3:
+                            editRating();
+                            break;
+                        case 4:
+                            listAllMovies();
+                            break;
+                        case 5:
+                            getMovieInfo();
+                            break;
+                        case 6:
+                            movieSearch();
+                            break;
+                        case 7:
+                            marshallMovies();
+                            exitGracefully();
+                            keepGoing = false;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+            } catch (MovieDAOException | DataPersistenceError e) {
+                displayErrorMessage(e);
             }
-        } catch (MovieDAOException e) {
-            displayErrorMessage(e);
         }
     }
 
@@ -74,18 +77,37 @@ public class DVDController {
         service.loadMovies();
     }
 
-    private int displayMenu() {
+    private int displayMenu() throws DataPersistenceError {
         return view.displayMenu();
     }
 
-    private void addMovie() {
+    private void addMovie() throws DateFormatException {
         // Get Movie Info
-        String title = view.setTitle();
-        String releaseDate = view.getReleaseDate();
-        String MPAArating = view.getMPAArating();
-        String directorsName = view.getDirector();
-        String studio = view.getStudio();
-        String userRating = view.getUserRating();
+        String title = "", releaseDate = "", MPAArating = "", directorsName = "", studio = "", userRating = "";
+
+        while (title.equals("")) {
+            title = view.setTitle();
+        }
+
+        while (releaseDate.equals("")) {
+            releaseDate = view.getReleaseDate();
+        }
+
+        while (MPAArating.equals("")) {
+            MPAArating = view.getMPAArating();
+        }
+
+        while (directorsName.equals("")) {
+            directorsName = view.getDirector();
+        }
+
+        while (studio.equals("")) {
+            studio = view.getStudio();
+        }
+
+        while (userRating.equals("")) {
+            userRating = view.getUserRating();
+        }
 
         // Create movie
         DVD newDVD = service.makeDVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
@@ -97,20 +119,25 @@ public class DVDController {
         view.confirmMovieAdded();
     }
 
-    private void removeMovie() {
-        
+    private void removeMovie() throws MovieDAOException {
+
         //display movie titlesand get title of ovie to remove
-        String movieToRemove = displayNameAndGetTitle();
+        String movieToRemove = null;
 
         // Find remove movie
-        service.removeMovie(movieToRemove);
+        try {
+            movieToRemove = displayNameAndGetTitle();
+            service.removeMovie(movieToRemove);
+            // Print confirmation message
+            view.confirmMovieDeleted(movieToRemove);
+        } catch (MovieDAOException e) {
+            displayErrorMessage(e);
+        }
 
-        // Print confirmation message
-        view.confirmMovieDeleted(movieToRemove);
     }
 
-    private void editRating() {
-        
+    private void editRating() throws MovieDAOException {
+
         //display movie titles and get movie title of movie to edit
         String title = displayNameAndGetTitle();
 
@@ -121,7 +148,7 @@ public class DVDController {
         service.editRating(title, newRating);
     }
 
-    private void listAllMovies() {
+    private void listAllMovies() throws MovieDAOException {
 
         // get movie titles
         List<DVD> movies = service.getMovieList();
@@ -130,7 +157,7 @@ public class DVDController {
         view.displayTitles(movies);
     }
 
-    private void getMovieInfo() {
+    private void getMovieInfo() throws MovieDAOException {
         // get movie title
         String movie = displayNameAndGetTitle();
 
@@ -141,7 +168,7 @@ public class DVDController {
         view.displayInfo(dvd);
     }
 
-    private void movieSearch() {
+    private void movieSearch() throws MovieDAOException {
         // get query
         String query = view.getQuery();
 
@@ -149,14 +176,19 @@ public class DVDController {
         List<DVD> moviesFound = service.findMoviesMatching(query);
 
         // display movie
-        view.displayTitles(moviesFound);
+        if (moviesFound.isEmpty()) {
+            view.noMoviesMessage();
+        } else {
+            view.displayTitles(moviesFound);
+        }
+
     }
 
     private void exitGracefully() {
         view.exit();
     }
 
-    private void displayErrorMessage(MovieDAOException e) {
+    private void displayErrorMessage(Exception e) {
         view.displayErrorMessage(e.getMessage());
     }
 
@@ -167,15 +199,16 @@ public class DVDController {
         // marshall list of movies
         service.marshallMovies(dvds);
     }
-    
-    public String displayNameAndGetTitle() {
+
+    public String displayNameAndGetTitle() throws MovieDAOException {
         //display movie titles
         List<DVD> movies = service.getMovieList();
         view.displayTitles(movies);
-        
+
         // Get movie Title
         String movie = view.setTitle();
-        
+        service.checkIfMovieExists(movie);
+
         return movie;
     }
 

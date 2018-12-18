@@ -5,6 +5,10 @@
  */
 package mycompany.moviedatabase.view;
 
+import java.time.LocalDate;
+import mycompany.moviedatabase.dto.DataPersistenceError;
+import mycompany.moviedatabase.dto.DateFormatException;
+
 /**
  *
  * @author chaseowens
@@ -20,13 +24,15 @@ public interface UserIO {
 
     float readFloat(String prompt, float min, float max);
 
-    int readInt(String prompt);
+    int readInt(String prompt) throws DataPersistenceError;
 
-    int readInt(String prompt, int min, int max);
+    int readInt(String prompt, int min, int max) throws DataPersistenceError;
 
     long readLong(String prompt);
 
     long readLong(String prompt, long min, long max);
 
     String readString(String prompt);
+    
+    LocalDate readLocalDate(String prompt) throws DateFormatException;
 }

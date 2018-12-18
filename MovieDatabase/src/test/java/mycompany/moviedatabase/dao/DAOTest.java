@@ -10,7 +10,6 @@ import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
@@ -49,7 +48,7 @@ public class DAOTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws MovieDAOException{
         List<DVD> movieLibrary = dao.getMovieList();
         for (DVD dvd : movieLibrary) {
             dao.removeMovie(dvd.getTitle());
@@ -72,9 +71,10 @@ public class DAOTest {
 
     /**
      * Test of addMovieToList method, of class DAO.
+     * @throws mycompany.moviedatabase.dto.MovieDAOException
      */
     @Test
-    public void testAddMovieToList() {
+    public void testAddMovieToList() throws MovieDAOException{
         assertEquals(0, dao.getMovieList().size());
         dao.addMovieToList(tester);
         assertEquals(1, dao.getMovieList().size());
@@ -82,9 +82,10 @@ public class DAOTest {
 
     /**
      * Test of removeMovie method, of class DAO.
+     * @throws mycompany.moviedatabase.dto.MovieDAOException
      */
     @Test
-    public void testRemoveMovie() {
+    public void testRemoveMovie() throws MovieDAOException{
         dao.addMovieToList(tester);
         assertEquals(1, dao.getMovieList().size());
         dao.removeMovie(tester.getTitle());
@@ -93,9 +94,10 @@ public class DAOTest {
 
     /**
      * Test of editRating method, of class DAO.
+     * @throws mycompany.moviedatabase.dto.MovieDAOException
      */
     @Test
-    public void testEditRating() {
+    public void testEditRating() throws MovieDAOException{
         String ratingBefore = tester.getRating();
         dao.addMovieToList(tester);
         dao.editRating(tester.getTitle(), ratingBefore + ratingBefore);
@@ -105,9 +107,10 @@ public class DAOTest {
 
     /**
      * Test of findMoviesMatching method, of class DAO.
+     * @throws mycompany.moviedatabase.dto.MovieDAOException
      */
     @Test
-    public void testFindMoviesMatching() {
+    public void testFindMoviesMatching() throws MovieDAOException{
         assertEquals(0, dao.findMoviesMatching("").size());
         dao.addMovieToList(tester);
         assertEquals(1, dao.findMoviesMatching(tester.getTitle()).size());

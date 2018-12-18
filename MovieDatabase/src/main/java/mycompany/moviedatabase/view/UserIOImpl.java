@@ -5,7 +5,12 @@
  */
 package mycompany.moviedatabase.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.regex.PatternSyntaxException;
+import mycompany.moviedatabase.dto.DataPersistenceError;
+import mycompany.moviedatabase.dto.DateFormatException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserIOImpl implements UserIO {
+
     final Scanner sc = new Scanner(System.in);
 
     @Override
@@ -68,19 +74,24 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public int readInt(String prompt) {
+    public int readInt(String prompt) throws DataPersistenceError {
         System.out.println(prompt);
-        int num = Integer.parseInt(sc.nextLine());
+        int num;
+        try {
+            num = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            throw new DataPersistenceError("Just enter a who number without any commas", e);
+        }
+
         return num;
     }
 
     @Override
-    public int readInt(String prompt, int min, int max) {
+    public int readInt(String prompt, int min, int max) throws DataPersistenceError {
         boolean isIn = false;
         int num = 0;
         while (isIn == false) {
-            System.out.println(prompt);
-            num = Integer.parseInt(sc.nextLine());
+            num = readInt(prompt);
             if (num < min || num > max) {
                 System.out.println("Must be within range!");
             } else {
@@ -105,5 +116,33 @@ public class UserIOImpl implements UserIO {
         System.out.println(prompt);
         String answer = sc.nextLine();
         return answer;
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt) throws DateFormatException {
+        boolean validDate = false;
+        LocalDate date = null;
+
+        System.out.println(prompt);
+        try {
+            String stringDate = sc.nextLine();
+            try {
+                String[] stringDateArray = stringDate.split("-");
+                if (Integer.parseInt(stringDateArray[0]) < 0000 || Integer.parseInt(stringDateArray[0]) > 3000 || Integer.parseInt(stringDateArray[1]) < 0 || Integer.parseInt(stringDateArray[1]) > 12 || Integer.parseInt(stringDateArray[2]) < 00 || Integer.parseInt(stringDateArray[1]) < 0 || Integer.parseInt(stringDateArray[1]) > 12 || Integer.parseInt(stringDateArray[2]) > 31) {
+                    throw new DateFormatException("Please enter in yyyy-mm-dd format");
+                }
+            } catch (PatternSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
+                throw new DateFormatException("Please enter in yyyy-mm-dd format", e);
+            }
+
+            date = LocalDate.parse(stringDate);
+            if (date == null) {
+                throw new DateFormatException("Please enter in yyyy-mm-dd format");
+            }
+        } catch (DateTimeParseException | NullPointerException e) {
+            throw new DateFormatException("Please enter in yyyy-mm-dd format");
+        }
+
+        return date;
     }
 }

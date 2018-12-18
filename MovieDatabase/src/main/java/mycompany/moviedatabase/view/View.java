@@ -7,6 +7,8 @@ package mycompany.moviedatabase.view;
 
 import java.util.List;
 import mycompany.moviedatabase.dto.DVD;
+import mycompany.moviedatabase.dto.DataPersistenceError;
+import mycompany.moviedatabase.dto.DateFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +18,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class View {
+
     @Autowired
     UserIO io;
-    
+
     public View(UserIO io) {
         this.io = io;
     }
 
-    public int displayMenu() {
+    public int displayMenu() throws DataPersistenceError {
         io.print("Select an option");
         String displayMessage = "1) Add Movie \t2) Remove Movie \t3)Edit Movie Rating \n4) List Movies \t5) Get movie info \t6) Movie Search \n7) Quit";
         return io.readInt(displayMessage, 1, 7);
@@ -33,8 +36,19 @@ public class View {
         return io.readString("Movie title: ");
     }
 
-    public String getReleaseDate() {
-        return io.readString("Release date: ");
+    public String getReleaseDate() throws DateFormatException {
+        String date = null;
+        boolean validDate = false;
+        while (!validDate) {
+            try {
+                date = io.readLocalDate("Release date: ").toString();
+                validDate = true;
+            } catch (DateFormatException e) {
+                displayErrorMessage(e.getMessage());
+            }
+        }
+
+        return date;
     }
 
     public String getMPAArating() {
@@ -91,10 +105,14 @@ public class View {
             io.print(movie);
         }
     }
-    
+
     public void displayErrorMessage(String errorMsg) {
         io.print("===ERROR===");
         io.print(errorMsg);
+    }
+
+    public void noMoviesMessage() {
+        io.print("There are no movies matching your query");
     }
 
 }

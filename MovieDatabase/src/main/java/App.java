@@ -1,5 +1,6 @@
 
 import mycompany.moviedatabase.controller.DVDController;
+import mycompany.moviedatabase.dto.DateFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,9 +33,10 @@ public class App implements CommandLineRunner{
     /**
      *
      * @param args
+     * @throws mycompany.moviedatabase.dto.DateFormatException
      */
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws DateFormatException {
     // Call run
     controller.run ();  
     }

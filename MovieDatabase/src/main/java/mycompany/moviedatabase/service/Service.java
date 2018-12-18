@@ -22,17 +22,19 @@ public interface Service {
     
     public void marshallMovies(List<DVD> dvds) throws MovieDAOException;
 
-    public void removeMovie(String movieToRemove);
+    public void removeMovie(String movieToRemove) throws MovieDAOException;
 
-    public void editRating(String title, String newRating);
+    public void editRating(String title, String newRating) throws MovieDAOException;
 
-    public List<DVD> findMoviesMatching(String query);
+    public List<DVD> findMoviesMatching(String query) throws MovieDAOException;
 
     public void loadMovies() throws MovieDAOException;
 
-    public List<DVD> getMovieList();
+    public List<DVD> getMovieList() throws MovieDAOException;
 
-    public DVD getMovie(String movie);
+    public DVD getMovie(String movie) throws MovieDAOException;
+
+    public boolean checkIfMovieExists(String movie) throws MovieDAOException;
 
 
     

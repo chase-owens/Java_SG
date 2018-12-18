@@ -9,12 +9,11 @@ package mycompany.moviedatabase.dto;
  *
  * @author chaseowens
  */
-public class MovieDAOException extends Exception {
-    public MovieDAOException(String message, Throwable cause) {
-        super(message, cause); 
-    }
-    public MovieDAOException(String message) {
+public class DateFormatException extends Exception{
+    public DateFormatException(String message) {
         super(message);
     }
-    
+    public DateFormatException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
