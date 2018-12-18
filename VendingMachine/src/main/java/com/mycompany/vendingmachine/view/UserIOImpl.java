@@ -115,12 +115,16 @@ public class UserIOImpl implements UserIO {
     public BigDecimal readBigDecimal(String prompt) throws GettingMoneyError {
         System.out.println(prompt);
         String input = sc.nextLine();
-        BigDecimal bd;
+        BigDecimal bd = null;
+        boolean valid = false;
 
-        try {
-            bd = new BigDecimal(input);
-        } catch (IllegalArgumentException e) {
-            throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
+        while (!valid) {
+            try {
+                bd = new BigDecimal(input);
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
+            }
         }
 
         return bd;
