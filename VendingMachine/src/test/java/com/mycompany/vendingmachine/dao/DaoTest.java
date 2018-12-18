@@ -60,7 +60,7 @@ public class DaoTest {
      * @throws com.mycompany.vendingmachine.dao.VendingMachinePersistenceError
      */
     @Test
-    public void testGetItems() throws VendingMachinePersistenceError {
+    public void testGetItems() throws VendingMachinePersistenceError, GetEntryError {
         int inventorySize = 2;
         assertEquals(inventorySize, dao.getItems().size());
     }

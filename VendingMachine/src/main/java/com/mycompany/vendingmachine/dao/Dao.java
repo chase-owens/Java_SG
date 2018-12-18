@@ -5,9 +5,7 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -17,7 +15,7 @@ import java.util.HashMap;
  */
 public interface Dao {
 
-    public Collection<Item> getItems() throws VendingMachinePersistenceError ;
+    public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError;
     
     public void getInventory() throws VendingMachinePersistenceError;
     

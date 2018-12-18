@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -39,8 +40,15 @@ public class VendingMachineDaoImplSql implements Dao {
     }
 
     @Override
-    public Collection<Item> getItems() throws VendingMachinePersistenceError {
-        List<Item> itemsL = jdbc.query("SELECT * FROM VendingMachine", new ItemMapper());
+    public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError {
+        List<Item> itemsL;
+        
+        try {
+            itemsL = jdbc.query("SELECT * FROM VendingMachine", new ItemMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new GetEntryError("Please enter the item as it appears in the display.");
+        }
+        
         Collection<Item> itemsC = itemsL;
         return itemsC;
     }
@@ -50,7 +58,7 @@ public class VendingMachineDaoImplSql implements Dao {
         Item item;
         try {
             item = jdbc.queryForObject("SELECT * FROM VendingMachine Where title = ?", new ItemMapper(), selection);
-        } catch (NullPointerException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new GetEntryError("Please enter the item as it appears in the display.");
         }
         return item;

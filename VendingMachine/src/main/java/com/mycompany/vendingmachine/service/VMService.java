@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface VMService {
 
-    public Collection<Item> getItems() throws VendingMachinePersistenceError;
+    public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError;
 
     public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError ;
 

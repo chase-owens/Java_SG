@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class VendingMachineController {
+
     @Autowired
     View view;
     @Autowired
@@ -51,14 +52,14 @@ public class VendingMachineController {
                 }
                 exitGracefully();
 
-            } catch (InsufficientFundsError | OutOfStockException | VendingMachinePersistenceError | GettingMoneyError e) {
+            } catch (InsufficientFundsError | OutOfStockException | VendingMachinePersistenceError | GettingMoneyError | GetEntryError e) {
                 handleError(e);
             }
         }
 
     }
 
-    private void displayItems() throws VendingMachinePersistenceError {
+    private void displayItems() throws VendingMachinePersistenceError, GetEntryError {
         // Get all items to vend
         Collection<Item> items = service.getItems();
 
@@ -104,8 +105,13 @@ public class VendingMachineController {
         // Process Transaction, Update Inventory
 
         BigDecimal changeMade = service.processTransaction(money, selection);
+        Item item = null;
 
-        Item item = service.getItem(selection);
+        try {
+            item = service.getItem(selection);
+        } catch (GetEntryError e) {
+            handleError(e);
+        }
 
         service.auditFile(item.toString() + " : " + "successful");
 
@@ -125,12 +131,12 @@ public class VendingMachineController {
 
         moneyEntered = BigDecimal.ZERO;
     }
-    
+
     private void giveRefund() {
         view.giveRefund(moneyEntered);
 
         ChangeMaker changeOwed = service.makeChange(moneyEntered);
-        
+
         view.giveChange(changeOwed);
 
         moneyEntered = BigDecimal.ZERO;
@@ -140,10 +146,10 @@ public class VendingMachineController {
         String decision;
         boolean validEntry = false;
         while (!validEntry) {
-            
+
             // Make another transaction?
             decision = view.checkIfMakeAnotherTransaction();
-            
+
             // Check answer for no
             if (decision.startsWith("n")) {
                 keepGoing = false;
@@ -159,8 +165,8 @@ public class VendingMachineController {
 
     private void handleError(Exception e) throws VendingMachinePersistenceError, GetEntryError {
         view.displayErrorMessage(e);
-        Item item = service.getItem(selection);
         if (e.getMessage().equals("Insufficient funds") || e.getMessage().equals("Out of stock")) {
+            Item item = service.getItem(selection);
             service.auditFile(item.toString() + " : " + e.getMessage());
             giveRefund();
         }

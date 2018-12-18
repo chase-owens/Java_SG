@@ -61,7 +61,7 @@ public class View {
 
     public String getMoney() throws GettingMoneyError {
 
-        String amountPaid = io.readString("Enter money without commas\n");
+        String amountPaid = io.readBigDecimal("Enter money without commas\n").toString();
         return amountPaid;
     }
 

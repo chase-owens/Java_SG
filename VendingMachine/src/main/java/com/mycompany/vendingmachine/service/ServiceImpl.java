@@ -37,7 +37,7 @@ public class ServiceImpl implements VMService {
     }
 
     @Override
-    public Collection<Item> getItems() throws VendingMachinePersistenceError {
+    public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError {
         return dao.getItems();
     }
 

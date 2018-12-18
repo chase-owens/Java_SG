@@ -5,6 +5,9 @@
  */
 package com.mycompany.vendingmachine.view;
 
+import com.mycompany.vendingmachine.dao.DataPersistenceError;
+import com.mycompany.vendingmachine.dao.GettingMoneyError;
+import java.math.BigDecimal;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserIOImpl implements UserIO {
+
     final Scanner sc = new Scanner(System.in);
 
     @Override
@@ -68,14 +72,14 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public int readInt(String prompt) {
+    public int readInt(String prompt) throws DataPersistenceError {
         System.out.println(prompt);
         int num = Integer.parseInt(sc.nextLine());
         return num;
     }
 
     @Override
-    public int readInt(String prompt, int min, int max) {
+    public int readInt(String prompt, int min, int max) throws DataPersistenceError {
         boolean isIn = false;
         int num = 0;
         while (isIn == false) {
@@ -105,5 +109,20 @@ public class UserIOImpl implements UserIO {
         System.out.println(prompt);
         String answer = sc.nextLine();
         return answer;
+    }
+
+    @Override
+    public BigDecimal readBigDecimal(String prompt) throws GettingMoneyError {
+        System.out.println(prompt);
+        String input = sc.nextLine();
+        BigDecimal bd;
+
+        try {
+            bd = new BigDecimal(input);
+        } catch (IllegalArgumentException e) {
+            throw new GettingMoneyError("Please enter a real number without any letters or commas", e);
+        }
+
+        return bd;
     }
 }
