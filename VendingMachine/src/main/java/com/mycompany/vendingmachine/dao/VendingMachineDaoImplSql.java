@@ -44,7 +44,7 @@ public class VendingMachineDaoImplSql implements Dao {
         List<Item> itemsL;
         
         try {
-            itemsL = jdbc.query("SELECT * FROM VendingMachine", new ItemMapper());
+            itemsL = jdbc.query("SELECT * FROM VendingMachine WHERE inventoryCount > 0", new ItemMapper());
         } catch (EmptyResultDataAccessException e) {
             throw new GetEntryError("Please enter the item as it appears in the display.");
         }

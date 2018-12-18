@@ -93,12 +93,7 @@ public class DaoImpl implements Dao {
 
     @Override
     public Item getItem(String selection) throws GetEntryError {
-        Item item = null;
-        try {
-            item = items.get(selection);
-        } catch (NullPointerException e) {
-            throw new GetEntryError("Please enter the item as it appears in the display.");
-        }
+        Item item = items.get(selection);
         return item;
     }
 

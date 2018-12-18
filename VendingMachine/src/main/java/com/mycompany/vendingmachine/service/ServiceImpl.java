@@ -38,7 +38,11 @@ public class ServiceImpl implements VMService {
 
     @Override
     public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError {
-        return dao.getItems();
+        Collection<Item> items = dao.getItems();
+        if (items.isEmpty()) {
+            throw new VendingMachinePersistenceError("There are no items to vend");
+        }
+        return items;
     }
 
     @Override
@@ -71,7 +75,14 @@ public class ServiceImpl implements VMService {
 
     @Override
     public Item getItem(String selection)  throws GetEntryError{
-        return dao.getItem(selection);
+        
+        Item item = null;
+        try {
+            item = dao.getItem(selection);
+        } catch (NullPointerException e) {
+            throw new GetEntryError("Please enter the item as it appears in the display.");
+        }
+        return item;
     }
 
     @Override

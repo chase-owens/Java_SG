@@ -13,4 +13,7 @@ public class VendingMachinePersistenceError extends Exception {
     public VendingMachinePersistenceError(String message, Throwable cause) {
         super(message, cause);
     }
+    public VendingMachinePersistenceError(String message) {
+        super(message);
+    }
 }
