@@ -85,19 +85,14 @@ public class UserIOImpl implements UserIO {
     public int readInt(String prompt, int min, int max) throws DataValidationException {
         boolean isIn = false;
         int num = 0;
-        try {
-            while (isIn == false) {
-                System.out.println(prompt);
-                num = Integer.parseInt(sc.nextLine());
+        while (isIn == false) {
+                readInt(prompt);
                 if (num < min || num > max) {
                     System.out.println("Must be within range!");
                 } else {
                     isIn = true;
                 }
             }
-        } catch (NumberFormatException e) {
-            throw new DataValidationException("That was not a number between 1 and 6", e);
-        }
 
         return num;
     }
