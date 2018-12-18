@@ -117,16 +117,16 @@ public class UserIOImpl implements UserIO {
     @Override
     public BigDecimal readBigDecimal(String prompt) throws DataValidationException {
         System.out.println(prompt);
-        String answer = sc.nextLine();
-        BigDecimal bdAnswer;
+        String input = sc.nextLine();
+        BigDecimal bd;
 
         try {
-            bdAnswer = new BigDecimal(answer);
+            bd = new BigDecimal(input);
         } catch (IllegalArgumentException e) {
             throw new DataValidationException("Please enter a real number without any letters or commas", e);
         }
 
-        return bdAnswer;
+        return bd;
     }
     
     @Override
