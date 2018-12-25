@@ -56,7 +56,7 @@ public class ServiceTest {
      */
     @Test
     public void testGetItems() throws Exception {
-        assertEquals(2, service.getItems().size());
+        assertEquals(1, service.getItems().size());
     }
 
     /**
@@ -66,7 +66,7 @@ public class ServiceTest {
      */
     @Test
     public void testProcessTransaction() throws Exception {
-        assertEquals(BigDecimal.ZERO, service.processTransaction(new BigDecimal("75000"), "Unicorn"));
+        assertEquals(BigDecimal.ZERO, service.processTransaction("75000", "Unicorn"));
     }
 
     /**

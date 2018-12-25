@@ -57,7 +57,7 @@ public class VendingMachineDaoImplSql implements Dao {
     public Item getItem(String selection) throws GetEntryError {
         Item item;
         try {
-            item = jdbc.queryForObject("SELECT * FROM VendingMachine Where title = ?", new ItemMapper(), selection);
+            item = jdbc.queryForObject("SELECT * FROM VendingMachine WHERE title = ?", new ItemMapper(), selection);
         } catch (EmptyResultDataAccessException e) {
             throw new GetEntryError("Please enter the item as it appears in the display.");
         }

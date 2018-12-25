@@ -93,7 +93,7 @@ public class VendingMachineController {
         do {
             try {
                 selection = view.selectItem();
-                change = processTransaction(moneyEntered, selection);
+                change = processTransaction(moneyEntered.toString(), selection);
                 validSelection = true;
             } catch (GetEntryError e) {
                 handleError(e);
@@ -101,7 +101,7 @@ public class VendingMachineController {
         } while (!validSelection);
     }
 
-    private BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
+    private BigDecimal processTransaction(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
         // Process Transaction, Update Inventory
 
         BigDecimal changeMade = service.processTransaction(money, selection);

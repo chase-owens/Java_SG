@@ -46,17 +46,17 @@ public class ServiceImpl implements VMService {
     }
 
     @Override
-    public BigDecimal processTransaction(BigDecimal money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
+    public BigDecimal processTransaction(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
         Item item = dao.getItem(selection);
         int inventoryCount = item.getInventoryCount();
-        BigDecimal change;
+        BigDecimal change, cash = new BigDecimal(money);
         
         if (item.getInventoryCount() < 1) {
             throw new OutOfStockException("Out of stock");
-        } else if (money.compareTo(item.getPrice()) < 0) {
+        } else if (cash.compareTo(item.getPrice()) < 0) {
             throw new InsufficientFundsError("Insufficient funds");
         } else {
-            change = money.subtract(item.getPrice());
+            change = cash.subtract(item.getPrice());
             dao.updateItem(selection);
         }
         return change;

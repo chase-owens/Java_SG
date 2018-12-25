@@ -61,8 +61,8 @@ public class DaoTest {
      */
     @Test
     public void testGetItems() throws VendingMachinePersistenceError, GetEntryError {
-        int inventorySize = 2;
-        assertEquals(inventorySize, dao.getItems().size());
+        // two items in inventory, but one with 0 inventory count, so only one shoule come back
+        assertEquals(1, dao.getItems().size());
     }
 
     @Test

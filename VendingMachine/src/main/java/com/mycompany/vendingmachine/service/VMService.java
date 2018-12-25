@@ -25,7 +25,7 @@ public interface VMService {
 
     public Collection<Item> getItems() throws VendingMachinePersistenceError, GetEntryError;
 
-    public BigDecimal processTransaction(BigDecimal $, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError ;
+    public BigDecimal processTransaction(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError ;
 
     public ChangeMaker makeChange(BigDecimal change);
 
