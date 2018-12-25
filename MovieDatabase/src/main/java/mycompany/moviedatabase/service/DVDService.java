@@ -14,7 +14,7 @@ import mycompany.moviedatabase.dto.MovieDAOException;
  *
  * @author chaseowens
  */
-public interface Service {
+public interface DVDService {
 
     public DVD makeDVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating);
 
@@ -24,7 +24,7 @@ public interface Service {
 
     public void removeMovie(String movieToRemove) throws MovieDAOException;
 
-    public void editRating(String title, String newRating) throws MovieDAOException;
+    public DVD editRating(String title, String newRating) throws MovieDAOException;
 
     public List<DVD> findMoviesMatching(String query) throws MovieDAOException;
 

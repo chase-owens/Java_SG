@@ -11,7 +11,7 @@ import mycompany.moviedatabase.dto.DataPersistenceError;
 import mycompany.moviedatabase.dto.DateFormatException;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import mycompany.moviedatabase.view.View;
-import mycompany.moviedatabase.service.Service;
+import mycompany.moviedatabase.service.DVDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,9 +25,9 @@ public class DVDController {
     @Autowired
     View view;
     @Autowired
-    Service service;
+    DVDService service;
 
-    public DVDController(View injectedView, Service injectedService) {
+    public DVDController(View injectedView, DVDService injectedService) {
         this.view = injectedView;
         this.service = injectedService;
     }
@@ -145,7 +145,9 @@ public class DVDController {
         String newRating = view.getNewRating();
 
         // edit rating
-        service.editRating(title, newRating);
+        DVD updatedDVD = service.editRating(title, newRating);
+        
+        view.displayInfo(updatedDVD);
     }
 
     private void listAllMovies() throws MovieDAOException {

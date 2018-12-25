@@ -10,14 +10,14 @@ import mycompany.moviedatabase.dao.DAO;
 import mycompany.moviedatabase.dto.DVD;
 import mycompany.moviedatabase.dto.MovieDAOException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author chaseowens
  */
-@Component
-public class ServiceImpl implements Service {
+@Service
+public class ServiceImpl implements DVDService {
 
     @Autowired
     DAO dao;
@@ -52,10 +52,11 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void editRating(String title, String newRating) throws MovieDAOException {
-        if (!checkIfMovieExists(title)) {
+    public DVD editRating(String title, String newRating) throws MovieDAOException {
+        if (checkIfMovieExists(title)) {
             dao.editRating(title, newRating);
         }
+        return getMovie(title);
     }
 
     @Override
