@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+section {
+  width: 100%;
+}
+
+#itemsContainer {
+  padding-left: 10px;
+}
+
+.moneyEntry {
+  display: flex;
+  flex-direction: column;
+}
+
+#selectionDiv {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.depositGroup {
+  margin-bottom: 10px;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.moneyDeposited {
+  text-align: right;
+  padding-right: 30px;
+}
+
+#itemsContainer {
+  width: 400px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.itemDiv,
+.priceDiv {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 38px;
+  line-height: 38px;
+  margin-bottom: 4px;
+}
+
+.priceDiv {
+  width: 150px;
+}
+
+.select {
+  align-self: baseline;
+}
+
+.selectedItemDisplay {
+  width: 95%;
+  margin: auto;
+  margin-bottom: 20px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+.moneySection {
+  margin-bottom: 20px;
+}
+
+.transaction {
+  width: 90%;
+  padding-left: 10%;
+}
+
+@media (min-width: 775px) {
+  .itemSection {
+    width: 50%;
+  }
+}
