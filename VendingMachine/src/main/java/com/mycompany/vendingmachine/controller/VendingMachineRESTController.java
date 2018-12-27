@@ -10,6 +10,7 @@ import com.mycompany.vendingmachine.dao.GettingMoneyError;
 import com.mycompany.vendingmachine.dao.InsufficientFundsError;
 import com.mycompany.vendingmachine.dao.OutOfStockException;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceError;
+import com.mycompany.vendingmachine.dto.ChangeMaker;
 import com.mycompany.vendingmachine.dto.Item;
 import com.mycompany.vendingmachine.service.VMService;
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,8 +47,13 @@ public class VendingMachineRESTController {
         return service.checkMoney(deposit);
     }
     
-    @GetMapping("/purchase")
+    @PostMapping("/purchase")
     public BigDecimal buyItem(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
         return service.processTransaction(money, selection);
+    }
+    
+    @GetMapping("/change")
+    public ChangeMaker makeChange(String money) throws InsufficientFundsError {
+        return service.makeChange(new BigDecimal(money));
     }
 }
