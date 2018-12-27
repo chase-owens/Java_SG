@@ -1,0 +1,110 @@
+body {
+  max-width: 900;
+  margin: auto;
+}
+
+main {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+section {
+  width: 100%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.searchDiv {
+  width: 100%;
+}
+
+.searchInput {
+  width: 29%;
+  margin-left: 70%;
+}
+
+.movieList,
+.addDVDForm,
+.infoTable,
+.editForm {
+  width: 80%;
+  margin: auto;
+}
+
+.movieList {
+  margin: auto;
+}
+
+.movieDiv {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin: auto;
+  margin-bottom: 2px;
+  font-size: 16px;
+  line-height: 38px;
+}
+
+.btnDiv {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.nameDiv {
+  margin-left: 10px;
+  width: 50%;
+}
+
+.movieName {
+  display: block;
+  font-size: 16px;
+  line-height: 38px;
+}
+
+.formLabel {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+}
+
+.toDo {
+  width: 96%;
+}
+
+.editMovie,
+.movieContainer {
+  display: none;
+}
+
+.infoCell {
+  width: 50%;
+}
+
+#addDvdButton {
+  color: blue;
+}
+
+.infoCellLabel {
+  width: 25%;
+}
+
+.infoCell {
+  width: 70%;
+}
+
+.editPart {
+  width: 96%;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 820px) {
+  section {
+    width: 50%;
+  }
+}

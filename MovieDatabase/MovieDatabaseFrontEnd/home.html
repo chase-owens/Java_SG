@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movie Database</title>
+    <meta name="movieDatabase" content="Movie Library" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="searchDiv">
+      <input
+        class="searchInput"
+        onkeypress="search(this.value)"
+        type="text"
+        placeholder="Search"
+      />
+    </div>
+
+    <header><h1 class="title">DVD Library</h1></header>
+    <main>
+      <section class="dvdDisplay">
+        <h2 class="title">Movies</h2>
+        <div class="movieList"></div>
+      </section>
+
+      <section class="editMovie">
+        <h2 class="title">Edit Movie</h2>
+        <form class="editForm">
+          <label for="newRating" class="editPart"
+            ><h3 class="movieToBeEdited"></h3
+          ></label>
+          <input
+            class="editPart"
+            id="newRating"
+            type="text"
+            placeholder="Enter New Rating Here"
+          />
+          <button
+            id="updateMovieButton"
+            class="btn btn-info"
+            type="button"
+            onclick="updateDVD()"
+          >
+            Submit
+          </button>
+        </form>
+      </section>
+
+      <section class="movieContainer">
+        <h2 class="title" id="movieContainerTitle">Details</h2>
+        <table class="table infoTable">
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>Name:</label></td>
+            <td class="infoCell" id="dvdName"></td>
+          </tr>
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>Release Date:</label></td>
+            <td class="infoCell" id="dvdReleaseDate"></td>
+          </tr>
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>MPAA Rating:</label></td>
+            <td class="infoCell" id="dvdMPAA"></td>
+          </tr>
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>Director:</label></td>
+            <td class="infoCell" id="dvdDirector"></td>
+          </tr>
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>Studio:</label></td>
+            <td class="infoCell" id="dvdStudio"></td>
+          </tr>
+          <tr class="infoRow">
+            <td class="infoCellLabel"><label>User Rating:</label></td>
+            <td class="infoCell" id="dvdCustomRating"></td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="addDVD">
+        <h2 class="title">Add DVD</h2>
+        <form class="addDVDForm">
+          <div class="form-group">
+            <label for="toAddTitle" class="formLabel">Title</label>
+            <input
+              class="toDo"
+              id="toAddTitle"
+              type="text"
+              placeholder="Enter Title"
+            />
+          </div>
+          <div class="form-group">
+            <label for="releaseDate" class="formLabel">Release Date</label>
+            <input
+              class="toDo"
+              id="toAddReleaseDate"
+              type="text"
+              placeholder="Enter Release Date"
+            />
+          </div>
+          <div class="form-group">
+            <label for="" class="formLabel">MPAA Rating</label>
+            <input
+              class="toDo"
+              id="toAddMPAA"
+              type="text"
+              placeholder="Enter MPAA Rating"
+            />
+          </div>
+          <div class="form-group">
+            <label for="toAddDirector" class="formLabel">Director</label>
+            <input
+              class="toDo"
+              id="toAddDirector"
+              type="text"
+              placeholder="Enter Director"
+            />
+          </div>
+          <div class="form-group">
+            <label for="toAddStudio" class="formLabel">Studio</label>
+            <input
+              class="toDo"
+              id="toAddStudio"
+              type="text"
+              placeholder="Enter Studio"
+            />
+          </div>
+          <div class="form-group">
+            <label for="toAddUserRating" class="formLabel">Custom Rating</label>
+            <input
+              class="toDo"
+              id="toAddUserRating"
+              type="text"
+              placeholder="Enter Custom Rating"
+            />
+          </div>
+          <button class="btn btn-primary" id="addDVDButton" onclick="addDVD()">
+            Submit
+          </button>
+        </form>
+      </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/home.js"></script>
+  </body>
+</html>
