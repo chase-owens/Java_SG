@@ -29,6 +29,7 @@ public class DVDRESTController {
     @PostMapping("/add")
     public DVD addDVD(String title, String releaseDate, String MPAArating, String directorsName, String studio, String userRating) {
         DVD dvd = service.makeDVD(title, releaseDate, MPAArating, directorsName, studio, userRating);
+        service.addMovieToList(dvd);
         return dvd;
     }
     
