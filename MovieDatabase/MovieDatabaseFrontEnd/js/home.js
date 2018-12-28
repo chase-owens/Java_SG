@@ -1,7 +1,8 @@
 $(document).ready(function() {
   loadMovies();
 });
-const movieList = $(".movieList");
+const movieList = $(".movieList"),
+  movieTitle = $("#moviesTitle");
 
 function loadMovies() {
   movieList.empty();
@@ -9,7 +10,12 @@ function loadMovies() {
     type: "GET",
     url: "http://localhost:8080/api/movies",
     success: function(movies) {
-      makeMovies(movies);
+      if (!movies.length) {
+        console.log("0");
+        movieTitle.text("No movies in library");
+      } else {
+        makeMovies(movies);
+      }
     },
     error: function() {
       movieList
@@ -21,6 +27,7 @@ function loadMovies() {
 }
 
 function makeMovies(movies) {
+  movieTitle.text("Movies");
   movies.forEach(movie => {
     let movieName = movie.title;
     formattedName = movieName.replace(/\ /g, "+");
@@ -59,7 +66,12 @@ function searchMovies(query) {
     type: "GET",
     url: `http://localhost:8080/api/search?query=${query}`,
     success: function(movies) {
-      makeMovies(movies);
+      console.log(movies);
+      if (!movies.length) {
+        movieTitle.text("No matching movies");
+      } else {
+        makeMovies(movies);
+      }
     },
     error: function() {
       movieList
@@ -89,6 +101,7 @@ function addDVD() {
       console.log("Error");
     }
   });
+  loadMovies();
 }
 
 function checkButton() {
@@ -122,7 +135,6 @@ function updateDVD() {
     url: `http://localhost:8080/api/edit?title=${movieToBeEdited}&newRating=${updatedRating}`,
     success: function(dvd) {
       displayUpdatedDVD(dvd);
-      console.log(dvd);
     },
     error: function() {
       alert("ERROR");
@@ -130,11 +142,12 @@ function updateDVD() {
   });
 
   $(".editMovie").toggle();
+  $("#newRating").val("");
 }
 
 function deleteDVD(title) {
   $.ajax({
-    type: "POST",
+    type: "DELETE",
     url: `http://localhost:8080/api/remove?title=${title}`,
     success: function() {
       loadMovies();
@@ -146,7 +159,6 @@ function deleteDVD(title) {
 }
 
 function search(query) {
-  console.log(query);
   searchMovies(query);
 }
 
@@ -172,15 +184,19 @@ function displayDetails(dvd) {
       alert("ERROR");
     }
   });
-  $(".movieContainer").toggle();
+}
+
+function closeMe() {
+  $(".movieContainer").hide();
 }
 
 function displayDVD(dvd) {
-  console.log(dvd);
   $("#dvdName").text(dvd.title);
   $("#dvdReleaseDate").text(dvd.date);
   $("#dvdMPAA").text(dvd.mpaarating);
   $("#dvdDirector").text(dvd.directorsName);
   $("#dvdStudio").text(dvd.studio);
   $("#dvdCustomRating").text(dvd.rating);
+
+  $(".movieContainer").toggle();
 }

@@ -26,7 +26,7 @@
     <header><h1 class="title">DVD Library</h1></header>
     <main>
       <section class="dvdDisplay">
-        <h2 class="title">Movies</h2>
+        <h2 id="moviesTitle" class="title">Movies</h2>
         <div class="movieList"></div>
       </section>
 
@@ -81,6 +81,15 @@
             <td class="infoCell" id="dvdCustomRating"></td>
           </tr>
         </table>
+
+        <button
+          type="button"
+          class="btn btn-warning"
+          style="float: right; margin-right: 25px"
+          onclick="closeMe()"
+        >
+          Close
+        </button>
       </section>
 
       <section class="addDVD">
