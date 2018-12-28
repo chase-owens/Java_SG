@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +50,14 @@ public class VendingMachineRESTController {
     }
     
     @PostMapping("/purchase")
-    public BigDecimal buyItem(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
-        return service.processTransaction(money, selection);
+    public ResponseEntity<BigDecimal> buyItem(String money, String selection) throws InsufficientFundsError, OutOfStockException, VendingMachinePersistenceError, GetEntryError {
+        BigDecimal change = null;
+        try {
+            change = service.processTransaction(money, selection);
+        } catch (InsufficientFundsError e) {
+            return new ResponseEntity(new Error(e.getMessage()), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(change);
     }
     
     @GetMapping("/change")

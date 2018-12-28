@@ -23,7 +23,7 @@ function loadItems() {
           priceDiv = $(
             `<div class='priceDiv'>
             <p class="itemPrice">${item.price}</p>
-            <button id="${name}" value=${name} data-price=${
+            <button id="${name}" value=${item.price} price=${
               item.price
             } class="btn btn-info select">Select</button></div>`
           );
@@ -51,7 +51,12 @@ function processTransaction() {
       giveChange(change);
     },
     error: function(err) {
-      alert("Something went awry", err);
+      alert(
+        JSON.stringify(err.responseJSON.message).replace(
+          new RegExp('"', "g"),
+          ""
+        )
+      );
     }
   });
 }
@@ -67,13 +72,9 @@ function zeroDeposit() {
 }
 
 function selectItem(item) {
-  let name = item.value.replace(/\+/g, " ");
+  let name = item.id.replace(/\+/g, " ");
   itemSelected.text(name);
-
-  // Troble displaying price which is an attribute of item
-  // let price = item.data - price;
-  // console.log(price);
-  //itemPrice.text(price);
+  itemPrice.text(item.value);
 }
 
 function listenForSelection() {
@@ -89,7 +90,7 @@ function giveChange(amountOwed) {
     type: "GET",
     url: `http://localhost:8080/api/change?money=${amountOwed}`,
     success: function(change) {
-      giveRefund(amountOwed, change);
+      giveRefund(amountOwed, change, true);
     },
     error: function(err) {
       console.log(err);
@@ -103,7 +104,7 @@ function getChangeToGive() {
     type: "GET",
     url: `http://localhost:8080/api/change?money=${amountOwed}`,
     success: function(change) {
-      giveRefund(amountOwed, change);
+      giveRefund(amountOwed, change, false);
     },
     error: function(err) {
       console.log(err);
@@ -111,16 +112,23 @@ function getChangeToGive() {
   });
 }
 
-function giveRefund(total, changeMaker) {
+function giveRefund(total, changeMaker, wasATransaction) {
   let ones = changeMaker.one,
     quarters = changeMaker.quarter,
     dimes = changeMaker.dime,
     nickels = changeMaker.nickel,
     pennies = changeMaker.penny;
 
-  alert(
-    `Total = ${total} : Ones = ${ones}, Quarters = ${quarters}, Dimes = ${dimes}, Nickels = ${nickels}, Pennies = ${pennies}`
-  );
+  if (wasATransaction) {
+    alert(
+      `Thank you! Your change = ${total} : Ones = ${ones}, Quarters = ${quarters}, Dimes = ${dimes}, Nickels = ${nickels}, Pennies = ${pennies}`
+    );
+  } else {
+    alert(
+      `Refund = ${total} : Ones = ${ones}, Quarters = ${quarters}, Dimes = ${dimes}, Nickels = ${nickels}, Pennies = ${pennies}`
+    );
+  }
+
   $(".selectedItemDisplay").hide();
   zeroDeposit();
 }

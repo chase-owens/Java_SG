@@ -18,7 +18,19 @@ section {
 }
 
 #itemsContainer {
+  width: 400px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
   padding-left: 10px;
+}
+
+#itemSelected {
+  padding-left: 10px;
+}
+
+#itemPrice {
+  padding-right: 10px;
 }
 
 .moneyEntry {
@@ -29,7 +41,7 @@ section {
 #selectionDiv {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .depositGroup {
@@ -41,13 +53,6 @@ section {
 .moneyDeposited {
   text-align: right;
   padding-right: 30px;
-}
-
-#itemsContainer {
-  width: 400px;
-  margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 
 .itemDiv,

@@ -46,7 +46,7 @@ public class VendingMachineDaoImplSql implements Dao {
         try {
             itemsL = jdbc.query("SELECT * FROM VendingMachine WHERE inventoryCount > 0", new ItemMapper());
         } catch (EmptyResultDataAccessException e) {
-            throw new GetEntryError("Please enter the item as it appears in the display.");
+            throw new VendingMachinePersistenceError("Database Error.");
         }
         
         Collection<Item> itemsC = itemsL;
