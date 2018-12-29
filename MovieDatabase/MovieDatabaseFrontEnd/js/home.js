@@ -83,25 +83,38 @@ function searchMovies(query) {
 }
 
 function addDVD() {
-  let title = $("#toAddTitle").val(),
-    releaseDate = $("#toAddReleaseDate").val(),
-    MPAArating = $("#toAddMPAA").val(),
-    director = $("#toAddDirector").val(),
-    studio = $("#toAddStudio").val(),
-    userRating = $("#toAddUserRating").val();
+  let titleElement = $("#toAddTitle"),
+    dateElement = $("#toAddReleaseDate"),
+    mpaaElement = $("#toAddMPAA"),
+    directorElement = $("#toAddDirector"),
+    studioElement = $("#toAddStudio"),
+    userRatingElement = $("#toAddUserRating");
+
+  let title = titleElement.val(),
+    releaseDate = dateElement.val(),
+    MPAArating = mpaaElement.val(),
+    director = directorElement.val(),
+    studio = studioElement.val(),
+    userRating = userRatingElement.val();
   console.log(title, releaseDate, MPAArating, director, studio, userRating);
 
   $.ajax({
     type: "POST",
     url: `http://localhost:8080/api/add?title=${title}&releaseDate=${releaseDate}&MPAArating=${MPAArating}&directorsName=${director}&studio=${studio}&userRating=${userRating}`,
     success: function(dvd) {
+      loadMovies();
       displayNewDVD(dvd);
+      titleElement.val("");
+      dateElement.val("");
+      mpaaElement.val("");
+      directorElement.val("");
+      studioElement.val("");
+      userRatingElement.val("");
     },
     error: function() {
       console.log("Error");
     }
   });
-  loadMovies();
 }
 
 function checkButton() {
@@ -191,6 +204,7 @@ function closeMe() {
 }
 
 function displayDVD(dvd) {
+  const movieContainer = $(".movieContainer");
   $("#dvdName").text(dvd.title);
   $("#dvdReleaseDate").text(dvd.date);
   $("#dvdMPAA").text(dvd.mpaarating);
@@ -198,5 +212,7 @@ function displayDVD(dvd) {
   $("#dvdStudio").text(dvd.studio);
   $("#dvdCustomRating").text(dvd.rating);
 
-  $(".movieContainer").toggle();
+  if (movieContainer.is(":hidden")) {
+    movieContainer.show();
+  }
 }
