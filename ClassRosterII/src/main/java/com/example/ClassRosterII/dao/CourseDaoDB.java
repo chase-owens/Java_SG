@@ -54,7 +54,7 @@ public class CourseDaoDB implements CourseDao {
     @Override
     @Transactional
     public Course addCourse(Course course) {
-        final String INSERT_COURSE = "INSERT INTO course(name, description, teacherId) "
+        final String INSERT_COURSE = "INSERT INTO course(courseName, courseDescription, teacherId) "
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_COURSE,
                 course.getName(),
@@ -69,7 +69,7 @@ public class CourseDaoDB implements CourseDao {
 
     @Override
     public void updateCourse(Course course) {
-        final String UPDATE_COURSE = "UPDATE course SET name = ?, description = ?, "
+        final String UPDATE_COURSE = "UPDATE course SET courseName = ?, courseDescription = ?, "
                 + "teacherId = ? WHERE id = ?";
         jdbc.update(UPDATE_COURSE,
                 course.getName(),
@@ -145,8 +145,8 @@ public class CourseDaoDB implements CourseDao {
         public Course mapRow(ResultSet rs, int index) throws SQLException {
             Course course = new Course();
             course.setId(rs.getInt("id"));
-            course.setName(rs.getString("name"));
-            course.setDescription(rs.getString("description"));
+            course.setName(rs.getString("courseName"));
+            course.setDescription(rs.getString("courseDescription"));
             return course;
         }
     }

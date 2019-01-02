@@ -17,11 +17,11 @@ import javax.validation.constraints.Size;
 public class Course {
       private int id;
     
-//    @NotBlank(message = "Course name must not be empty.")
-//    @Size(max = 50, message="Course name must be less than 50 characters.")
+    @NotBlank(message = "Course name must not be empty.")
+    @Size(max = 50, message="Course name must be less than 50 characters.")
     private String name;
     
-//    @Size(max = 255, message="Course description must be less than 255 characters.")
+    @Size(max = 255, message="Course description must be less than 255 characters.")
     private String description;
     private Teacher teacher;
     private List<Student> students;

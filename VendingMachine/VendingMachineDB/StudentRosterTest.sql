@@ -16,8 +16,8 @@ CREATE TABLE student(
 
 CREATE TABLE course(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	`name` VARCHAR(50) NOT NULL,
-	`description` VARCHAR(255),
+	courseName VARCHAR(50) NOT NULL,
+	courseDescription VARCHAR(255),
 	teacherId INT NOT NULL,
 	FOREIGN KEY (teacherId) REFERENCES teacher(id));
 
