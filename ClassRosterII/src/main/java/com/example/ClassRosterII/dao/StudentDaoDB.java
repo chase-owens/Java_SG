@@ -53,8 +53,8 @@ public class StudentDaoDB implements StudentDao {
 
     @Override
     public void updateStudent(Student student) {
-        final String UPDATE_STUDENT = "UPDATE student SET firstName = ?, lastName = ?";
-        jdbc.update(UPDATE_STUDENT, student.getFirstName(), student.getLastName());
+        final String UPDATE_STUDENT = "UPDATE student SET firstName = ?, lastName = ? WHERE id = ?";
+        jdbc.update(UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getId());
     }
 
     @Override

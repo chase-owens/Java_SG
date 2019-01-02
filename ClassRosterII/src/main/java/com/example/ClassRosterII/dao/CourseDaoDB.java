@@ -131,8 +131,7 @@ public class CourseDaoDB implements CourseDao {
     }
 
     private void insertCourseStudent(Course course) {
-        final String INSERT_COURSE_STUDENT = "INSERT INTO "
-                + "course_student(courseId, studentId) VALUES(?,?)";
+        final String INSERT_COURSE_STUDENT = "INSERT INTO course_student(courseId, studentId) VALUES(?,?)";
         for (Student student : course.getStudents()) {
             jdbc.update(INSERT_COURSE_STUDENT,
                     course.getId(),
