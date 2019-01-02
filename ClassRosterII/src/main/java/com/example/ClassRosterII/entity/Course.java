@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classRosterSIWebApp.entity;
+package com.example.ClassRosterII.entity;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,13 +15,13 @@ import javax.validation.constraints.Size;
  * @author chaseowens
  */
 public class Course {
-    private int id;
+      private int id;
     
-    @NotBlank(message = "Course name must not be empty.")
-    @Size(max = 50, message="Course name must be less than 50 characters.")
+//    @NotBlank(message = "Course name must not be empty.")
+//    @Size(max = 50, message="Course name must be less than 50 characters.")
     private String name;
     
-    @Size(max = 255, message="Course description must be less than 255 characters.")
+//    @Size(max = 255, message="Course description must be less than 255 characters.")
     private String description;
     private Teacher teacher;
     private List<Student> students;
@@ -69,11 +69,11 @@ public class Course {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.id;
-        hash = 67 * hash + Objects.hashCode(this.name);
-        hash = 67 * hash + Objects.hashCode(this.description);
-        hash = 67 * hash + Objects.hashCode(this.teacher);
-        hash = 67 * hash + Objects.hashCode(this.students);
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.description);
+        hash = 89 * hash + Objects.hashCode(this.teacher);
+        hash = 89 * hash + Objects.hashCode(this.students);
         return hash;
     }
 
@@ -107,5 +107,5 @@ public class Course {
         return true;
     }
     
-    
+     
 }

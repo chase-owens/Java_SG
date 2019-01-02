@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classRosterSIWebApp.dao;
+package com.example.ClassRosterII.dao;
 
-import com.sg.classRosterSIWebApp.entity.Course;
-import com.sg.classRosterSIWebApp.entity.Student;
-import com.sg.classRosterSIWebApp.entity.Teacher;
+import com.example.ClassRosterII.entity.Course;
+import com.example.ClassRosterII.entity.Student;
+import com.example.ClassRosterII.entity.Teacher;
 import java.util.List;
 
 /**
@@ -15,6 +15,7 @@ import java.util.List;
  * @author chaseowens
  */
 public interface CourseDao {
+
     Course getCourseById(int id);
 
     List<Course> getAllCourses();

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classRosterSIWebApp.entity;
+package com.example.ClassRosterII.entity;
 
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
@@ -13,17 +13,20 @@ import javax.validation.constraints.Size;
  *
  * @author chaseowens
  */
-public class Student {
-    
+public class Teacher {
+
     private int id;
-    
-    @NotBlank(message = "First name must not be empty.")
-    @Size(max = 30, message="First name must be less than 30 characters.")
+
+//    @NotBlank(message = "First name must not be empty.")
+//    @Size(max = 30, message = "First name must be less than 30 characters.")
     private String firstName;
-    
-    @NotBlank(message = "Last name must not be empty.")
-    @Size(max = 50, message="Last name must be less than 50 characters.")
+
+//    @NotBlank(message = "Last name must not be empty.")
+//    @Size(max = 50, message = "Last name must be less than 50 characters.")
     private String lastName;
+
+//    @Size(max = 50, message = "Specialty must be less than 50 characters.")
+    private String specialty;
 
     public int getId() {
         return id;
@@ -49,12 +52,21 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
         hash = 29 * hash + this.id;
         hash = 29 * hash + Objects.hashCode(this.firstName);
         hash = 29 * hash + Objects.hashCode(this.lastName);
+        hash = 29 * hash + Objects.hashCode(this.specialty);
         return hash;
     }
 
@@ -69,7 +81,7 @@ public class Student {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Student other = (Student) obj;
+        final Teacher other = (Teacher) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -79,8 +91,10 @@ public class Student {
         if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
+        if (!Objects.equals(this.specialty, other.specialty)) {
+            return false;
+        }
         return true;
     }
-    
-    
+
 }
