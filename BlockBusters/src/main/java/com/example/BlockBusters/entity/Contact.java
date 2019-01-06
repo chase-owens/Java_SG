@@ -5,10 +5,39 @@
  */
 package com.example.BlockBusters.entity;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author chaseowens
  */
 public class Contact {
-    
+    int contactId;
+    String message;
+    Profile profile;
+    LocalDateTime timePosted;
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 }
