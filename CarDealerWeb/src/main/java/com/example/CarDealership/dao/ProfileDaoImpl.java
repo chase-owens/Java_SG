@@ -7,6 +7,8 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Profile;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,6 +17,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProfileDaoImpl implements ProfileDao {
+    JdbcTemplate jdbc;
+    
+    @Autowired
+    public ProfileDaoImpl(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
 
     @Override
     public Profile createProfile() {

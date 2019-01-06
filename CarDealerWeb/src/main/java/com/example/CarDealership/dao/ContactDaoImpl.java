@@ -7,6 +7,8 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Contact;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,6 +17,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ContactDaoImpl implements ContactDao {
+    JdbcTemplate jdbc;
+    
+    @Autowired
+    public ContactDaoImpl(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
 
     @Override
     public Contact createContact() {
