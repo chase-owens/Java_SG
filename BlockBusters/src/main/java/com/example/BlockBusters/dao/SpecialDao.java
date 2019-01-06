@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Special;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface SpecialDao {
-    
+    //CRUD methods
+    public Special createSpecial();
+    public List<Special> readAllSpecials();
+    public Special readSpecialById(int id);
+    public void updateSpecial(int id);
+    public void deleteSpecial(int id);
 }

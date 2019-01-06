@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Contact;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface ContactDao {
-    
+    //CRUD methods
+    public Contact createContact();
+    public List<Contact> readAllContacts();
+    public Contact readContactById(int id);
+    public void updateContact(int id);
+    public void deleteContact(int id);
 }

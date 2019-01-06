@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Shoe;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface ShoeDao {
-    
+    //CRUD methods
+    public Shoe createShoe();
+    public List<Shoe> readAllShoes();
+    public Shoe readShoeById(int id);
+    public void updateShoe(int id);
+    public void deleteShoe(int id);
 }

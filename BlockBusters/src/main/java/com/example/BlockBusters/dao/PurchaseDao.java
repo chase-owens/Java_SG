@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Purchase;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface PurchaseDao {
-    
+    //CRUD methods
+    public Purchase createPurchase();
+    public List<Purchase> readAllPurchases();
+    public Purchase readPurchaseById(int id);
+    public void updatePurchase(int id);
+    public void deletePurchase(int id);
 }

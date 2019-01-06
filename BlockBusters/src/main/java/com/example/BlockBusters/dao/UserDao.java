@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.User;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface UserDao {
-    
+    //CRUD methods
+    public User createUser();
+    public List<User> readAllUsers();
+    public User readUserById(int id);
+    public void updateUser(int id);
+    public void deleteUser(int id);
 }

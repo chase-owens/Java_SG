@@ -5,10 +5,18 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Profile;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface ProfileDao {
-    
+    //CRUD methods
+    public Profile createProfile();
+    public List<Profile> readAllProfiles();
+    public Profile readProfileById(int id);
+    public void updateProfile(int id);
+    public void deleteProfile(int id);
 }
