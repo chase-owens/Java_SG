@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Contact;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ContactDaoImpl implements ContactDao {
+
+    @Override
+    public Contact createContact() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Contact> readAllContacts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Contact readContactById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateContact(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteContact(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

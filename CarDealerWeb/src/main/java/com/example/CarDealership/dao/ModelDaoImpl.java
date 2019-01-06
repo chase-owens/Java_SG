@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Model;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ModelDaoImpl implements ModelDao{
+
+    @Override
+    public Model createModel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Model> readAllModels() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Model readModelById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateModel(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteModel(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

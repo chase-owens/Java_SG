@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Profile;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProfileDaoImpl implements ProfileDao {
+
+    @Override
+    public Profile createProfile() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Profile> readAllProfiles() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Profile readProfileById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateProfile(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteProfile(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

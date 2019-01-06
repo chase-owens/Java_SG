@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Make;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class MakeDaoImpl implements MakeDao{
+
+    @Override
+    public Make createMake() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Make> readAllMakes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Make readMakeById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateMake(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteMake(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

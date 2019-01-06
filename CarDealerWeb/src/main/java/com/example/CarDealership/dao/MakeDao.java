@@ -5,10 +5,18 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Make;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface MakeDao {
-    
+    //CRUD methods
+    public Make createMake();
+    public List<Make> readAllMakes();
+    public Make readMakeById(int id);
+    public void updateMake(int id);
+    public void deleteMake(int id);
 }

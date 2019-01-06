@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Special;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class SpecialDaoImpl implements SpecialDao{
+
+    @Override
+    public Special createSpecial() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Special> readAllSpecials() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Special readSpecialById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateSpecial(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteSpecial(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
