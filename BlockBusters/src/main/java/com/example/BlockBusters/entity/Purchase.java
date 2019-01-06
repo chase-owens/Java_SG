@@ -17,7 +17,8 @@ public class Purchase {
     Custom custom;
     Profile customerProfile;
     BigDecimal salePrice;
-    String saleType, createdBy;
+    String saleType;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public int getPurchaseId() {
@@ -60,11 +61,11 @@ public class Purchase {
         this.saleType = saleType;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 

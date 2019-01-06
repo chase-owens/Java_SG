@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
  */
 public class Shoe {
     int shoeId;
-    String shoeName, createdBy;
+    String shoeName;
     Brand brand;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public int getShoeId() {
@@ -33,11 +34,11 @@ public class Shoe {
         this.shoeName = shoeName;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 

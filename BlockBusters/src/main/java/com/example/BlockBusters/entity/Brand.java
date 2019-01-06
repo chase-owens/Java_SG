@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
  */
 public class Brand {
     int brandId;
-    String brandName, createdBy;
+    String brandName;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public int getBrandId() {
@@ -32,11 +33,11 @@ public class Brand {
         this.brandName = brandName;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
