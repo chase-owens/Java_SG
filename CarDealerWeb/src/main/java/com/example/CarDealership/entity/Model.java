@@ -12,17 +12,17 @@ import java.time.LocalDateTime;
  * @author chaseowens
  */
 public class Model {
-    int id;
+    int modelId;
     String modelName, createdBy;
     Make make;
     LocalDateTime dateAdded;
 
     public int getId() {
-        return id;
+        return modelId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.modelId = id;
     }
 
     public String getModelName() {

@@ -6,6 +6,7 @@
 package com.example.CarDealership.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -17,6 +18,17 @@ public class Special {
     LocalDate dateBegin;
     LocalDate dateEnd;
     String title, specialDescription, createdBy;
+    LocalDateTime dateAdded;
+
+    public LocalDateTime getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+    
+    
 
     public int getSpecialId() {
         return specialId;

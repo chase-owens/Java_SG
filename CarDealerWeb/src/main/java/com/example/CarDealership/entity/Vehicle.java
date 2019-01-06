@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @author chaseowens
  */
 public class Vehicle {
-    int vehicleId, mileage;
+    int vehicleId, mileage, vehicleYear;
     Make make;
     Model model;
     String vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, createdBy;
