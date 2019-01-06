@@ -16,9 +16,10 @@ public class Vehicle {
     int vehicleId, mileage, vehicleYear;
     Make make;
     Model model;
-    String vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, createdBy;
+    String vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin;
     BigDecimal msrp, listPrice;
     boolean isFeatured, isAvailable;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public int getVehicleId() {
@@ -117,11 +118,11 @@ public class Vehicle {
         this.vin = vin;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 

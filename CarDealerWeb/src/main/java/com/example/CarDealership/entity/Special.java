@@ -17,7 +17,8 @@ public class Special {
     Vehicle vehicle;
     LocalDate dateBegin;
     LocalDate dateEnd;
-    String title, specialDescription, createdBy;
+    String title, specialDescription;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public LocalDateTime getDateAdded() {
@@ -78,11 +79,11 @@ public class Special {
         this.specialDescription = specialDescription;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
     

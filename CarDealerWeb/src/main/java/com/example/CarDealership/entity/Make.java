@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
  */
 public class Make {
     int makeId;
-    String makeName, createdBy;
+    String makeName;
+    User createdBy;
     LocalDateTime dateAdded;
 
     public int getMakeId() {
@@ -32,11 +33,11 @@ public class Make {
         this.makeName = makeName;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
