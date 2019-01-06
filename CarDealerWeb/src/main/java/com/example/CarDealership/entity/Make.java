@@ -5,10 +5,48 @@
  */
 package com.example.CarDealership.entity;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author chaseowens
  */
 public class Make {
+    int makeId;
+    String makeName, createdBy;
+    LocalDateTime dateAdded;
+
+    public int getMakeId() {
+        return makeId;
+    }
+
+    public void setMakeId(int makeId) {
+        this.makeId = makeId;
+    }
+
+    public String getMakeName() {
+        return makeName;
+    }
+
+    public void setMakeName(String makeName) {
+        this.makeName = makeName;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+    
     
 }
