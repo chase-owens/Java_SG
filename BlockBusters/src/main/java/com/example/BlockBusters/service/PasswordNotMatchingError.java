@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.BlockBusters.controller;
+package com.example.BlockBusters.service;
 
 /**
  *
  * @author chaseowens
  */
-public interface PurchaseRESTController {
+public class PasswordNotMatchingError extends Exception {
     
 }

@@ -5,20 +5,10 @@
  */
 package com.example.BlockBusters.service;
 
-import com.example.BlockBusters.dao.ContactDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 /**
  *
  * @author chaseowens
  */
-@Service
-public class ContactService {
-    ContactDao contactDao;
+public interface ContactService {
     
-    @Autowired
-    public ContactService(ContactDao contactDao) {
-        this.contactDao = contactDao;
-    }
 }

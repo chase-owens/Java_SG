@@ -5,10 +5,19 @@
  */
 package com.example.BlockBusters.controller;
 
+import com.example.BlockBusters.service.ContactService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  *
  * @author chaseowens
  */
-public interface ContactRESTController {
-    
+@RestController
+public class ContactRESTController {
+    ContactService service;
+    @Autowired
+    public ContactRESTController(ContactService service) {
+        this.service = service;
+    }
 }

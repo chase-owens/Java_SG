@@ -5,20 +5,10 @@
  */
 package com.example.BlockBusters.service;
 
-import com.example.BlockBusters.dao.CustomDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 /**
  *
  * @author chaseowens
  */
-@Service
-public class CustomService {
-    CustomDao customDao;
+public interface CustomService {
     
-    @Autowired
-    public CustomService(CustomDao customDao) {
-        this.customDao = customDao;
-    }
 }

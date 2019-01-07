@@ -9,6 +9,6 @@ package com.example.BlockBusters.service;
  *
  * @author chaseowens
  */
-public interface BrandService {
+public class NeedContactMessageError extends Exception {
     
 }
