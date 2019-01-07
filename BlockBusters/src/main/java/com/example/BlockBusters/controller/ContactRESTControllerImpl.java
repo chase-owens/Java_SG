@@ -5,7 +5,8 @@
  */
 package com.example.BlockBusters.controller;
 
-import com.example.BlockBusters.service.PurchaseService;
+import com.example.BlockBusters.service.ContactService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-public class PurchaseRESTController {
-    PurchaseService service;
-    public PurchaseRESTController(PurchaseService service) {
+public class ContactRESTControllerImpl implements ContactRESTController {
+    ContactService service;
+    @Autowired
+    public ContactRESTControllerImpl(ContactService service) {
         this.service = service;
     }
 }

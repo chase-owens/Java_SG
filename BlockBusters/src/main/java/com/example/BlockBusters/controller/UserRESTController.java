@@ -5,17 +5,10 @@
  */
 package com.example.BlockBusters.controller;
 
-import com.example.BlockBusters.service.UserService;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
  * @author chaseowens
  */
-@RestController
-public class UserRESTController {
-    UserService service;
-    public UserRESTController(UserService service) {
-        this.service = service;
-    }
+public interface UserRESTController {
+    
 }

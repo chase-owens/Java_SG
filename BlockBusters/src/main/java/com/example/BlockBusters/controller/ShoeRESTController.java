@@ -5,19 +5,10 @@
  */
 package com.example.BlockBusters.controller;
 
-import com.example.BlockBusters.service.ShoeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
  * @author chaseowens
  */
-@RestController
-public class ShoeRESTController {
-    ShoeService service;
-    @Autowired
-    public ShoeRESTController(ShoeService service) {
-        this.service = service;
-    }
+public interface ShoeRESTController {
+    
 }

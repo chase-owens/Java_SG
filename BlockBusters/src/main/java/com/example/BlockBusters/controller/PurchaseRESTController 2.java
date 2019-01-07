@@ -9,6 +9,6 @@ package com.example.BlockBusters.controller;
  *
  * @author chaseowens
  */
-public interface SpecialRESTController {
+public interface PurchaseRESTController {
     
 }

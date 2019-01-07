@@ -5,17 +5,10 @@
  */
 package com.example.BlockBusters.controller;
 
-import com.example.BlockBusters.service.CustomService;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
  * @author chaseowens
  */
-@RestController
-public class CustomRESTController {
-    CustomService service;
-    public CustomRESTController(CustomService service) {
-        this.service = service;
-    }
+public interface CustomRESTController {
+    
 }
