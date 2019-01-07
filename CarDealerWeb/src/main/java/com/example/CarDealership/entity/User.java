@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @author chaseowens
  */
 public class User {
-    int userId;
+    int userId, adminId;
     Profile profile;
     String role, password, createdBy;
     LocalDateTime dateAdded;
@@ -23,6 +23,14 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public Profile getProfile() {

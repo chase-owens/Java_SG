@@ -16,6 +16,10 @@ public class Contact {
     String message;
     Profile profile;
     LocalDateTime timePosted;
+    
+    public Contact() {
+        this.timePosted = LocalDateTime.now();
+    }
 
     public int getContactId() {
         return contactId;

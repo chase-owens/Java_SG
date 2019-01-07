@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class UserDaoImplTest {
+public class SpecialDaoTest {
     
-    public UserDaoImplTest() {
+    public SpecialDaoTest() {
     }
     
     @BeforeClass

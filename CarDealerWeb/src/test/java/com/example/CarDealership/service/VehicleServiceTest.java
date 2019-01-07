@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.CarDealership.dao;
+package com.example.CarDealership.service;
 
+import com.example.CarDealership.entity.Vehicle;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,9 +17,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class ShoeDaoImplTest {
+public class VehicleServiceTest {
     
-    public ShoeDaoImplTest() {
+    public VehicleServiceTest() {
     }
     
     @BeforeClass
@@ -37,8 +38,28 @@ public class ShoeDaoImplTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of readVehicleByInt method, of class VehicleService.
+     */
     @Test
-    public void testSomeMethod() {
+    public void testReadVehicleByInt() {
+    }
+
+    /**
+     * Test of updateVehicle method, of class VehicleService.
+     */
+    @Test
+    public void testUpdateVehicle() {
+    }
+
+    public class VehicleServiceImpl implements VehicleService {
+
+        public Vehicle readVehicleByInt(int vehicleId) {
+            return null;
+        }
+
+        public void updateVehicle(int vehicleId) {
+        }
     }
     
 }

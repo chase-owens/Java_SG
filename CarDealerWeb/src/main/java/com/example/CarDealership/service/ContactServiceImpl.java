@@ -28,8 +28,11 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError {
+    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
         Profile profile = profileService.createProfile(name, email, phone);
+        if (message.equals("")) {
+            throw new NeedContactMessageError();
+        }
         Contact contact = contactDao.createContact(profile, message);
         return contact;
 

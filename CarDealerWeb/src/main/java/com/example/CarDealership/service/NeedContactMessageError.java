@@ -5,12 +5,10 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.entity.Contact;
-
 /**
  *
  * @author chaseowens
  */
-public interface ContactService {
-    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError;
+public class NeedContactMessageError extends Exception {
+    
 }

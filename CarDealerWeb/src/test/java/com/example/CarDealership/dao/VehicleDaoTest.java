@@ -5,6 +5,9 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Vehicle;
+import java.math.BigDecimal;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,9 +19,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class SpecialDaoImplTest {
+public class VehicleDaoTest {
     
-    public SpecialDaoImplTest() {
+    public VehicleDaoTest() {
     }
     
     @BeforeClass
@@ -37,8 +40,11 @@ public class SpecialDaoImplTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of createVehicle method, of class VehicleDao.
+     */
     @Test
-    public void testSomeMethod() {
+    public void testCreateVehicle() {
     }
     
 }

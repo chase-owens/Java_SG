@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.CarDealership.dao;
+package com.example.CarDealership.service;
 
+import com.example.CarDealership.entity.Make;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class PurchaseDaoImplTest {
+public class MakeServiceTest {
     
-    public PurchaseDaoImplTest() {
+    public MakeServiceTest() {
     }
     
     @BeforeClass
@@ -37,8 +39,29 @@ public class PurchaseDaoImplTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of createMake method, of class MakeService.
+     */
     @Test
-    public void testSomeMethod() {
+    public void testCreateMake() {
+    }
+
+    /**
+     * Test of getAllMakes method, of class MakeService.
+     */
+    @Test
+    public void testGetAllMakes() {
+    }
+
+    public class MakeServiceImpl implements MakeService {
+
+        public Make createMake(String makeName, int userId) {
+            return null;
+        }
+
+        public List<Make> getAllMakes() {
+            return null;
+        }
     }
     
 }

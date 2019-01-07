@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class BrandDaoImplTest {
+public class MakeDaoTest {
     
-    public BrandDaoImplTest() {
+    public MakeDaoTest() {
     }
     
     @BeforeClass

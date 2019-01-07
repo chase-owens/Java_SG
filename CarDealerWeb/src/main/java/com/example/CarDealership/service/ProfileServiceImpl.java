@@ -26,12 +26,12 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile createProfile(String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError {
         // Check name
-        if (name == null) {
+        if (name.equals("")) {
             throw new NeedContactNameError();
         }
         
         // Check contact details
-        if (email == null && phone == null) {
+        if (email.equals("") && phone.equals("")) {
             throw new NeedContactDetailsError();
         }
         
@@ -48,7 +48,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
     
     @Override
-    public void updateProfile(int id, String name, String email, String phone) {
+    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError {
+        // Check name
+        if (name.equals("")) {
+            throw new NeedContactNameError();
+        }
+        
+        // Check contact details
+        if (email.equals("") && phone.equals("")) {
+            throw new NeedContactDetailsError();
+        }
         Profile profile = profileDao.readProfileById(id);
         profile.setEmail(email);
         profile.setFullName(name);
