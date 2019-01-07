@@ -23,6 +23,7 @@ public class ProfileServiceImpl implements ProfileService {
         this.profileDao = profileDao;
     }
 
+    @Override
     public Profile createProfile(String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError {
         // Check name
         if (name == null) {

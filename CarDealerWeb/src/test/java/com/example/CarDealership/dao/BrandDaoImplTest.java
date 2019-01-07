@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.BlockBusters.dao;
+package com.example.CarDealership.dao;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author chaseowens
  */
-public class ContactDaoImplTest {
+public class BrandDaoImplTest {
     
-    public ContactDaoImplTest() {
+    public BrandDaoImplTest() {
     }
     
     @BeforeClass

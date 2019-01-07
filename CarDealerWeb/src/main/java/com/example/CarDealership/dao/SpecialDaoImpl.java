@@ -25,7 +25,7 @@ public class SpecialDaoImpl implements SpecialDao{
     }
 
     @Override
-    public Special createSpecial() {
+    public Special createSpecial(String title, String description, int vehicleId, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author chaseowens
  */
-interface ModelService {
+public interface ModelService {
     public Model createModel(int makeId, String modelName, int userId);
     
     public List<Model> readAllModels();

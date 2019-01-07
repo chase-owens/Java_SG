@@ -25,11 +25,13 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public Vehicle readVehicleByInt(int vehicleId) {
-        
+        return vehicleDao.readVehicleById(vehicleId);
     }
 
     @Override
-    public void updateVehicle(Vehicle vehicle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateVehicle(int vehicleId) {
+        Vehicle vehicle = vehicleDao.readVehicleById(vehicleId);
+        vehicle.setIsAvailable(false);
+        vehicleDao.updateVehicle(vehicle);
     }
 }

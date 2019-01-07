@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.User;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface UserDao {
     //CRUD methods
-    public User createUser();
+    public User createUser(Profile profile, String role, String password1, int adminId);
     public List<User> readAllUsers();
     public User readUserById(int id);
     public void updateUser(User user);

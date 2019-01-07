@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author chaseowens
  */
-interface MakeService {
+public interface MakeService {
     public Make createMake(String makeName, int userId);
     
     public List<Make> getAllMakes();

@@ -26,26 +26,21 @@ public class SpecialServiceImpl implements SpecialService{
 
     @Override
     public Special createSpecial(String title, String description, int vehicleId, int userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return specialDao.createSpecial(title, description, vehicleId, userId);
     }
 
     @Override
     public List<Special> getAllSpecials() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return specialDao.readAllSpecials();
     }
 
     @Override
     public Special getSpecialById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateSpecial(Special Special) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return specialDao.readSpecialById(id);
     }
 
     @Override
     public void deleteSpecial(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        specialDao.deleteSpecial(id);
     }
 }

@@ -13,7 +13,7 @@ import java.time.LocalDate;
  *
  * @author chaseowens
  */
-interface PurchaseService {
+public interface PurchaseService {
     public Purchase createPurchase(int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, BigDecimal salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError;
     public BigDecimal getSalesSumByUserId(int id, LocalDate startingOn, LocalDate to);
     public int getTotalNumberOfSalesByUserId(int id, LocalDate startingOn, LocalDate to);

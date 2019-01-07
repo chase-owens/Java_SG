@@ -11,8 +11,8 @@ import com.example.CarDealership.entity.Vehicle;
  *
  * @author chaseowens
  */
-interface VehicleService {
+public interface VehicleService {
     Vehicle readVehicleByInt(int vehicleId);
 
-    void updateVehicle(Vehicle vehicle);
+    void updateVehicle(int vehicleId);
 }

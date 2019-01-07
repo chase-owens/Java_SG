@@ -12,10 +12,9 @@ import java.util.List;
  *
  * @author chaseowens
  */
-interface SpecialService {
+public interface SpecialService {
     public Special createSpecial(String title, String description, int vehicleId, int userId);
     public List<Special> getAllSpecials();
     public Special getSpecialById(int id);
-    public void updateSpecial(Special Special);
     public void deleteSpecial(int id);
 }

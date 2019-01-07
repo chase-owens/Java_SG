@@ -8,7 +8,6 @@ package com.example.CarDealership.service;
 import com.example.CarDealership.dao.PurchaseDao;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
-import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +42,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         Profile profile = profileService.createProfile(customerName, email, customerPhone, street1+" "+street2, zipcode);
         
         // update vehicle - mark as unavailable
-        Vehicle vehicle = vehicleService.readVehicleByInt(vehicleId);
-        vehicle.setIsAvailable(false);
-        vehicleService.updateVehicle(vehicle);
+        vehicleService.updateVehicle(vehicleId);
         
         // add purchase to DB
         Purchase purchase = purchaseDao.createPurchase(profile, vehicleId, salePrice, purchaseType, userId);
