@@ -5,20 +5,16 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.ProfileDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Profile;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class ProfileService {
-    ProfileDao profileDao;
+interface ProfileService {
+    public Profile createProfile(String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError;
     
-    @Autowired
-    public ProfileService(ProfileDao profileDao) {
-        this.profileDao = profileDao;
-    }
+    public Profile createProfile(String name, String email, String phone, String address, String zipcode) throws NeedContactNameError, NeedContactDetailsError;
+    
+    public void updateProfile(int id, String name, String email, String phone);
 }

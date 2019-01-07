@@ -17,6 +17,6 @@ public interface SpecialDao {
     public Special createSpecial();
     public List<Special> readAllSpecials();
     public Special readSpecialById(int id);
-    public void updateSpecial(int id);
+    public void updateSpecial(Special special);
     public void deleteSpecial(int id);
 }

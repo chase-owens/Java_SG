@@ -5,21 +5,15 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.MakeDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Make;
+import java.util.List;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class MakeService {
-    MakeDao makeDao;
+interface MakeService {
+    public Make createMake(String makeName, int userId);
     
-    @Autowired
-    public MakeService(MakeDao makeDao) {
-        this.makeDao = makeDao;
-    }
-    
+    public List<Make> getAllMakes();
 }

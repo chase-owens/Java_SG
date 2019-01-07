@@ -40,7 +40,7 @@ public class ShoeDaoImpl implements ShoeDao{
     }
 
     @Override
-    public void updateShoe(int id) {
+    public void updateShoe(Shoe shoe) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

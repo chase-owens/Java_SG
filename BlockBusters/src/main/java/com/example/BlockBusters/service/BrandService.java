@@ -6,6 +6,8 @@
 package com.example.BlockBusters.service;
 
 import com.example.BlockBusters.dao.BrandDao;
+import com.example.BlockBusters.entity.Brand;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,14 @@ public class BrandService {
     @Autowired
     public BrandService(BrandDao brandDao) {
         this.brandDao = brandDao;
+    }
+    
+    public Brand addBrand(String brandName) {
+        return brandDao.createBrand();
+    }
+    
+    public List<Brand> readAllBrands() {
+        return brandDao.readAllBrands();
     }
     
 }

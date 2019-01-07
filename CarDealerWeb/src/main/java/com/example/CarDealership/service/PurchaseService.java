@@ -5,20 +5,16 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.PurchaseDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Purchase;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class PurchaseService {
-    PurchaseDao purchaseDao;
-    
-    @Autowired
-    public PurchaseService(PurchaseDao purchaseDao) {
-        this.purchaseDao = purchaseDao;
-    }
+interface PurchaseService {
+    public Purchase createPurchase(int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, BigDecimal salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError;
+    public BigDecimal getSalesSumByUserId(int id, LocalDate startingOn, LocalDate to);
+    public int getTotalNumberOfSalesByUserId(int id, LocalDate startingOn, LocalDate to);
 }

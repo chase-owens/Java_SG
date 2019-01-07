@@ -5,20 +5,15 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.ModelDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Model;
+import java.util.List;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class ModelService {
-    ModelDao modelDao;
+interface ModelService {
+    public Model createModel(int makeId, String modelName, int userId);
     
-    @Autowired
-    public ModelService(ModelDao modelDao) {
-        this.modelDao = modelDao;
-    }
+    public List<Model> readAllModels();
 }

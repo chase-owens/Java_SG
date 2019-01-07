@@ -6,6 +6,7 @@
 package com.example.BlockBusters.dao;
 
 import com.example.BlockBusters.entity.Custom;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,12 +41,17 @@ public class CustomDaoImpl implements CustomDao{
     }
 
     @Override
-    public void updateCustom(int id) {
+    public void updateCustom(Custom custom) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteCustom(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Custom> query20CustomsByArtistPriceAndSizeDescendingPrice(String query, String artist, BigDecimal minPrice, BigDecimal maxPrice, int size) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

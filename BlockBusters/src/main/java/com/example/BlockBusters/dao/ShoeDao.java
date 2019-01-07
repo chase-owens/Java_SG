@@ -17,6 +17,6 @@ public interface ShoeDao {
     public Shoe createShoe();
     public List<Shoe> readAllShoes();
     public Shoe readShoeById(int id);
-    public void updateShoe(int id);
+    public void updateShoe(Shoe shoe);
     public void deleteShoe(int id);
 }

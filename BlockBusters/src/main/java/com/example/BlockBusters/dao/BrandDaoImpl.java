@@ -40,7 +40,7 @@ public class BrandDaoImpl implements BrandDao{
     }
 
     @Override
-    public void updateBrand(int id) {
+    public void updateBrand(Brand brand) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

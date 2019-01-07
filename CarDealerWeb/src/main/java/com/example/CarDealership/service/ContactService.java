@@ -5,20 +5,12 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.ContactDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Contact;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class ContactService {
-    ContactDao contactDao;
-    
-    @Autowired
-    public ContactService(ContactDao contactDao) {
-        this.contactDao = contactDao;
-    }
+interface ContactService {
+    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError;
 }

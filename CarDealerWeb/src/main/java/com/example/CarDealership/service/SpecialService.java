@@ -5,20 +5,17 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.SpecialDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Special;
+import java.util.List;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class SpecialService {
-    SpecialDao specialDao;
-    
-    @Autowired
-    public SpecialService(SpecialDao specialDao) {
-        this.specialDao = specialDao;
-    }
+interface SpecialService {
+    public Special createSpecial(String title, String description, int vehicleId, int userId);
+    public List<Special> getAllSpecials();
+    public Special getSpecialById(int id);
+    public void updateSpecial(Special Special);
+    public void deleteSpecial(int id);
 }

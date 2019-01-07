@@ -6,6 +6,7 @@
 package com.example.BlockBusters.dao;
 
 import com.example.BlockBusters.entity.Custom;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public interface CustomDao {
     public Custom createCustom();
     public List<Custom> readAllCustoms();
     public Custom readCustomById(int id);
-    public void updateCustom(int id);
+    public void updateCustom(Custom custom);
     public void deleteCustom(int id);
+    
+        
+    //App specific methods
+    public List<Custom> query20CustomsByArtistPriceAndSizeDescendingPrice(String query, String artist, BigDecimal minPrice, BigDecimal maxPrice, int size);
 }

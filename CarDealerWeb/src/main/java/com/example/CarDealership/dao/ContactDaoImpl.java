@@ -6,6 +6,7 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Contact;
+import com.example.CarDealership.entity.Profile;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,7 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public Contact createContact() {
+    public Contact createContact(Profile profile, String message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,7 +41,7 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public void updateContact(int id) {
+    public void updateContact(Contact contact) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

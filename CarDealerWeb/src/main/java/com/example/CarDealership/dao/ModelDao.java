@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface ModelDao {
     //CRUD methods
-    public Model createModel();
+    public Model createModel(int makeId, String modelName, int userId);
     public List<Model> readAllModels();
     public Model readModelById(int id);
-    public void updateModel(int id);
+    public void updateModel(Model model);
     public void deleteModel(int id);
 }

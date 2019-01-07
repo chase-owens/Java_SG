@@ -40,7 +40,7 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public void updateProfile(int id) {
+    public void updateProfile(Profile profile) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

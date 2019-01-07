@@ -17,6 +17,6 @@ public interface UserDao {
     public User createUser();
     public List<User> readAllUsers();
     public User readUserById(int id);
-    public void updateUser(int id);
+    public void updateUser(User user);
     public void deleteUser(int id);
 }

@@ -5,7 +5,10 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +28,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
     }
 
     @Override
-    public Purchase createPurchase() {
+    public Purchase createPurchase(Profile profile, int vehicleId, BigDecimal salePrice, String purchaseType, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,12 +43,22 @@ public class PurchaseDaoImpl implements PurchaseDao{
     }
 
     @Override
-    public void updatePurchase(int id) {
+    public void updatePurchase(Purchase purchase) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deletePurchase(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public BigDecimal getSalesSumById(int id, LocalDate startingOn, LocalDate to) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getSalesCountById(int id, LocalDate startingOn, LocalDate to) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

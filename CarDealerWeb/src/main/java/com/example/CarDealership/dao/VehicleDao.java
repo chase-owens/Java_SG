@@ -18,7 +18,7 @@ public interface VehicleDao {
     public Vehicle createVehicle();
     public List<Vehicle> readAllVehicles();
     public Vehicle readVehicleById(int id);
-    public void updateVehicle(int id);
+    public void updateVehicle(Vehicle vehicle);
     public void deleteVehicle(int id);
     
     //App specific methods

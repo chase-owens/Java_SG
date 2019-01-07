@@ -5,7 +5,10 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,9 +17,13 @@ import java.util.List;
  */
 public interface PurchaseDao {
     //CRUD methods
-    public Purchase createPurchase();
+    public Purchase createPurchase(Profile profile, int vehicleId, BigDecimal salePrice, String purchaseType, int userId);
     public List<Purchase> readAllPurchases();
     public Purchase readPurchaseById(int id);
-    public void updatePurchase(int id);
+    public void updatePurchase(Purchase purchase);
     public void deletePurchase(int id);
+    
+    //App specific methods
+    public BigDecimal getSalesSumById(int id, LocalDate startingOn, LocalDate to);
+    public int getSalesCountById(int id, LocalDate startingOn, LocalDate to);
 }

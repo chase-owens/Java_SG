@@ -5,20 +5,14 @@
  */
 package com.example.CarDealership.service;
 
-import com.example.CarDealership.dao.VehicleDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.CarDealership.entity.Vehicle;
 
 /**
  *
  * @author chaseowens
  */
-@Service
-public class VehicleService {
-    VehicleDao vehicleDao;
-    
-    @Autowired
-    public VehicleService(VehicleDao vehicleDao) {
-        this.vehicleDao = vehicleDao;
-    }
+interface VehicleService {
+    Vehicle readVehicleByInt(int vehicleId);
+
+    void updateVehicle(Vehicle vehicle);
 }

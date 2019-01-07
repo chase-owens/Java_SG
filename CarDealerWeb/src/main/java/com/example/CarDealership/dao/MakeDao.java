@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface MakeDao {
     //CRUD methods
-    public Make createMake();
+    public Make createMake(String makeName, int UserId);
     public List<Make> readAllMakes();
     public Make readMakeById(int id);
-    public void updateMake(int id);
+    public void updateMake(Make make);
     public void deleteMake(int id);
 }

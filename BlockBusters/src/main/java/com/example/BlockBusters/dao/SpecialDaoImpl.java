@@ -40,7 +40,7 @@ public class SpecialDaoImpl implements SpecialDao{
     }
 
     @Override
-    public void updateSpecial(int id) {
+    public void updateSpecial(Special special) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

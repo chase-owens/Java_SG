@@ -40,7 +40,7 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public void updateContact(int id) {
+    public void updateContact(Contact contact) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

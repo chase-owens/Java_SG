@@ -17,6 +17,6 @@ public interface BrandDao {
     public Brand createBrand();
     public List<Brand> readAllBrands();
     public Brand readBrandById(int id);
-    public void updateBrand(int id);
+    public void updateBrand(Brand brand);
     public void deleteBrand(int id);
 }

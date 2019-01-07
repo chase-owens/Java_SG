@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public void updateUser(int id) {
+    public void updateUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

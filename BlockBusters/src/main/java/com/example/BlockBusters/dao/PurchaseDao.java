@@ -6,6 +6,7 @@
 package com.example.BlockBusters.dao;
 
 import com.example.BlockBusters.entity.Purchase;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public interface PurchaseDao {
     public Purchase createPurchase();
     public List<Purchase> readAllPurchases();
     public Purchase readPurchaseById(int id);
-    public void updatePurchase(int id);
+    public void updatePurchase(Purchase purchase);
     public void deletePurchase(int id);
+    
+    //App specific methods
+    public BigDecimal getSalesSumById(int id);
+    public int getSalesCountById(int id);
 }

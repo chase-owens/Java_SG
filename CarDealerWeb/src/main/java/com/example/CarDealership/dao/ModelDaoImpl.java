@@ -25,7 +25,7 @@ public class ModelDaoImpl implements ModelDao{
     }
 
     @Override
-    public Model createModel() {
+    public Model createModel(int makeId, String modelName, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,7 +40,7 @@ public class ModelDaoImpl implements ModelDao{
     }
 
     @Override
-    public void updateModel(int id) {
+    public void updateModel(Model model) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

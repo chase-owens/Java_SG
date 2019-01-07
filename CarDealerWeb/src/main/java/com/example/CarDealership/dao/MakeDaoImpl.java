@@ -25,7 +25,7 @@ public class MakeDaoImpl implements MakeDao{
     }
 
     @Override
-    public Make createMake() {
+    public Make createMake(String makeName, int UserId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,7 +40,7 @@ public class MakeDaoImpl implements MakeDao{
     }
 
     @Override
-    public void updateMake(int id) {
+    public void updateMake(Make make) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

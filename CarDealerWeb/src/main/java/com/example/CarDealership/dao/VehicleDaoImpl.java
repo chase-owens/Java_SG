@@ -41,7 +41,7 @@ public class VehicleDaoImpl implements VehicleDao{
     }
 
     @Override
-    public void updateVehicle(int id) {
+    public void updateVehicle(Vehicle vehicle) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
