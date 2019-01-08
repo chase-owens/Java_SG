@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface CustomDao {
     //CRUD methods
-    public Custom createCustom(Brand brand, Shoe shoe, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId);
+    public Custom createCustom(Brand brand, Shoe shoe, float size, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId);
     public List<Custom> readAllCustoms();
     public Custom readCustomById(int id);
     public void updateCustom(Custom custom);

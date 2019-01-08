@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 public class Custom {
     int customId, yearReleased;
-    float mileage;
+    float size;
     Brand brand;
     Shoe shoe;
     String shoeType, customDescription, image;
@@ -45,12 +45,12 @@ public class Custom {
         this.yearReleased = yearReleased;
     }
 
-    public float getMileage() {
-        return mileage;
+    public float getSize() {
+        return size;
     }
 
-    public void setMileage(float mileage) {
-        this.mileage = mileage;
+    public void setSizee(float mileage) {
+        this.size = mileage;
     }
 
     public Brand getBrand() {

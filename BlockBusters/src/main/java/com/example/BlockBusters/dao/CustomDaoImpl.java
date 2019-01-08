@@ -28,7 +28,7 @@ public class CustomDaoImpl implements CustomDao{
     }
 
     @Override
-    public Custom createCustom(Brand brand, Shoe shoe, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId) {
+    public Custom createCustom(Brand brand, Shoe shoe, float size, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

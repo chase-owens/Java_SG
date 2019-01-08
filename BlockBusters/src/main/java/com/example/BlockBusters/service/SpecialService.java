@@ -5,10 +5,16 @@
  */
 package com.example.BlockBusters.service;
 
+import com.example.BlockBusters.entity.Special;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface SpecialService {
-    
+    public Special createSpecial(String title, String description, int customId, int userId);
+    public List<Special> getAllSpecials();
+    public Special getSpecialById(int id);
+    public void deleteSpecial(int id);
 }

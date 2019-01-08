@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface SpecialDao {
     //CRUD methods
-    public Special createSpecial();
+    public Special createSpecial(String title, String description, int customId, int userId);
     public List<Special> readAllSpecials();
     public Special readSpecialById(int id);
     public void updateSpecial(Special special);

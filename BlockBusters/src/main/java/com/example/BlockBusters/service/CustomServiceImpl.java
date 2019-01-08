@@ -37,8 +37,9 @@ public class CustomServiceImpl implements CustomService {
     }
 
     @Override
-    public Custom createCustom(int brandId, int shoeId, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId) throws DataValidationError {
+    public Custom createCustom(int brandId, int shoeId, String sizeString, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId) throws DataValidationError {
         BigDecimal price;
+        float size;
         Brand brand;
         Shoe shoe;
         if (shoeType.equals("") || customDescription.equals("") || image.equals("") || priceString.equals("")) {
@@ -54,6 +55,8 @@ public class CustomServiceImpl implements CustomService {
         }
 
         try {
+            size = Float.parseFloat(sizeString);
+            
             price = new BigDecimal(priceString);
             if (price.compareTo(BigDecimal.ZERO) < 1) {
                 throw new DataValidationError();
@@ -71,7 +74,7 @@ public class CustomServiceImpl implements CustomService {
             throw new DataValidationError();
         }
 
-        Custom newCustom = customDao.createCustom(brand, shoe, yearReleased, shoeType, customDescription, image, priceString, userId);
+        Custom newCustom = customDao.createCustom(brand, shoe, size, yearReleased, shoeType, customDescription, image, priceString, userId);
         return newCustom;
     }
 
@@ -86,8 +89,9 @@ public class CustomServiceImpl implements CustomService {
     }
 
     @Override
-    public void updateCustom(int customId, int shoeId, int yearReleased, String shoeType, String customDescription, String image, String priceString, String isFeatured, int userId) throws DataValidationError {
+    public void updateCustom(int customId, int shoeId, String sizeString, int yearReleased, String shoeType, String customDescription, String image, String priceString, String isFeatured, int userId) throws DataValidationError {
         BigDecimal price;
+        float size;
         Brand brand;
         Shoe shoe;
         
@@ -107,6 +111,8 @@ public class CustomServiceImpl implements CustomService {
 
         try {
             customBeingUpdated = customDao.readCustomById(customId);
+            
+            size = Float.parseFloat(sizeString);
                 
             price = new BigDecimal(priceString);
             if (price.compareTo(BigDecimal.ZERO) < 1) {
@@ -127,6 +133,7 @@ public class CustomServiceImpl implements CustomService {
         
         customBeingUpdated.setBrand(brand);
         customBeingUpdated.setShoe(shoe);
+        customBeingUpdated.setSizee(size);
         customBeingUpdated.setCustomDescription(customDescription);
         customBeingUpdated.setYearReleased(yearReleased);
         customBeingUpdated.setShoeType(shoeType);
