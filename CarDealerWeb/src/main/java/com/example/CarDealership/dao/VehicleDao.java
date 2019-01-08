@@ -5,6 +5,8 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Make;
+import com.example.CarDealership.entity.Model;
 import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public interface VehicleDao {
     //CRUD methods
-    public Vehicle createVehicle();
+    public Vehicle createVehicle(Make make, Model model, int mileage, int year, String vehicleType, String vehicleDescription, String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin, int userId);
     public List<Vehicle> readAllVehicles();
     public Vehicle readVehicleById(int id);
     public void updateVehicle(Vehicle vehicle);

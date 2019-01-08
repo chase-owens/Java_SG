@@ -6,6 +6,8 @@
 package com.example.BlockBusters.service;
 
 import com.example.BlockBusters.dao.ContactDao;
+import com.example.BlockBusters.entity.Contact;
+import com.example.BlockBusters.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactServiceImpl implements ContactService {
     ContactDao contactDao;
-    
+    ProfileService profileService;
+
     @Autowired
-    public ContactServiceImpl(ContactDao contactDao) {
+    public ContactServiceImpl(ContactDao contactDao, ProfileService profileService) {
         this.contactDao = contactDao;
+        this.profileService = profileService;
+    }
+
+    @Override
+    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+        Profile profile = profileService.createProfile(name, email, phone);
+        if (message.equals("")) {
+            throw new NeedContactMessageError();
+        }
+        Contact contact = contactDao.createContact(profile, message);
+        return contact;
+
     }
 }

@@ -23,13 +23,20 @@ public class BrandServiceImpl implements BrandService {
     public BrandServiceImpl(BrandDao brandDao) {
         this.brandDao = brandDao;
     }
-    
-    public Brand addBrand(String brandName) {
-        return brandDao.createBrand();
+
+    @Override
+    public Brand createBrand(String makeName, int userId) {
+        return brandDao.createBrand(makeName, userId);
     }
-    
-    public List<Brand> readAllBrands() {
+
+    @Override
+    public List<Brand> getAllBrands() {
         return brandDao.readAllBrands();
+    }
+
+    @Override
+    public Brand readBrandById(int id) {
+        return brandDao.readBrandById(id);
     }
     
 }

@@ -15,5 +15,7 @@ import java.util.List;
 public interface MakeService {
     public Make createMake(String makeName, int userId);
     
+    public Make readMakeById(int id);
+    
     public List<Make> getAllMakes();
 }

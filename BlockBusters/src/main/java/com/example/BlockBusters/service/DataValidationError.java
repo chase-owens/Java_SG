@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.CarDealership.service;
+package com.example.BlockBusters.service;
 
 /**
  *
  * @author chaseowens
  */
-public class PasswordsNotMatchingError extends Exception {
+public class DataValidationError extends Exception {
     
 }

@@ -22,6 +22,12 @@ public class Custom {
     boolean isFeatured, isAvailable;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Custom() {
+        this.dateAdded = LocalDateTime.now();
+        this.isAvailable = true;
+        this.isFeatured = false;
+    }
 
     public int getCustomId() {
         return customId;

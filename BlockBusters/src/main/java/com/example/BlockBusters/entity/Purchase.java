@@ -20,6 +20,10 @@ public class Purchase {
     String saleType;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Purchase() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getPurchaseId() {
         return purchaseId;

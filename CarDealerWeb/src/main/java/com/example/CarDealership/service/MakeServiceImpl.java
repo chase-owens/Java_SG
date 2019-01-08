@@ -34,5 +34,10 @@ public class MakeServiceImpl implements MakeService {
     public List<Make> getAllMakes() {
         return makeDao.readAllMakes();
     }
+
+    @Override
+    public Make readMakeById(int id) {
+        return makeDao.readMakeById(id);
+    }
     
 }

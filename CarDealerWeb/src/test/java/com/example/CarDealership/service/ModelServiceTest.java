@@ -45,23 +45,5 @@ public class ModelServiceTest {
     @Test
     public void testCreateModel() {
     }
-
-    /**
-     * Test of readAllModels method, of class ModelService.
-     */
-    @Test
-    public void testReadAllModels() {
-    }
-
-    public class ModelServiceImpl implements ModelService {
-
-        public Model createModel(int makeId, String modelName, int userId) {
-            return null;
-        }
-
-        public List<Model> readAllModels() {
-            return null;
-        }
-    }
     
 }

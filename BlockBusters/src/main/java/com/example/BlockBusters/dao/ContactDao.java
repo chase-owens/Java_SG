@@ -6,6 +6,7 @@
 package com.example.BlockBusters.dao;
 
 import com.example.BlockBusters.entity.Contact;
+import com.example.BlockBusters.entity.Profile;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface ContactDao {
     //CRUD methods
-    public Contact createContact();
+    public Contact createContact(Profile profile, String message);
     public List<Contact> readAllContacts();
     public Contact readContactById(int id);
     public void updateContact(Contact contact);

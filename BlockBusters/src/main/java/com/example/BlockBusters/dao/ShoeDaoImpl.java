@@ -25,7 +25,7 @@ public class ShoeDaoImpl implements ShoeDao{
     }
 
     @Override
-    public Shoe createShoe() {
+    public Shoe createShoe(int brandId, String shoeName, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

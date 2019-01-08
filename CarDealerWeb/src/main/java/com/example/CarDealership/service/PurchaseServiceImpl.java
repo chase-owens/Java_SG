@@ -42,7 +42,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         Profile profile = profileService.createProfile(customerName, email, customerPhone, street1+" "+street2, zipcode);
         
         // update vehicle - mark as unavailable
-        vehicleService.updateVehicle(vehicleId);
+        vehicleService.markAsSold(vehicleId);
         
         // add purchase to DB
         Purchase purchase = purchaseDao.createPurchase(profile, vehicleId, salePrice, purchaseType, userId);
@@ -50,13 +50,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public BigDecimal getSalesSumByUserId(int id, LocalDate startingOn, LocalDate to) {
-        return purchaseDao.getSalesSumById(id, startingOn, to);
+    public BigDecimal getSalesSumByUserId(int id, String startingOnString, String toString) {
+        // Convert strings to dates and pass them. - Try catch
+        //return purchaseDao.getSalesSumById(id, startingOn, to);
     }
 
     @Override
-    public int getTotalNumberOfSalesByUserId(int id, LocalDate startingOn, LocalDate to) {
-        return purchaseDao.getSalesCountById(id, startingOn, to);
+    public int getTotalNumberOfSalesByUserId(int id, String startingOn, String to) {
+        //return purchaseDao.getSalesCountById(id, startingOn, to);
     }
     
 

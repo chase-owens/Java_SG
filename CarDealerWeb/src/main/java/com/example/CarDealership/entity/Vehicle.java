@@ -21,6 +21,12 @@ public class Vehicle {
     boolean isFeatured, isAvailable;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Vehicle() {
+        this.dateAdded = LocalDateTime.now();
+        this.isAvailable = true;
+        this.isFeatured = false;
+    }
 
     public int getVehicleId() {
         return vehicleId;
@@ -164,6 +170,14 @@ public class Vehicle {
 
     public void setDateAdded(LocalDateTime dateAdded) {
         this.dateAdded = dateAdded;
+    }
+
+    public int getVehicleYear() {
+        return vehicleYear;
+    }
+
+    public void setVehicleYear(int vehicleYear) {
+        this.vehicleYear = vehicleYear;
     }
     
     

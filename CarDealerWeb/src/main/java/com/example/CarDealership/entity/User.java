@@ -16,6 +16,10 @@ public class User {
     Profile profile;
     String role, password, createdBy;
     LocalDateTime dateAdded;
+    
+    public User() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getUserId() {
         return userId;

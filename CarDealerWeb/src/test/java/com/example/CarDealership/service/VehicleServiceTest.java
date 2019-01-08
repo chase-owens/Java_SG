@@ -44,22 +44,5 @@ public class VehicleServiceTest {
     @Test
     public void testReadVehicleByInt() {
     }
-
-    /**
-     * Test of updateVehicle method, of class VehicleService.
-     */
-    @Test
-    public void testUpdateVehicle() {
-    }
-
-    public class VehicleServiceImpl implements VehicleService {
-
-        public Vehicle readVehicleByInt(int vehicleId) {
-            return null;
-        }
-
-        public void updateVehicle(int vehicleId) {
-        }
-    }
     
 }

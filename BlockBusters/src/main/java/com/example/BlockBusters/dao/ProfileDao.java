@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ProfileDao {
     //CRUD methods
-    public Profile createProfile();
+    public Profile createProfile(String name, String email, String phone);
     public List<Profile> readAllProfiles();
     public Profile readProfileById(int id);
     public void updateProfile(Profile profile);

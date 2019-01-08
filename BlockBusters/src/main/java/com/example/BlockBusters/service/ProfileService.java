@@ -5,10 +5,16 @@
  */
 package com.example.BlockBusters.service;
 
+import com.example.BlockBusters.entity.Profile;
+
 /**
  *
  * @author chaseowens
  */
 public interface ProfileService {
+    public Profile createProfile(String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError;
     
+    public Profile createProfile(String name, String email, String phone, String address, String zipcode) throws NeedContactNameError, NeedContactDetailsError;
+    
+    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError;
 }

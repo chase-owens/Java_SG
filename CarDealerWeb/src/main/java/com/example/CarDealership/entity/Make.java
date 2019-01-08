@@ -16,6 +16,10 @@ public class Make {
     String makeName;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Make() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getMakeId() {
         return makeId;

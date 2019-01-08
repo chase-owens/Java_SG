@@ -9,6 +9,6 @@ package com.example.CarDealership.service;
  *
  * @author chaseowens
  */
-public class PasswordsNotMatchingError extends Exception {
+public class DataValidationError extends Exception {
     
 }

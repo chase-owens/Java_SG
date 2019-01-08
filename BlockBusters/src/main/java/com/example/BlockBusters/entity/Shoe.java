@@ -17,6 +17,10 @@ public class Shoe {
     Brand brand;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Shoe() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getShoeId() {
         return shoeId;

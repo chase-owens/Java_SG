@@ -5,10 +5,12 @@
  */
 package com.example.BlockBusters.service;
 
+import com.example.BlockBusters.entity.Contact;
+
 /**
  *
  * @author chaseowens
  */
 public interface ContactService {
-    
+    public Contact makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError;
 }

@@ -46,34 +46,4 @@ public class PurchaseServiceTest {
     @Test
     public void testCreatePurchase() throws Exception {
     }
-
-    /**
-     * Test of getSalesSumByUserId method, of class PurchaseService.
-     */
-    @Test
-    public void testGetSalesSumByUserId() {
-    }
-
-    /**
-     * Test of getTotalNumberOfSalesByUserId method, of class PurchaseService.
-     */
-    @Test
-    public void testGetTotalNumberOfSalesByUserId() {
-    }
-
-    public class PurchaseServiceImpl implements PurchaseService {
-
-        public Purchase createPurchase(int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, BigDecimal salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError {
-            return null;
-        }
-
-        public BigDecimal getSalesSumByUserId(int id, LocalDate startingOn, LocalDate to) {
-            return null;
-        }
-
-        public int getTotalNumberOfSalesByUserId(int id, LocalDate startingOn, LocalDate to) {
-            return 0;
-        }
-    }
-    
 }

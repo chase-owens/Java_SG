@@ -25,7 +25,7 @@ public class BrandDaoImpl implements BrandDao{
     }
 
     @Override
-    public Brand createBrand() {
+    public Brand createBrand(String makeName, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

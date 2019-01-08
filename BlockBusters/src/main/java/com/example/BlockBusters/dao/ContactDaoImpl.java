@@ -6,6 +6,7 @@
 package com.example.BlockBusters.dao;
 
 import com.example.BlockBusters.entity.Contact;
+import com.example.BlockBusters.entity.Profile;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,7 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public Contact createContact() {
+    public Contact createContact(Profile profile, String message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

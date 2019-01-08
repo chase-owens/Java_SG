@@ -45,23 +45,5 @@ public class MakeServiceTest {
     @Test
     public void testCreateMake() {
     }
-
-    /**
-     * Test of getAllMakes method, of class MakeService.
-     */
-    @Test
-    public void testGetAllMakes() {
-    }
-
-    public class MakeServiceImpl implements MakeService {
-
-        public Make createMake(String makeName, int userId) {
-            return null;
-        }
-
-        public List<Make> getAllMakes() {
-            return null;
-        }
-    }
     
 }

@@ -5,7 +5,9 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Brand;
 import com.example.BlockBusters.entity.Custom;
+import com.example.BlockBusters.entity.Shoe;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class CustomDaoImpl implements CustomDao{
     }
 
     @Override
-    public Custom createCustom() {
+    public Custom createCustom(Brand brand, Shoe shoe, int yearReleased, String shoeType, String customDescription, String image, String priceString, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

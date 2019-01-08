@@ -33,4 +33,9 @@ public class ModelServiceImpl implements ModelService{
     public List<Model> readAllModels() {
         return modelDao.readAllModels();
     }
+
+    @Override
+    public Model readModelById(int id) {
+        return modelDao.readModelById(id);
+    }
 }

@@ -17,6 +17,10 @@ public class Model {
     User createdBy;
     Make make;
     LocalDateTime dateAdded;
+    
+    public Model() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getId() {
         return modelId;

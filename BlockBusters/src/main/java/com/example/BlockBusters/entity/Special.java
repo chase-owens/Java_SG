@@ -20,6 +20,10 @@ public class Special {
     String title, specialDescription;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Special() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getSpecialId() {
         return specialId;

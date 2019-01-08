@@ -5,6 +5,7 @@
  */
 package com.example.BlockBusters.dao;
 
+import com.example.BlockBusters.entity.Profile;
 import com.example.BlockBusters.entity.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User createUser() {
+    public User createUser(Profile profile, String role, String password, int adminId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -16,6 +16,10 @@ public class Brand {
     String brandName;
     User createdBy;
     LocalDateTime dateAdded;
+    
+    public Brand() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
     public int getBrandId() {
         return brandId;

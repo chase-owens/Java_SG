@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface BrandDao {
     //CRUD methods
-    public Brand createBrand();
+    public Brand createBrand(String makeName, int userId);
     public List<Brand> readAllBrands();
     public Brand readBrandById(int id);
     public void updateBrand(Brand brand);

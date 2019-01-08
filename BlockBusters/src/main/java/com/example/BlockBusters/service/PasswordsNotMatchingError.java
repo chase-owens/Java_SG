@@ -9,6 +9,6 @@ package com.example.BlockBusters.service;
  *
  * @author chaseowens
  */
-public class PasswordNotMatchingError extends Exception {
+public class PasswordsNotMatchingError extends Exception {
     
 }

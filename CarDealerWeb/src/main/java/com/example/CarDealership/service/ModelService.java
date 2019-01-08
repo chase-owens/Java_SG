@@ -15,5 +15,7 @@ import java.util.List;
 public interface ModelService {
     public Model createModel(int makeId, String modelName, int userId);
     
+    public Model readModelById(int id);
+    
     public List<Model> readAllModels();
 }

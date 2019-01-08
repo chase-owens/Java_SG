@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ShoeDao {
     //CRUD methods
-    public Shoe createShoe();
+    public Shoe createShoe(int brandId, String shoeName, int userId);
     public List<Shoe> readAllShoes();
     public Shoe readShoeById(int id);
     public void updateShoe(Shoe shoe);

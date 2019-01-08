@@ -5,10 +5,17 @@
  */
 package com.example.BlockBusters.service;
 
+import com.example.BlockBusters.entity.Shoe;
+import java.util.List;
+
 /**
  *
  * @author chaseowens
  */
 public interface ShoeService {
+    public Shoe createShoe(int brandId, String shoeName, int userId);
     
+    public List<Shoe> readAllShoes();
+    
+    public Shoe readShoeById(int id);
 }
