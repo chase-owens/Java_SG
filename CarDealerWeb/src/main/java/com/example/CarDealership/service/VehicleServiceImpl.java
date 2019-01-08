@@ -84,7 +84,7 @@ public class VehicleServiceImpl implements VehicleService {
             throw new DataValidationError();
         }
 
-        Vehicle vehicle = vehicleDao.createVehicle(make, model, mileage, year, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, userId);
+        Vehicle vehicle = vehicleDao.createVehicle(make, model, msrp, listPrice, mileage, year, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, userId);
         return vehicle;
 
     }
@@ -169,6 +169,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setBodyStyle(bodyStyle);
         vehicle.setVin(vin);
         vehicle.setMsrp(msrp);
+        vehicle.setListPrice(listPrice);
         if (!isFeatured.equals("")) {
             if (isFeatured.equals("true")) {
                 vehicle.setIsFeatured(true);

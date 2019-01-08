@@ -14,15 +14,27 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author chaseowens
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Rollback
+@Transactional
 public class ContactDaoTest {
     @Autowired
     ContactDao dao;
+    
+    @Autowired
+    ProfileDao profileDao;
     
     public ContactDaoTest() {
     }
@@ -47,10 +59,8 @@ public class ContactDaoTest {
     public void testCreateContact() {
         
         // Arrange
-        Profile profile = new Profile();
-        profile.setEmail("email");
-        profile.setFullName("name");
-        profile.setNumber("phone");
+        
+        Profile profile = profileDao.createProfile("name", "email", "phone");
         String message = "TestContact";
         
         // Act 
@@ -71,17 +81,11 @@ public class ContactDaoTest {
     @Test
     public void testGetContacts() {
         // Arrange
-        Profile profile = new Profile();
-        profile.setEmail("email");
-        profile.setFullName("name");
-        profile.setNumber("phone");
+        Profile profile = profileDao.createProfile("name", "email", "phone");
         String message = "TestContact";
         Contact contact1 = dao.createContact(profile, message);
         
-        Profile profile2 = new Profile();
-        profile2.setEmail("email");
-        profile2.setFullName("name");
-        profile2.setNumber("phone");
+        Profile profile2 = profileDao.createProfile("name", "email", "phone");
         String message2 = "TestContact";
         Contact contact2 = dao.createContact(profile2, message2);
         
@@ -95,10 +99,7 @@ public class ContactDaoTest {
     @Test
     public void testGetContactById() {
         // Arrange
-        Profile profile = new Profile();
-        profile.setEmail("email");
-        profile.setFullName("name");
-        profile.setNumber("phone");
+        Profile profile = profileDao.createProfile("name", "email", "phone");
         String message = "TestContact";
         Contact contact1 = dao.createContact(profile, message);
         

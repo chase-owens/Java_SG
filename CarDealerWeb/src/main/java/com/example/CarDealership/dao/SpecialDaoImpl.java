@@ -6,6 +6,7 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Special;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,7 @@ public class SpecialDaoImpl implements SpecialDao{
     }
 
     @Override
-    public Special createSpecial(String title, String description, int vehicleId, int userId) {
+    public Special createSpecial(String title, String description, int vehicleId, LocalDate dateBegin, LocalDate dateEnd, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

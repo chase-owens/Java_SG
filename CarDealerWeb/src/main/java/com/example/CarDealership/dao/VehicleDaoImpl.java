@@ -28,7 +28,7 @@ public class VehicleDaoImpl implements VehicleDao{
     }
 
     @Override
-    public Vehicle createVehicle(Make make, Model model, int mileage, int year, String vehicleType, String vehicleDescription, String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin, int userId) {
+    public Vehicle createVehicle(Make make, Model model, BigDecimal msrp, BigDecimal listPrice, int mileage, int year, String vehicleType, String vehicleDescription, String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin, int userId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

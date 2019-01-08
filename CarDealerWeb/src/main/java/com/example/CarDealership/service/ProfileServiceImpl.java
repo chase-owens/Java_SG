@@ -64,4 +64,9 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setNumber(name);
         profileDao.updateProfile(profile);
     }
+
+    @Override
+    public Profile readProfileByInt(int id) {
+        return profileDao.readProfileById(id);
+    }
 }

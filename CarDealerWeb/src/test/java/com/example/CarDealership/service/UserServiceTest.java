@@ -13,11 +13,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author chaseowens
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Rollback
+@Transactional
 public class UserServiceTest {
     
     public UserServiceTest() {
@@ -46,43 +55,6 @@ public class UserServiceTest {
     public void testCreateUser() throws Exception {
     }
 
-    /**
-     * Test of readAllUsers method, of class UserService.
-     */
-    @Test
-    public void testReadAllUsers() {
-    }
 
-    /**
-     * Test of readUserByid method, of class UserService.
-     */
-    @Test
-    public void testReadUserByid() {
-    }
-
-    /**
-     * Test of updateUser method, of class UserService.
-     */
-    @Test
-    public void testUpdateUser() throws Exception {
-    }
-
-    public class UserServiceImpl implements UserService {
-
-        public User createUser(String firstName, String lastName, String phone, String email, String role, String password1, String password2, int adminId) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
-            return null;
-        }
-
-        public List<User> readAllUsers() {
-            return null;
-        }
-
-        public User readUserByid(int id) {
-            return null;
-        }
-
-        public void updateUser(int userId, String firstName, String lastName, String phone, String email, String role, String password1, String password2, int adminId) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
-        }
-    }
     
 }

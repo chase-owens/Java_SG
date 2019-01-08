@@ -16,5 +16,7 @@ public interface ProfileService {
     
     public Profile createProfile(String name, String email, String phone, String address, String zipcode) throws NeedContactNameError, NeedContactDetailsError;
     
+    public Profile readProfileByInt(int id);
+    
     public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError;
 }

@@ -7,6 +7,7 @@ package com.example.BlockBusters.service;
 
 import com.example.BlockBusters.dao.SpecialDao;
 import com.example.BlockBusters.entity.Special;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class SpecialServiceImpl implements SpecialService {
     }
     
        @Override
-    public Special createSpecial(String title, String description, int customId, int userId) {
-        return specialDao.createSpecial(title, description, customId, userId);
+    public Special createSpecial(String title, String description, int customId, LocalDate dateBegin, LocalDate dateEnd, int userId) {
+        return specialDao.createSpecial(title, description, customId, dateBegin, dateEnd, userId);
     }
 
     @Override

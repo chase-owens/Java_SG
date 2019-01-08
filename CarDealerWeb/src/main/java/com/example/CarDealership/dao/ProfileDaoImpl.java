@@ -8,6 +8,7 @@ package com.example.CarDealership.dao;
 import com.example.CarDealership.entity.Profile;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,27 +27,48 @@ public class ProfileDaoImpl implements ProfileDao {
 
     @Override
     public Profile createProfile(String name, String email, String phone) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Profile profile = new Profile();
+        profile.setFullName(name);
+        profile.setEmail(email);
+        profile.setNumber(phone);
+        
+        final String CREATE_PROFILE = "INSERT INTO personProfile(fullName, email, phone) VALUES(?,?,?)";
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        
+        profile.setProfileId(newId);
+        
+        return profile;
     }
 
     @Override
     public List<Profile> readAllProfiles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_ALL_PROFILES = "SELECT * FROM personProfile";
+        List<Profile> profiles = jdbc.query(READ_ALL_PROFILES, new ProfileMapper());
+        return profiles;
     }
 
     @Override
     public Profile readProfileById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Profile profile = null;
+        final String READ_PROFILE_BY_ID = "SELECT * FROM personProfile WHERE id = ?";
+        try {
+            profile = jdbc.queryForObject(READ_PROFILE_BY_ID, new ProfileMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            
+        }
+        return profile;
     }
 
     @Override
     public void updateProfile(Profile profile) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_PROFILE = "UPDATE personProfile SET fullName = ?, email = ?, phone = ?, streetAddress = ?, zipcode = ? WHERE id = ?";
+        jdbc.update(UPDATE_PROFILE, profile.getFullName(), profile.getEmail(), profile.getNumber(), profile.getStreetAddress(), profile.getZipcode(), profile.getProfileId());
     }
 
     @Override
     public void deleteProfile(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_PROFILE = "DELETE * FROM personProfile WHERE id = ?";
+        jdbc.update(DELETE_PROFILE, id);
     }
     
 }

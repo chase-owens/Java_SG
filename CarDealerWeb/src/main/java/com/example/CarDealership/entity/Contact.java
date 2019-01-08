@@ -44,6 +44,14 @@ public class Contact {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    public LocalDateTime getTimePosted() {
+        return timePosted;
+    }
+
+    public void setTimePosted(LocalDateTime timePosted) {
+        this.timePosted = timePosted;
+    }
     
     
 }

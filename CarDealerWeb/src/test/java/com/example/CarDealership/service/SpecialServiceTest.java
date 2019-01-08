@@ -13,11 +13,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author chaseowens
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Rollback
+@Transactional
 public class SpecialServiceTest {
     
     public SpecialServiceTest() {
@@ -44,45 +53,6 @@ public class SpecialServiceTest {
      */
     @Test
     public void testCreateSpecial() {
-    }
-
-    /**
-     * Test of getAllSpecials method, of class SpecialService.
-     */
-    @Test
-    public void testGetAllSpecials() {
-    }
-
-    /**
-     * Test of getSpecialById method, of class SpecialService.
-     */
-    @Test
-    public void testGetSpecialById() {
-    }
-
-    /**
-     * Test of deleteSpecial method, of class SpecialService.
-     */
-    @Test
-    public void testDeleteSpecial() {
-    }
-
-    public class SpecialServiceImpl implements SpecialService {
-
-        public Special createSpecial(String title, String description, int vehicleId, int userId) {
-            return null;
-        }
-
-        public List<Special> getAllSpecials() {
-            return null;
-        }
-
-        public Special getSpecialById(int id) {
-            return null;
-        }
-
-        public void deleteSpecial(int id) {
-        }
     }
     
 }

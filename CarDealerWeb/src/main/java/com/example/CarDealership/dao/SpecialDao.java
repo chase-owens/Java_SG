@@ -6,6 +6,7 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Special;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface SpecialDao {
     //CRUD methods
-    public Special createSpecial(String title, String description, int vehicleId, int userId);
+    public Special createSpecial(String title, String description, int vehicleId, LocalDate dateBegin, LocalDate dateEnd, int userId);
     public List<Special> readAllSpecials();
     public Special readSpecialById(int id);
     public void updateSpecial(Special special);

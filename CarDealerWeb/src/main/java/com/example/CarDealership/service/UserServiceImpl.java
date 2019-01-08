@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User createUserWithProfile(Profile profile, String role, String password, int adminId) throws NeedContactNameError, NeedContactDetailsError {
+        return userDao.createUser(profile, role, password, adminId);
+    }
+
+    @Override
     public List<User> readAllUsers() {
         return userDao.readAllUsers();
     }
