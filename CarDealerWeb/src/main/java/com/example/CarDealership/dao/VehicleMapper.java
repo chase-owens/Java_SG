@@ -5,6 +5,10 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Make;
+import com.example.CarDealership.entity.Model;
+import com.example.CarDealership.entity.User;
+import com.example.CarDealership.entity.Vehicle;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,11 +17,41 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author chaseowens
  */
-public class VehicleMapper implements RowMapper{
+public class VehicleMapper implements RowMapper<Vehicle>{
 
     @Override
-    public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Vehicle vehicle = new Vehicle();
+        Make make = new Make();
+        Model model = new Model();
+        User user = new User();
+        
+        vehicle.setVehicleId(rs.getInt("id"));
+        make.setMakeId(rs.getInt("makeId"));
+        model.setId(rs.getInt("modelId"));
+        user.setUserId(rs.getInt("userId"));
+        
+        vehicle.setMake(make);
+        vehicle.setModel(model);
+        vehicle.setCreatedBy(user);
+        
+        vehicle.setVehicleYear(rs.getInt("vehicleYear"));
+        vehicle.setMileage(rs.getInt("mileage"));
+        vehicle.setVehicleType(rs.getString("vehicleType"));
+        vehicle.setVin(rs.getString("vin"));
+        vehicle.setMsrp(rs.getBigDecimal("msrp"));
+        vehicle.setListPrice(rs.getBigDecimal("listPrice"));
+        vehicle.setExteriorColor(rs.getString("exteriorColor"));
+        vehicle.setInteriorColor(rs.getString("interiorColor"));
+        vehicle.setTransmission(rs.getString("transmission"));
+        vehicle.setVehicleDescription(rs.getString("vehicleDescription"));
+        vehicle.setIsAvailable(rs.getBoolean("isAvailable"));
+        vehicle.setBodyStyle(rs.getString("bodyStyle"));
+        vehicle.setIsFeatured(rs.getBoolean("isFeatured"));
+        vehicle.setImage(rs.getString("image"));
+        vehicle.setDateAdded(rs.getTimestamp("dateAdded").toLocalDateTime());
+        
+        return vehicle;
     }
     
 }

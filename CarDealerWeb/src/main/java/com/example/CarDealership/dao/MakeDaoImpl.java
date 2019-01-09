@@ -6,8 +6,11 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Make;
+import com.example.CarDealership.entity.User;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,35 +21,55 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MakeDaoImpl implements MakeDao{
     JdbcTemplate jdbc;
+    UserDao userDao;
     
     @Autowired
-    public MakeDaoImpl(JdbcTemplate jdbc) {
+    public MakeDaoImpl(JdbcTemplate jdbc, UserDao userDao) {
         this.jdbc = jdbc;
+        this.userDao = userDao;
     }
 
     @Override
-    public Make createMake(String makeName, int UserId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Make createMake(String makeName, int userId) {
+        Make make = new Make();
+        Timestamp timestamp = Timestamp.valueOf(make.getDateAdded());
+        make.setMakeName(makeName);
+        User user = userDao.readUserById(userId);
+        make.setCreatedBy(user);
+        
+        final String CREATE_MAKE = "INSERT INTO make(makeName, userId, dateAdded) VALUES(?,?,?)";
+        jdbc.update(CREATE_MAKE, makeName, userId, timestamp);
+        
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        make.setMakeId(newId);
+        
+        return make;
     }
 
     @Override
     public List<Make> readAllMakes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_ALL_MAKES = "SELECT * FROM make";
+        List<Make> makes = jdbc.query(READ_ALL_MAKES, new MakeMapper());
+        makes.stream().forEach(make -> make.setCreatedBy(userDao.readUserById(make.getCreatedBy().getUserId())));
+        return makes;
     }
 
     @Override
     public Make readMakeById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_MAKE_BY_ID = "SELECT * FROM make WHERE id = ?";
+        Make make = null;
+        try {
+            make = jdbc.queryForObject(READ_MAKE_BY_ID, new MakeMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+        }
+        make.setCreatedBy(userDao.readUserById(make.getCreatedBy().getUserId()));
+        return make;
     }
 
     @Override
     public void updateMake(Make make) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteMake(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_MAKE = "UPDATE make SET makeName = ? WHERE id = ?";
+        jdbc.update(UPDATE_MAKE, make.getMakeName(), make.getMakeId());
     }
     
 }

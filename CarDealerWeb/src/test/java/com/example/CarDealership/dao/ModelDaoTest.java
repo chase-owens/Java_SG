@@ -74,22 +74,20 @@ public class ModelDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
         Model testModel = new Model();
         testModel.setCreatedBy(user);
         testModel.setMake(makeCreated);
         testModel.setModelName(testName);
         
         //Act
-        Model modelCreated = modelDao.createModel(adminId, testName, adminId);
+        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         //Assert
-        assertEquals(testModel.getCreatedBy(), modelCreated.getCreatedBy());
+        assertEquals(testModel.getCreatedBy().getUserId(), modelCreated.getCreatedBy().getUserId());
         assertEquals(testModel.getModelName(), modelCreated.getModelName());
         assertNotEquals(testModel.getId(), modelCreated.getId());
-        assertEquals(user.getAdminId(), modelCreated.getCreatedBy().getAdminId());
         
         
     }
@@ -109,10 +107,9 @@ public class ModelDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         //Act
         List<Model> models = modelDao.readAllModels();
@@ -128,19 +125,17 @@ public class ModelDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelDao.createModel(adminId, testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         //Act
         Model modelRetrieved = modelDao.readModelById(modelCreated.getId());
         
         //Assert
-        assertEquals(modelRetrieved.getCreatedBy(), modelCreated.getCreatedBy());
+        assertEquals(modelRetrieved.getCreatedBy().getUserId(), modelCreated.getCreatedBy().getUserId());
         assertEquals(modelRetrieved.getModelName(), modelCreated.getModelName());
-        assertNotEquals(modelRetrieved.getId(), modelCreated.getId());
-        assertEquals(user.getAdminId(), modelRetrieved.getCreatedBy().getAdminId());
+        assertEquals(modelRetrieved.getId(), modelCreated.getId());
     }
     
     @Test
@@ -149,10 +144,9 @@ public class ModelDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         //Act
         modelCreated.setModelName("test");
@@ -160,32 +154,11 @@ public class ModelDaoTest {
         Model modelRetrieved = modelDao.readModelById(modelCreated.getId());
         
         //Assert
-        assertEquals(modelRetrieved.getCreatedBy(), modelCreated.getCreatedBy());
-        assertNotEquals(modelRetrieved.getModelName(), modelCreated.getModelName());
-        assertNotEquals(modelRetrieved.getId(), modelCreated.getId());
-        assertEquals(user.getAdminId(), modelRetrieved.getCreatedBy().getAdminId());
+        assertEquals(modelRetrieved.getCreatedBy().getUserId(), modelCreated.getCreatedBy().getUserId());
+        assertNotEquals(modelRetrieved.getModelName(), testName);
+        assertEquals(modelRetrieved.getId(), modelCreated.getId());
+        assertEquals(user.getUserId(), modelRetrieved.getCreatedBy().getUserId());
         
-    }
-    
-    @Test
-    public void deleteModel() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
-        //Arrange
-        String testName = "testName";
-        Profile profile = profileService.createProfile("name", "email", "phone");
-        String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelDao.createModel(makeCreated.getMakeId(), testName, adminId);
-        List<Model> models = modelDao.readAllModels();
-        assertEquals(1, models.size());
-        
-        //Act
-        modelDao.deleteModel(modelCreated.getId());
-        List<Model> modelsAfterDelete = modelDao.readAllModels();
-        
-        //Assert
-        assertEquals(0,modelsAfterDelete);
     }
 
 }

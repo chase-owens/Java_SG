@@ -14,7 +14,7 @@ import java.util.List;
  * @author chaseowens
  */
 public interface SpecialService {
-    public Special createSpecial(String title, String description, int vehicleId,LocalDate dateBegin, LocalDate dateEnd, int userId);
+    public Special createSpecial(String title, String description, int vehicleId, int userId);
     public List<Special> getAllSpecials();
     public Special getSpecialById(int id);
     public void deleteSpecial(int id);

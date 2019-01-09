@@ -21,7 +21,6 @@ public interface VehicleDao {
     public List<Vehicle> readAllVehicles();
     public Vehicle readVehicleById(int id);
     public void updateVehicle(Vehicle vehicle);
-    public void deleteVehicle(int id);
     
     //App specific methods
     public List<Vehicle> query20VehiclesByTypePriceAndYearDescendingMSRP(String query, String type, BigDecimal minPrice, BigDecimal maxPrice, int minYear, int maxYear);

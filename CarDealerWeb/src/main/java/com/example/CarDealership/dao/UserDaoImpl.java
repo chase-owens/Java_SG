@@ -7,6 +7,7 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.User;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,35 +20,68 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl implements UserDao{
     JdbcTemplate jdbc;
+    ProfileDao profileDao;
     
     @Autowired
-    public UserDaoImpl(JdbcTemplate jdbc) {
+    public UserDaoImpl(JdbcTemplate jdbc, ProfileDao profileDao) {
         this.jdbc = jdbc;
+        this.profileDao = profileDao;
     }
 
     @Override
-    public User createUser(Profile profile, String role, String password1, int adminId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User createUser(Profile profile, String role, String password) {
+        User user = new User();
+        user.setPassword(password);
+        user.setProfile(profile);
+        user.setRole(role);
+        Timestamp timeStamp = Timestamp.valueOf(user.getDateAdded());
+        
+        final String CREATE_USER = "INSERT INTO carDealershipUser(profileId, userRole, userPassword, dateAdded) VALUES(?,?,?,?)";
+        jdbc.update(CREATE_USER, profile.getProfileId(), role, password, timeStamp);
+        
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        user.setUserId(newId);
+        
+        return user;
     }
 
     @Override
-    public List<User> readAllUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<User> readAllUsers(){
+        final String READ_USERS = "SELECT * FROM carDealershipUser";
+        List<User> users = jdbc.query(READ_USERS, new UserMapper());
+        users.stream().forEach(user -> {
+            try {
+                user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
+            } catch (DataPersistenceError ex) {
+                
+            }
+        });
+        return users;
     }
 
     @Override
     public User readUserById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_USER_BY_ID = "SELECT * FROM carDealershipUser WHERE id = ?";
+        User user = null;
+        try {
+            user = jdbc.queryForObject(READ_USER_BY_ID, new UserMapper(), id);
+            user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
+        } catch (DataPersistenceError ex) {
+            
+        }
+        return user;
     }
 
     @Override
     public void updateUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_USER = "UPDATE carDealershipUser SET userRole = ?, userPassword = ? WHERE id = ?";
+        jdbc.update(UPDATE_USER, user.getRole(), user.getPassword(), user.getUserId());
     }
 
     @Override
     public void deleteUser(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_USER = "DELETE * FROM carDealershipUser WHERE id = ?";
+        jdbc.update(DELETE_USER, id);
     }
     
 }

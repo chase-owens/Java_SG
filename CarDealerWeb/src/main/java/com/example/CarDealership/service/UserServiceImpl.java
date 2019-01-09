@@ -28,19 +28,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String firstName, String lastName, String phone, String email, String role, String password1, String password2, int adminId) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
+    public User createUser(String firstName, String lastName, String phone, String email, String role, String password1, String password2) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
         if (!password1.equals(password2)) {
             throw new PasswordsNotMatchingError();
         }
         
         Profile profile = profileService.createProfile(firstName+" "+lastName, email, phone);
-        User user = userDao.createUser(profile, role, password1, adminId);
+        User user = userDao.createUser(profile, role, password1);
         return user;
     }
 
     @Override
-    public User createUserWithProfile(Profile profile, String role, String password, int adminId) throws NeedContactNameError, NeedContactDetailsError {
-        return userDao.createUser(profile, role, password, adminId);
+    public User createUserWithProfile(Profile profile, String role, String password) throws NeedContactNameError, NeedContactDetailsError {
+        return userDao.createUser(profile, role, password);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(int userId, String firstName, String lastName, String phone, String email, String role, String password1, String password2, int adminId) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
+    public void updateUser(int userId, String firstName, String lastName, String phone, String email, String role, String password1, String password2) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
         if (!password1.equals(password2)) {
             throw new PasswordsNotMatchingError();
         }

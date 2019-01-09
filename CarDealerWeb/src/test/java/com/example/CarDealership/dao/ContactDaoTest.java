@@ -110,6 +110,7 @@ public class ContactDaoTest {
         assertEquals(contactRetrieved.getMessage(), contact1.getMessage());
         assertEquals(contactRetrieved.getProfile().getEmail(), "email");
         assertEquals(contactRetrieved.getProfile().getNumber(), "phone");
+        assertEquals(contactRetrieved.getProfile().getFullName(), "name");
     }
     
 }

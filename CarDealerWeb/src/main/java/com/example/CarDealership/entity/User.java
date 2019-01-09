@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
  * @author chaseowens
  */
 public class User {
-    int userId, adminId;
+    int userId;
     Profile profile;
-    String role, password, createdBy;
+    String role, password;
     LocalDateTime dateAdded;
     
     public User() {
@@ -27,14 +27,6 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
     }
 
     public Profile getProfile() {
@@ -59,14 +51,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public LocalDateTime getDateAdded() {

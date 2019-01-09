@@ -18,5 +18,4 @@ public interface ModelDao {
     public List<Model> readAllModels();
     public Model readModelById(int id);
     public void updateModel(Model model);
-    public void deleteModel(int id);
 }

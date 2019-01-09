@@ -16,7 +16,7 @@ public interface ProfileDao {
     //CRUD methods
     public Profile createProfile(String name, String email, String phone);
     public List<Profile> readAllProfiles();
-    public Profile readProfileById(int id);
+    public Profile readProfileById(int id) throws DataPersistenceError;
     public void updateProfile(Profile profile);
     public void deleteProfile(int id);
 }

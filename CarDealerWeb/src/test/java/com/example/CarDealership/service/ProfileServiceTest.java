@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.service;
 
+import com.example.CarDealership.dao.DataPersistenceError;
 import com.example.CarDealership.entity.Profile;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -103,7 +104,7 @@ public class ProfileServiceTest {
         try {
             service.updateProfile(profileCreated.getProfileId(), newName, newEmail, newPhone);
             fail("Should have thrown NeedContactDetailsError");
-        } catch (NeedContactDetailsError e) {
+        } catch (NeedContactDetailsError | DataPersistenceError e) {
             
         }
     }
@@ -120,7 +121,7 @@ public class ProfileServiceTest {
         try {
             service.updateProfile(profileCreated.getProfileId(), newName, newEmail, newPhone);
             fail("Should have thrown NeedContactDetailsError");
-        } catch (NeedContactNameError e) {
+        } catch (NeedContactNameError | DataPersistenceError e) {
             
         }
     }

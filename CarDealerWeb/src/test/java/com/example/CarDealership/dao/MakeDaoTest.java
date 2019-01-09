@@ -69,8 +69,7 @@ public class MakeDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
         
         //Set up test Make
         Make testMake = new Make();
@@ -78,10 +77,10 @@ public class MakeDaoTest {
         testMake.setMakeName(testName);
         
         //Act
-        Make makeCreated = makeDao.createMake(testName, adminId);
+        Make makeCreated = makeDao.createMake(testName, user.getUserId());
         
         //Assert
-        assertEquals(testMake.getCreatedBy(), makeCreated.getCreatedBy());
+        assertEquals(testMake.getCreatedBy().getUserId(), makeCreated.getCreatedBy().getUserId());
         assertEquals(testMake.getMakeName(), makeCreated.getMakeName());
         assertNotEquals(testMake.getMakeId(), makeCreated.getMakeId());
         
@@ -102,9 +101,8 @@ public class MakeDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeDao.createMake(testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeDao.createMake(testName, user.getUserId());
         
         //Act
         List<Make> makes = makeDao.readAllMakes();
@@ -120,18 +118,16 @@ public class MakeDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeDao.createMake(testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeDao.createMake(testName, user.getUserId());
         
         //Act
         Make makeRetrieved = makeDao.readMakeById(makeCreated.getMakeId());
         
         //Assert
-        assertEquals(makeRetrieved.getCreatedBy(), makeCreated.getCreatedBy());
+        assertEquals(makeRetrieved.getCreatedBy().getUserId(), makeCreated.getCreatedBy().getUserId());
         assertEquals(makeRetrieved.getMakeName(), makeCreated.getMakeName());
-        assertNotEquals(makeRetrieved.getMakeId(), makeCreated.getMakeId());
-        assertEquals(user.getAdminId(), makeRetrieved.getCreatedBy().getAdminId());
+        assertEquals(makeRetrieved.getMakeId(), makeCreated.getMakeId());
     }
     
     @Test
@@ -140,9 +136,8 @@ public class MakeDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeDao.createMake(testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeDao.createMake(testName, user.getUserId());
         makeCreated.setMakeName("test");
         
         //Act
@@ -150,30 +145,10 @@ public class MakeDaoTest {
         Make makeRetrieved = makeDao.readMakeById(makeCreated.getMakeId());
         
         //Assert
-        assertEquals(makeRetrieved.getCreatedBy(), makeCreated.getCreatedBy());
-        assertNotEquals(makeRetrieved.getMakeName(), makeCreated.getMakeName());
+        assertEquals(makeRetrieved.getCreatedBy().getUserId(), makeCreated.getCreatedBy().getUserId());
+        assertNotEquals(makeRetrieved.getMakeName(), testName);
         assertEquals(makeRetrieved.getMakeName(), "test");
-        assertNotEquals(makeRetrieved.getMakeId(), makeCreated.getMakeId());
-        assertEquals(user.getAdminId(), makeRetrieved.getCreatedBy().getAdminId());
-    }
-    
-    @Test
-    public void deleteMake() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
-        //Arrange
-        String testName = "testName";
-        Profile profile = profileService.createProfile("name", "email", "phone");
-        String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeDao.createMake(testName, adminId);
-        List<Make> makes = makeDao.readAllMakes();
-        assertEquals(1, makes.size());
-        
-        //Act
-        makeDao.deleteMake(makeCreated.getMakeId());
-        
-        //Assert
-        assertEquals(0, makes.size());
+        assertEquals(makeRetrieved.getMakeId(), makeCreated.getMakeId());
     }
     
 }

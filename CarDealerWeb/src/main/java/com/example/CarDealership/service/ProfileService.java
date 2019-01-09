@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.service;
 
+import com.example.CarDealership.dao.DataPersistenceError;
 import com.example.CarDealership.entity.Profile;
 
 /**
@@ -16,7 +17,7 @@ public interface ProfileService {
     
     public Profile createProfile(String name, String email, String phone, String address, String zipcode) throws NeedContactNameError, NeedContactDetailsError;
     
-    public Profile readProfileByInt(int id);
+    public Profile readProfileByInt(int id) throws DataPersistenceError;
     
-    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError;
+    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError, DataPersistenceError;
 }

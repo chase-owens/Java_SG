@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface UserDao {
     //CRUD methods
-    public User createUser(Profile profile, String role, String password1, int adminId);
+    public User createUser(Profile profile, String role, String password);
     public List<User> readAllUsers();
     public User readUserById(int id);
     public void updateUser(User user);

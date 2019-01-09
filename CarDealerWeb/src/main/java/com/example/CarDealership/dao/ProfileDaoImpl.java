@@ -33,6 +33,7 @@ public class ProfileDaoImpl implements ProfileDao {
         profile.setNumber(phone);
         
         final String CREATE_PROFILE = "INSERT INTO personProfile(fullName, email, phone) VALUES(?,?,?)";
+        jdbc.update(CREATE_PROFILE, name, email, phone);
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         
         profile.setProfileId(newId);
@@ -48,13 +49,13 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public Profile readProfileById(int id) {
+    public Profile readProfileById(int id) throws DataPersistenceError{
         Profile profile = null;
         final String READ_PROFILE_BY_ID = "SELECT * FROM personProfile WHERE id = ?";
         try {
             profile = jdbc.queryForObject(READ_PROFILE_BY_ID, new ProfileMapper(), id);
         } catch (EmptyResultDataAccessException e) {
-            
+            throw new DataPersistenceError();
         }
         return profile;
     }

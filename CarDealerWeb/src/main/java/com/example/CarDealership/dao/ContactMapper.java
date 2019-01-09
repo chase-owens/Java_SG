@@ -26,7 +26,7 @@ public class ContactMapper implements RowMapper<Contact> {
         contact.setContactId(rs.getInt("id"));
         contact.setProfile(profile);
         contact.setMessage(rs.getString("message"));
-        contact.setTimePosted(rs.getTimestamp(rs.getInt("timePosted")).toLocalDateTime());
+        contact.setTimePosted(rs.getTimestamp("timePosted").toLocalDateTime());
         
         return contact;
     }

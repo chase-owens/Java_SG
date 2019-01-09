@@ -65,15 +65,13 @@ public class UserDaoTest {
         //Arrange
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
         
         //Act
-        User user = dao.createUser(profile, role, password, adminId);
+        User user = dao.createUser(profile, role, password);
         
         //Assert
         assertEquals(user.getRole(), role);
         assertEquals(user.getPassword(), password);
-        assertEquals(user.getAdminId(), adminId);
         assertEquals(user.getProfile().getFullName(), "name");
     }
     
@@ -91,21 +89,19 @@ public class UserDaoTest {
         //Arrange
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
         
         Profile profile2 = profileService.createProfile("name2", "email2", "phone2");
         String role2 = "role2", password2 = "password2";
-        int adminId2 = 1;
        
-        User user = dao.createUser(profile, role, password, adminId);
-        User user2 = dao.createUser(profile2, role2, password2, adminId2);
+        User user = dao.createUser(profile, role, password);
+        User user2 = dao.createUser(profile2, role2, password2);
         
         //Act
         List<User> users = dao.readAllUsers();
         
         //Assert
         assertEquals(2, users.size());
-        assertEquals(users.get(0).getAdminId(), users.get(1).getAdminId());
+        assertNotEquals(users.get(0).getRole(), users.get(1).getRole());
         assertNotEquals(users.get(0).getPassword(), users.get(1).getPassword());
         
     }
@@ -115,9 +111,8 @@ public class UserDaoTest {
         //Arrange
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
        
-        User user = dao.createUser(profile, role, password, adminId);
+        User user = dao.createUser(profile, role, password);
         
         //Act
         User userRetrieved = dao.readUserById(user.getUserId());
@@ -132,16 +127,17 @@ public class UserDaoTest {
         //Arrange
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = dao.createUser(profile, role, password, adminId);
-        user.setRole("newRole");
+        User user = dao.createUser(profile, role, password);
+        String newRole = "newRole";
+        user.setRole(newRole);
         
         //Act
         dao.updateUser(user);
         User userUpdated = dao.readUserById(user.getUserId());
         
         //Assert
-        assertNotEquals(user.getRole(), userUpdated.getRole());
+        assertNotEquals(role, userUpdated.getRole());
+        assertEquals(newRole, userUpdated.getRole());
         
     } 
     

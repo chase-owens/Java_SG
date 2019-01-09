@@ -18,5 +18,4 @@ public interface MakeDao {
     public List<Make> readAllMakes();
     public Make readMakeById(int id);
     public void updateMake(Make make);
-    public void deleteMake(int id);
 }

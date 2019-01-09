@@ -86,10 +86,9 @@ public class VehicleDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -112,7 +111,7 @@ public class VehicleDaoTest {
         testVehicle.setVehicleType(vehicleType);
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         // Assert
         assertEquals(vehicleCreated.getBodyStyle(), testVehicle.getBodyStyle());
@@ -135,10 +134,9 @@ public class VehicleDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -146,7 +144,7 @@ public class VehicleDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Act
         List<Vehicle> vehicles = vehicleDao.readAllVehicles();
@@ -162,10 +160,9 @@ public class VehicleDaoTest {
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -173,7 +170,7 @@ public class VehicleDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Act
         Vehicle vehicleRetrieved = vehicleDao.readVehicleById(vehicleCreated.getVehicleId());
@@ -185,15 +182,14 @@ public class VehicleDaoTest {
     }
 
     @Test
-    public void testUpeateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testUpateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
         
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -201,7 +197,7 @@ public class VehicleDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Act
         vehicleCreated.setBodyStyle("suv");
@@ -209,40 +205,10 @@ public class VehicleDaoTest {
         Vehicle vehicleRetrieved = vehicleDao.readVehicleById(vehicleCreated.getVehicleId());
         
         // Assert
-        assertNotEquals(vehicleCreated.getBodyStyle(), vehicleRetrieved.getBodyStyle());
+        assertNotEquals(bodyStyle, vehicleRetrieved.getBodyStyle());
         assertEquals(vehicleCreated.getExteriorColor(), vehicleRetrieved.getExteriorColor());
         
     }
 
-    @Test
-    public void testDeleteVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
-        //Arrange
-        String testName = "testName";
-        Profile profile = profileService.createProfile("name", "email", "phone");
-        String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
-        
-        // VehicleProperties
-        int mileage = 0, vehicleYear = 2018;
-        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
-        BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-        
-        // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, adminId);
-        List<Vehicle> vehicles = vehicleDao.readAllVehicles();
-        
-        // To be sure there is one in there
-        assertEquals(1, vehicles.size());
-        
-        //Act
-        vehicleDao.deleteVehicle(vehicleCreated.getVehicleId());
-        List<Vehicle> vehiclesAfterDelete = vehicleDao.readAllVehicles();
-
-        //Assert
-        assertEquals(0, vehiclesAfterDelete.size());
-    }
 
 }

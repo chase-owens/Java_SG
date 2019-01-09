@@ -65,7 +65,7 @@ public class ProfileDaoTest {
     }
     
     @Test
-    public void testUpdateProfile() {
+    public void testUpdateProfile() throws DataPersistenceError {
         // Arrange
         
         // Create new profile, update its properties, update in DB, retreive profile
@@ -77,6 +77,8 @@ public class ProfileDaoTest {
         profileCreated.setEmail(newEmail);
         profileCreated.setFullName(newName);
         profileCreated.setNumber(newPhone);
+        profileCreated.setStreetAddress("");
+        profileCreated.setZipcode("");
         dao.updateProfile(profileCreated);
         
         // Act

@@ -6,9 +6,12 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Special;
-import java.time.LocalDate;
+import com.example.CarDealership.entity.User;
+import com.example.CarDealership.entity.Vehicle;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,37 +20,79 @@ import org.springframework.stereotype.Repository;
  * @author chaseowens
  */
 @Repository
-public class SpecialDaoImpl implements SpecialDao{
+public class SpecialDaoImpl implements SpecialDao {
+
     JdbcTemplate jdbc;
-    
+    VehicleDao vehicleDao;
+    UserDao userDao;
+
     @Autowired
-    public SpecialDaoImpl(JdbcTemplate jdbc) {
+    public SpecialDaoImpl(JdbcTemplate jdbc, VehicleDao vehicleDao, UserDao userDao) {
         this.jdbc = jdbc;
+        this.vehicleDao = vehicleDao;
+        this.userDao = userDao;
     }
 
     @Override
-    public Special createSpecial(String title, String description, int vehicleId, LocalDate dateBegin, LocalDate dateEnd, int userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Special createSpecial(String title, String description, int vehicleId, int userId) {
+        Special special = new Special();
+        special.setSpecialDescription(description);
+        special.setVehicle(vehicleDao.readVehicleById(vehicleId));
+        special.setCreatedBy(userDao.readUserById(userId));
+        special.setTitle(title);
+        
+        Vehicle vehicle = vehicleDao.readVehicleById(vehicleId);
+        special.setVehicle(vehicle);
+        
+        User user = userDao.readUserById(userId);
+        special.setCreatedBy(user);
+
+        Timestamp timestamp = Timestamp.valueOf(special.getDateAdded());
+
+        final String CREATE_SPECIAL = "INSERT INTO special(title, specialDescription, vehicleId, dateAdded, userId) VALUES(?,?,?,?,?)";
+        jdbc.update(CREATE_SPECIAL, title, description, vehicleId, timestamp, userId);
+
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        special.setSpecialId(newId);
+
+        return special;
     }
 
     @Override
     public List<Special> readAllSpecials() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_ALL_SPECIALS = "SELECT * FROM special";
+        List<Special> specials = jdbc.query(READ_ALL_SPECIALS, new SpecialMapper());
+        specials.stream().forEach(special -> {
+            special.setCreatedBy(userDao.readUserById(special.getCreatedBy().getUserId()));
+            special.setVehicle(vehicleDao.readVehicleById(special.getVehicle().getVehicleId()));
+        });
+        return specials;
     }
 
     @Override
     public Special readSpecialById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String READ_SPECIAL_BY_ID = "SELECT * FROM special WHERE id = ?";
+        Special special = null;
+        try {
+            special = jdbc.queryForObject(READ_SPECIAL_BY_ID, new SpecialMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+
+        }
+        special.setCreatedBy(userDao.readUserById(special.getCreatedBy().getUserId()));
+        special.setVehicle(vehicleDao.readVehicleById(special.getVehicle().getVehicleId()));
+        return special;
     }
 
     @Override
     public void updateSpecial(Special special) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_SPECIAL = "UPDATE special SET title = ?, dateBegin = ?, dateEnd = ?, specialDescription = ? WHERE id = ?";
+        jdbc.update(UPDATE_SPECIAL, special.getTitle(), special.getDateBegin(), special.getDateEnd(), special.getSpecialDescription(), special.getSpecialId());
     }
 
     @Override
     public void deleteSpecial(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_SPECIAL = "DELETE * FROM special WHERE id = ?";
+        jdbc.update(DELETE_SPECIAL, id);
     }
-    
+
 }

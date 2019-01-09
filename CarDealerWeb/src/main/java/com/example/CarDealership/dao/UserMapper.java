@@ -5,19 +5,34 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Profile;
+import com.example.CarDealership.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
  *
  * @author chaseowens
  */
-public class UserMapper implements RowMapper {
+public class UserMapper implements RowMapper<User> {
 
     @Override
-    public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+        User user = new User();
+        Profile profile = new Profile();
+        profile.setProfileId(rs.getInt("profileId"));
+        user.setProfile(profile);
+        
+        LocalDateTime dateAdded = rs.getTimestamp("dateAdded").toLocalDateTime();
+        
+        user.setPassword(rs.getString("userPassword"));
+        user.setRole(rs.getString("userRole"));
+        user.setDateAdded(dateAdded);
+        user.setUserId(rs.getInt("id"));
+        
+        return user;
     }
     
 }

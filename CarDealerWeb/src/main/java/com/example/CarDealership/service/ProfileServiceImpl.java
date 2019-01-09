@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.service;
 
+import com.example.CarDealership.dao.DataPersistenceError;
 import com.example.CarDealership.dao.ProfileDao;
 import com.example.CarDealership.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
     
     @Override
-    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError {
+    public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError, DataPersistenceError {
         // Check name
         if (name.equals("")) {
             throw new NeedContactNameError();
@@ -66,7 +67,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile readProfileByInt(int id) {
+    public Profile readProfileByInt(int id) throws DataPersistenceError{
         return profileDao.readProfileById(id);
     }
 }

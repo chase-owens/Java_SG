@@ -26,8 +26,8 @@ public class SpecialServiceImpl implements SpecialService{
     }
 
     @Override
-    public Special createSpecial(String title, String description, int vehicleId,LocalDate dateBegin, LocalDate dateEnd, int userId) {
-        return specialDao.createSpecial(title, description, vehicleId, dateBegin, dateEnd, userId);
+    public Special createSpecial(String title, String description, int vehicleId, int userId) {
+        return specialDao.createSpecial(title, description, vehicleId, userId);
     }
 
     @Override

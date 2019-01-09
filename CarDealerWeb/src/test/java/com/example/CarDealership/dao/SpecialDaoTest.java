@@ -61,6 +61,8 @@ public class SpecialDaoTest {
     UserService userService;
     @Autowired
     ProfileService profileService;
+    @Autowired
+    VehicleDao vehicleDao;
 
     public SpecialDaoTest() {
     }
@@ -87,10 +89,9 @@ public class SpecialDaoTest {
         String testName = "testName", specialTitle = "specialTitle";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -98,7 +99,7 @@ public class SpecialDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
         // Special properties
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -110,15 +111,13 @@ public class SpecialDaoTest {
         testSpecial.setSpecialDescription(vehicleDescription);
         testSpecial.setTitle(specialTitle);
         testSpecial.setVehicle(vehicleCreated);
-        testSpecial.setDateBegin(christmas);
-        testSpecial.setDateEnd(newYearsEve);
 
         // Act
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), christmas, newYearsEve, adminId);
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
 
         // Assert
-        assertEquals(specialCreated.getDateBegin(), testSpecial.getDateBegin());
-        assertEquals(specialCreated.getDateEnd(), testSpecial.getDateEnd());
+        assertEquals(specialCreated.getSpecialDescription(), testSpecial.getSpecialDescription());
+        assertEquals(specialCreated.getTitle(), testSpecial.getTitle());
     }
 
     @Test
@@ -136,10 +135,9 @@ public class SpecialDaoTest {
         String testName = "testName", specialTitle = "specialTitle";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -147,14 +145,9 @@ public class SpecialDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
-        // Special properties
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate christmas = LocalDate.parse("12-25-2018", formatter);
-        LocalDate newYearsEve = LocalDate.parse("12-31-2018", formatter);
-
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), christmas, newYearsEve, adminId);
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
 
         //Act
         List<Special> specials = specialDao.readAllSpecials();
@@ -169,10 +162,9 @@ public class SpecialDaoTest {
         String testName = "testName", specialTitle = "specialTitle";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -180,21 +172,16 @@ public class SpecialDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
-        // Special properties
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate christmas = LocalDate.parse("12-25-2018", formatter);
-        LocalDate newYearsEve = LocalDate.parse("12-31-2018", formatter);
-
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), christmas, newYearsEve, adminId);
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
 
         //Act
         Special specialRetrieved = specialDao.readSpecialById(specialCreated.getSpecialId());
 
         // Assert
-        assertEquals(specialCreated.getDateBegin(), specialRetrieved.getDateBegin());
-        assertEquals(specialCreated.getDateEnd(), specialRetrieved.getDateEnd());
+        assertEquals(specialCreated.getSpecialDescription(), specialRetrieved.getSpecialDescription());
+        assertEquals(specialCreated.getTitle(), specialRetrieved.getTitle());
 
     }
 
@@ -204,10 +191,9 @@ public class SpecialDaoTest {
         String testName = "testName", specialTitle = "specialTitle";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -215,7 +201,7 @@ public class SpecialDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
         // Special properties
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -223,16 +209,19 @@ public class SpecialDaoTest {
         LocalDate newYearsEve = LocalDate.parse("12-31-2018", formatter);
         LocalDate newYears = LocalDate.parse("01-01-2019", formatter);
 
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), christmas, newYearsEve, adminId);
-
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
+        
         //Act
+        specialCreated.setDateBegin(christmas);
         specialCreated.setDateEnd(newYears);
         specialDao.updateSpecial(specialCreated);
         Special specialRetrieved = specialDao.readSpecialById(specialCreated.getSpecialId());
 
         // Assert
         assertEquals(specialCreated.getDateBegin(), specialRetrieved.getDateBegin());
-        assertNotEquals(specialCreated.getDateEnd(), specialRetrieved.getDateEnd());
+        assertEquals(specialCreated.getDateEnd(), specialRetrieved.getDateEnd());
+        assertEquals(specialCreated.getTitle(), specialRetrieved.getTitle());
+        
 
     }
 
@@ -242,10 +231,9 @@ public class SpecialDaoTest {
         String testName = "testName", specialTitle = "specialTitle";
         Profile profile = profileService.createProfile("name", "email", "phone");
         String role = "role", password = "password";
-        int adminId = 1;
-        User user = userService.createUserWithProfile(profile, role, password, adminId);
-        Make makeCreated = makeService.createMake(testName, adminId);
-        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, adminId);
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
@@ -253,15 +241,10 @@ public class SpecialDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), adminId);
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
-        // Special properties
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate christmas = LocalDate.parse("12-25-2018", formatter);
-        LocalDate newYearsEve = LocalDate.parse("12-31-2018", formatter);
-        LocalDate newYears = LocalDate.parse("01-01-2019", formatter);
 
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), christmas, newYearsEve, adminId);
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
         List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
         assertEquals(1, specialsBeforeDelete.size());
         
