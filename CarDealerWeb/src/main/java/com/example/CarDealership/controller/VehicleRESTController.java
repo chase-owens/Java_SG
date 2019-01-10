@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,7 +60,7 @@ public class VehicleRESTController {
         return service.query20VehiclesWithFilters(query, type, minPrice, maxPrice, minYear, maxYear);
     }
     
-    @PostMapping("/update")
+    @PutMapping("/update")
     public void updateVehicle(int vehicleId, int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, 
             String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin,
             String msrp, String listPrice, String isFeatured, int userId) throws TooManyMilesToBeNewError, DataValidationError {

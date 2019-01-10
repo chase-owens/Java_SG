@@ -8,6 +8,7 @@ package com.example.CarDealership.service;
 import com.example.CarDealership.dao.PurchaseDao;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
+import com.example.CarDealership.entity.User;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +72,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public BigDecimal getSalesSumByUserId(int id, String startingOnString, String toString) throws DataValidationError {
+    public User getSalesSumByUserId(int id, String startingOnString, String toString) throws DataValidationError {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         LocalDate startingOn = null, to = null;
 
@@ -86,7 +87,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public int getTotalNumberOfSalesByUserId(int id, String startingOnString, String toString) throws DataValidationError {
+    public User getTotalNumberOfSalesByUserId(int id, String startingOnString, String toString) throws DataValidationError {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         LocalDate startingOn = null, to = null;
 
@@ -114,6 +115,13 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchaseToUpdate.setSaleType(purchaseType);
         
         purchaseDao.updatePurchase(purchaseToUpdate);
+    }
+
+    @Override
+    public List<User> getSalesReport(int id, String startingOn, String to) throws DataValidationError {
+        List<User> users = null;
+        
+        return users;
     }
 
 }

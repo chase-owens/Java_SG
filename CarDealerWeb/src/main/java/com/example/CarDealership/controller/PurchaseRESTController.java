@@ -6,6 +6,7 @@
 package com.example.CarDealership.controller;
 
 import com.example.CarDealership.entity.Purchase;
+import com.example.CarDealership.entity.User;
 import com.example.CarDealership.service.DataValidationError;
 import com.example.CarDealership.service.NeedContactDetailsError;
 import com.example.CarDealership.service.NeedContactNameError;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,7 +60,7 @@ public class PurchaseRESTController {
         return ResponseEntity.ok(purchase);
     }
     
-    @PostMapping("/update")
+    @PutMapping("/update")
     public boolean updatePurchase(int purchaseId, int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, String salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError {
         boolean isUpdated = true;
         try {
@@ -74,19 +76,10 @@ public class PurchaseRESTController {
         service.deletePurchase(id);
     }
     
-    @GetMapping("/netSalesByUserId")
-    public ResponseEntity<BigDecimal> getSalesSumByUserId(int id, String startingOn, String to) throws DataValidationError {
-        BigDecimal netSales = null;
-        try {
-            netSales = service.getSalesSumByUserId(id, startingOn, to);
-        } catch(DataValidationError e) {
-            return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(netSales);
+    @GetMapping("/salesReport")
+    public ResponseEntity<List<User>> getSalesReport(int id, String startingOn, String to) throws DataValidationError {
+        List<User> users = service.getSalesReport(id, startingOn, to);
+        return ResponseEntity.ok(users);
     }
-    
-    @GetMapping("/salesCountByUserId")
-    public int getTotalNumberOfSalesByUserId(int id, String startingOn, String to) throws DataValidationError {
-        return service.getTotalNumberOfSalesByUserId(id, startingOn, to);
-    }
+   
 }

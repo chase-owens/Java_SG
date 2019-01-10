@@ -7,6 +7,7 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
+import com.example.CarDealership.entity.User;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,6 @@ public interface PurchaseDao {
     public void deletePurchase(int id);
     
     //App specific methods
-    public BigDecimal getSalesSumById(int id, LocalDate startingOn, LocalDate to);
-    public int getSalesCountById(int id, LocalDate startingOn, LocalDate to);
+    public User getSalesSumById(int id, LocalDate startingOn, LocalDate to);
+    public User getSalesCountById(int id, LocalDate startingOn, LocalDate to);
 }

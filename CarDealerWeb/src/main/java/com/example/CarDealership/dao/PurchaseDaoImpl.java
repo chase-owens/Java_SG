@@ -7,6 +7,7 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
+import com.example.CarDealership.entity.User;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -98,13 +99,18 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public BigDecimal getSalesSumById(int id, LocalDate startingOn, LocalDate to) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User getSalesSumById(int id, LocalDate startingOn, LocalDate to) {
+        final String GET_NETSALES_BY_ID = "SELECT SUM (salePrice) FROM purchae WHERE id = ? BETWEEN ? AND ? ";
+        User user = new User();
+        return user;
     }
 
     @Override
-    public int getSalesCountById(int id, LocalDate startingOn, LocalDate to) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User getSalesCountById(int id, LocalDate startingOn, LocalDate to) {
+        final String GET_SALES_COUNT_BY_USERID = "SELECT COUNT(*) FROM purchase WHERE id = ? BETWEEN ? AND ? ";
+        User user = new User();
+        //jdbc.queryForObject(GET_SALES_COUNT_BY_USERID, startingOn, to, new SalesMapper(), id);
+        return user;
     }
 
 }

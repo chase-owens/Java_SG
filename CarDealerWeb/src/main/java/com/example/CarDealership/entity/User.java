@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -12,7 +13,8 @@ import java.time.LocalDateTime;
  * @author chaseowens
  */
 public class User {
-    int userId;
+    int userId, numberOfSales;
+    BigDecimal netSales;
     Profile profile;
     String role, password;
     LocalDateTime dateAdded;
@@ -60,6 +62,21 @@ public class User {
     public void setDateAdded(LocalDateTime dateAdded) {
         this.dateAdded = dateAdded;
     }
-    
+
+    public int getNumberOfSales() {
+        return numberOfSales;
+    }
+
+    public void setNumberOfSales(int numberOfSales) {
+        this.numberOfSales = numberOfSales;
+    }
+
+    public BigDecimal getNetSales() {
+        return netSales;
+    }
+
+    public void setNetSales(BigDecimal netSales) {
+        this.netSales = netSales;
+    }
     
 }

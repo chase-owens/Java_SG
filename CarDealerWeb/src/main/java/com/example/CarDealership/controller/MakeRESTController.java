@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,7 +62,7 @@ public class MakeRESTController {
         return ResponseEntity.ok(makes);
     }
     
-    @PostMapping("/updateMake")
+    @PutMapping("/updateMake")
     public boolean updateMake(String makeName, int makeId){
         boolean didUpdate = true;
         try {

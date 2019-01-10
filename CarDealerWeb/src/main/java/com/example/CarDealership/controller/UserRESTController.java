@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,7 +58,7 @@ public class UserRESTController {
         return ResponseEntity.ok(user);
     }
     
-    @PostMapping("/update")
+    @PutMapping("/update")
     public void updateUser(int userId, String firstName, String lastName, String phone, String email, String role, String password1, String password2) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
         service.updateUser(userId, firstName, lastName, phone, email, role, password1, password2);
     }
