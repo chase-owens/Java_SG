@@ -20,7 +20,6 @@ import com.example.CarDealership.service.NeedContactNameError;
 import com.example.CarDealership.service.ProfileService;
 import com.example.CarDealership.service.TooManyMilesToBeNewError;
 import com.example.CarDealership.service.UserService;
-import com.example.CarDealership.service.VehicleService;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.After;
@@ -49,7 +48,7 @@ public class PurchaseDaoTest {
     @Autowired
     PurchaseDao purchaseDao;
     @Autowired
-    VehicleService vehicleService;
+    VehicleDao vehicleDao;
     @Autowired
     ModelService modelService;
     @Autowired
@@ -81,7 +80,7 @@ public class PurchaseDaoTest {
     }
 
     @Test
-    public void testSomeMethod()throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
+    public void testCreatePurchase()throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -96,7 +95,7 @@ public class PurchaseDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), user.getUserId());
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Purchase variable
         String saleType = "saleType";
@@ -110,7 +109,7 @@ public class PurchaseDaoTest {
         testPurchase.setVehicle(vehicleCreated);
         
         // Act
-        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleYear, listPrice, saleType, user.getUserId());
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
         
         // Assert
         assertEquals(testPurchase.getSalePrice(), purchaseCreated.getSalePrice());
@@ -142,11 +141,11 @@ public class PurchaseDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), user.getUserId());
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Purchase variable
         String saleType = "saleType";
-        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleYear, listPrice, saleType, user.getUserId());
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
         
         //Act
         List<Purchase> purchases = purchaseDao.readAllPurchases();
@@ -171,11 +170,11 @@ public class PurchaseDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), user.getUserId());
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Purchase variable
         String saleType = "saleType";
-        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleYear, listPrice, saleType, user.getUserId());
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
         
         //Act
         assertEquals(purchaseCreated.getSalePrice(), listPrice);
@@ -204,11 +203,11 @@ public class PurchaseDaoTest {
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
         
         // Use Dao To Create Vehicle
-        Vehicle vehicleCreated = vehicleService.createVehicle(makeCreated.getMakeId(), modelCreated.getId(), mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, msrp.toString(), listPrice.toString(), user.getUserId());
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
         
         //Purchase variable
         String saleType = "saleType";
-        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleYear, listPrice, saleType, user.getUserId());
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
         
         //Act
         List<Purchase> purchasesBeforeDelete = purchaseDao.readAllPurchases();

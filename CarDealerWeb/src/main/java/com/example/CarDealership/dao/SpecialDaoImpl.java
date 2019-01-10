@@ -76,7 +76,7 @@ public class SpecialDaoImpl implements SpecialDao {
         try {
             special = jdbc.queryForObject(READ_SPECIAL_BY_ID, new SpecialMapper(), id);
         } catch (EmptyResultDataAccessException e) {
-
+            return null;
         }
         special.setCreatedBy(userDao.readUserById(special.getCreatedBy().getUserId()));
         special.setVehicle(vehicleDao.readVehicleById(special.getVehicle().getVehicleId()));

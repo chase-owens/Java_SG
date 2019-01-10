@@ -42,9 +42,7 @@ public class VehicleDaoImpl implements VehicleDao {
         Vehicle vehicle = new Vehicle();
         vehicle.setModel(model);
         vehicle.setMake(make);
-        User user = new User();
-        user.setUserId(userId);
-        vehicle.setCreatedBy(user);
+        vehicle.setCreatedBy(userDao.readUserById(userId));
         
         
         vehicle.setExteriorColor(exteriorColor);
@@ -92,7 +90,7 @@ public class VehicleDaoImpl implements VehicleDao {
         try {
             vehicle = jdbc.queryForObject(READ_VEHICLE_BY_ID, new VehicleMapper(), id);
         } catch(EmptyResultDataAccessException e) {
-            
+            return null;
         }
         
         vehicle.setMake(makeDao.readMakeById(vehicle.getMake().getMakeId()));

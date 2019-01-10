@@ -9,6 +9,7 @@ import com.example.CarDealership.entity.Make;
 import com.example.CarDealership.entity.Model;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.User;
+import com.example.CarDealership.service.DataValidationError;
 import com.example.CarDealership.service.MakeService;
 import com.example.CarDealership.service.NeedContactDetailsError;
 import com.example.CarDealership.service.NeedContactMessageError;
@@ -69,7 +70,7 @@ public class ModelDaoTest {
     }
 
     @Test
-    public void testCreateModel() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testCreateModel() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -102,7 +103,7 @@ public class ModelDaoTest {
     }
     
     @Test
-    public void testGetModels() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testGetModels() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -120,7 +121,7 @@ public class ModelDaoTest {
     }
     
     @Test
-    public void testReadModelById() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testReadModelById() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -139,7 +140,7 @@ public class ModelDaoTest {
     }
     
     @Test
-    public void updateModel() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void updateModel() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");

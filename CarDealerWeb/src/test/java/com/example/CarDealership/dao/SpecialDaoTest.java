@@ -28,7 +28,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,8 +50,6 @@ public class SpecialDaoTest {
 
     @Autowired
     SpecialDao specialDao;
-    @Autowired
-    VehicleService vehicleService;
     @Autowired
     ModelService modelService;
     @Autowired
@@ -115,14 +112,14 @@ public class SpecialDaoTest {
         assertEquals(specialCreated.getTitle(), testSpecial.getTitle());
     }
 
-    @Test
-    public void testReadEmptySpecials() {
-        //Act
-        List<Special> specials = specialDao.readAllSpecials();
-
-        //Assert
-        assertEquals(0, specials.size());
-    }
+//    @Test
+//    public void testReadEmptySpecials() {
+//        //Act
+//        List<Special> specials = specialDao.readAllSpecials();
+//
+//        //Assert
+//        assertEquals(0, specials.size());
+//    }
 
     @Test
     public void testReadSpecials() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
@@ -238,15 +235,15 @@ public class SpecialDaoTest {
 
 
         Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
-//        List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
-//        assertEquals(1, specialsBeforeDelete.size());
+        List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
+        assertEquals(1, specialsBeforeDelete.size());
         
         //Act
         specialDao.deleteSpecial(specialCreated.getSpecialId());
         List<Special> specialsAfterDelete = specialDao.readAllSpecials();
         
         //Assert
-        assertEquals(0, specialsAfterDelete);
+        assertEquals(0, specialsAfterDelete.size());
     }
 
 }

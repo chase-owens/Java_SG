@@ -49,13 +49,13 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public Profile readProfileById(int id) throws DataPersistenceError{
+    public Profile readProfileById(int id) {
         Profile profile = null;
         final String READ_PROFILE_BY_ID = "SELECT * FROM personProfile WHERE id = ?";
         try {
             profile = jdbc.queryForObject(READ_PROFILE_BY_ID, new ProfileMapper(), id);
         } catch (EmptyResultDataAccessException e) {
-            throw new DataPersistenceError();
+            return null;
         }
         return profile;
     }

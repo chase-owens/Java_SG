@@ -10,6 +10,7 @@ import com.example.CarDealership.entity.Model;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.User;
 import com.example.CarDealership.entity.Vehicle;
+import com.example.CarDealership.service.DataValidationError;
 import com.example.CarDealership.service.MakeService;
 import com.example.CarDealership.service.ModelService;
 import com.example.CarDealership.service.NeedContactDetailsError;
@@ -81,7 +82,7 @@ public class VehicleDaoTest {
      * @throws com.example.CarDealership.service.NeedContactMessageError
      */
     @Test
-    public void testCreateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testCreateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -129,7 +130,7 @@ public class VehicleDaoTest {
     }
 
     @Test
-    public void testreadAllVehicles() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testreadAllVehicles() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -155,7 +156,7 @@ public class VehicleDaoTest {
     }
 
     @Test
-    public void testReadVehicleById() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testReadVehicleById() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -182,7 +183,7 @@ public class VehicleDaoTest {
     }
 
     @Test
-    public void testUpateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
+    public void testUpateVehicle() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, DataValidationError {
         //Arrange
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");

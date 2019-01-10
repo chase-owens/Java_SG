@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User readUserByid(int id) {
+    public User readUserById(int id) {
         return userDao.readUserById(id);
     }
 

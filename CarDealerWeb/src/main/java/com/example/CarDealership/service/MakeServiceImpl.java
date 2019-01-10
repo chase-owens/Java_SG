@@ -25,7 +25,10 @@ public class MakeServiceImpl implements MakeService {
     }
     
     @Override
-    public Make createMake(String makeName, int userId) {
+    public Make createMake(String makeName, int userId) throws DataValidationError {
+        if (makeName.equals("")) {
+            throw new DataValidationError();
+        }
         Make newMake = makeDao.createMake(makeName, userId);
         return newMake;
     }
@@ -38,6 +41,14 @@ public class MakeServiceImpl implements MakeService {
     @Override
     public Make readMakeById(int id) {
         return makeDao.readMakeById(id);
+    }
+
+    @Override
+    public void updateMake(String makeName, int makeId) {
+        Make make = new Make();
+        make.setMakeId(makeId);
+        make.setMakeName(makeName);
+        makeDao.updateMake(make);
     }
     
 }

@@ -73,7 +73,7 @@ public class ModelDaoImpl implements ModelDao {
         try {
             model = jdbc.queryForObject(READ_MODEL_BY_ID, new ModelMapper(), id);
         } catch(EmptyResultDataAccessException e) {
-            
+            return null;
         }
         
         model.setCreatedBy(userDao.readUserById(model.getCreatedBy().getUserId()));

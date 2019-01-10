@@ -39,6 +39,11 @@ public class SpecialServiceImpl implements SpecialService{
     public Special getSpecialById(int id) {
         return specialDao.readSpecialById(id);
     }
+    
+    @Override
+    public void updateSpecial(Special special) {
+        specialDao.updateSpecial(special);
+    }
 
     @Override
     public void deleteSpecial(int id) {

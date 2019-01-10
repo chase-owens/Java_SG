@@ -87,7 +87,7 @@ public class ProfileServiceTest {
         // Act
         try {
             Profile profileCreated = service.createProfile(name, email, phone);
-            fail("Should have thrown need ProfileName error");
+            fail("Should have thrown need NeedContactDetailsError");
         } catch(NeedContactDetailsError e) {
         }
     }

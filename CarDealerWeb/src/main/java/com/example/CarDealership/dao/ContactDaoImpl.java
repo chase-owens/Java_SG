@@ -54,12 +54,7 @@ public class ContactDaoImpl implements ContactDao {
         final String READ_CONTACTS = "SELECT * FROM contact";
         List<Contact> contacts = jdbc.query(READ_CONTACTS, new ContactMapper());
         contacts.stream().forEach(contact -> {
-            try {
-                contact.setProfile(profileDao.readProfileById(contact.getProfile().getProfileId()));
-                
-            } catch (DataPersistenceError ex) {
-
-            }
+            contact.setProfile(profileDao.readProfileById(contact.getProfile().getProfileId()));
         });
 
         return contacts;
@@ -72,8 +67,8 @@ public class ContactDaoImpl implements ContactDao {
         try {
             contact = jdbc.queryForObject(READ_CONTACT_BY_ID, new ContactMapper(), id);
             contact.setProfile(profileDao.readProfileById(contact.getProfile().getProfileId()));
-        } catch (EmptyResultDataAccessException | DataPersistenceError e) {
-
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
         return contact;
     }

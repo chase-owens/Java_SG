@@ -18,7 +18,7 @@ public interface VehicleService {
             String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin,
             String msrpString, String listPriceString, int userId) throws TooManyMilesToBeNewError, DataValidationError;
     
-    Vehicle readVehicleByInt(int vehicleId);
+    Vehicle readVehicleById(int vehicleId);
     
     List<Vehicle> query20VehiclesWithFilters(String query, String type, BigDecimal minPrice, BigDecimal maxPrice, int minYear, int maxYear);
     
@@ -27,4 +27,6 @@ public interface VehicleService {
             String msrp, String listPrice, String isFeatured, int userId) throws TooManyMilesToBeNewError, DataValidationError;
 
     void markAsSold(int vehicleId);
+    
+    public List<Vehicle> readAllVehicles();
 }

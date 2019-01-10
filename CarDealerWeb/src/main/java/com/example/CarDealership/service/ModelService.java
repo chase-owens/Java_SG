@@ -13,9 +13,11 @@ import java.util.List;
  * @author chaseowens
  */
 public interface ModelService {
-    public Model createModel(int makeId, String modelName, int userId);
+    public Model createModel(int makeId, String modelName, int userId)throws DataValidationError;
     
     public Model readModelById(int id);
     
     public List<Model> readAllModels();
+    
+    public void updateModel(int makeId, String modelName, int modelId)throws DataValidationError;
 }

@@ -10,6 +10,7 @@ import com.example.CarDealership.entity.User;
 import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -50,11 +51,8 @@ public class UserDaoImpl implements UserDao{
         final String READ_USERS = "SELECT * FROM carDealershipUser";
         List<User> users = jdbc.query(READ_USERS, new UserMapper());
         users.stream().forEach(user -> {
-            try {
-                user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
-            } catch (DataPersistenceError ex) {
-                
-            }
+            user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
+            
         });
         return users;
     }
@@ -65,10 +63,10 @@ public class UserDaoImpl implements UserDao{
         User user = null;
         try {
             user = jdbc.queryForObject(READ_USER_BY_ID, new UserMapper(), id);
-            user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
-        } catch (DataPersistenceError ex) {
-            
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
         }
+        user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
         return user;
     }
 

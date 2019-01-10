@@ -13,9 +13,11 @@ import java.util.List;
  * @author chaseowens
  */
 public interface MakeService {
-    public Make createMake(String makeName, int userId);
+    public Make createMake(String makeName, int userId) throws DataValidationError;
     
     public Make readMakeById(int id);
     
     public List<Make> getAllMakes();
+
+    public void updateMake(String makeName, int makeId);
 }

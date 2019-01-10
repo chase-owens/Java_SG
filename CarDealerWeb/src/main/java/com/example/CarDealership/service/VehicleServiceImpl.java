@@ -90,8 +90,13 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicle readVehicleByInt(int vehicleId) {
+    public Vehicle readVehicleById(int vehicleId) {
         return vehicleDao.readVehicleById(vehicleId);
+    }
+    
+    @Override
+    public List<Vehicle> readAllVehicles() {
+        return vehicleDao.readAllVehicles();
     }
 
     @Override
@@ -177,7 +182,7 @@ public class VehicleServiceImpl implements VehicleService {
                 vehicle.setIsFeatured(false);
             }
         }
-        User currentUser = userService.readUserByid(userId);
+        User currentUser = userService.readUserById(userId);
         vehicle.setCreatedBy(currentUser);
 
         //Update vehicle
@@ -190,5 +195,11 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = vehicleDao.readVehicleById(vehicleId);
         vehicle.setIsAvailable(false);
         vehicleDao.updateVehicle(vehicle);
+    }
+    
+    public boolean validateData(int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin, String msrpString, String listPriceString) {
+        boolean isValid = true;
+        
+        return isValid;
     }
 }

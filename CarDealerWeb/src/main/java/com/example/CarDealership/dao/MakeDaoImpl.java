@@ -61,6 +61,7 @@ public class MakeDaoImpl implements MakeDao{
         try {
             make = jdbc.queryForObject(READ_MAKE_BY_ID, new MakeMapper(), id);
         } catch (EmptyResultDataAccessException e) {
+            return null;
         }
         make.setCreatedBy(userDao.readUserById(make.getCreatedBy().getUserId()));
         return make;
