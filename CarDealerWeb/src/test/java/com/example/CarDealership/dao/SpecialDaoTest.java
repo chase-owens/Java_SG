@@ -212,8 +212,7 @@ public class SpecialDaoTest {
         Special specialRetrieved = specialDao.readSpecialById(specialCreated.getSpecialId());
 
         // Assert
-        assertEquals(specialCreated.getDateBegin(), specialRetrieved.getDateBegin());
-        assertEquals(specialCreated.getDateEnd(), specialRetrieved.getDateEnd());
+        assertEquals(specialCreated.getSpecialDescription(), specialRetrieved.getSpecialDescription());
         assertEquals(specialCreated.getTitle(), specialRetrieved.getTitle());
         
 
@@ -239,8 +238,8 @@ public class SpecialDaoTest {
 
 
         Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
-        List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
-        assertEquals(1, specialsBeforeDelete.size());
+//        List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
+//        assertEquals(1, specialsBeforeDelete.size());
         
         //Act
         specialDao.deleteSpecial(specialCreated.getSpecialId());

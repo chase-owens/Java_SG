@@ -91,7 +91,7 @@ public class SpecialDaoImpl implements SpecialDao {
 
     @Override
     public void deleteSpecial(int id) {
-        final String DELETE_SPECIAL = "DELETE * FROM special WHERE id = ?";
+        final String DELETE_SPECIAL = "DELETE FROM special WHERE id = ?";
         jdbc.update(DELETE_SPECIAL, id);
     }
 
