@@ -7,6 +7,7 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Make;
 import com.example.CarDealership.entity.Model;
+import com.example.CarDealership.entity.User;
 import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -41,6 +42,11 @@ public class VehicleDaoImpl implements VehicleDao {
         Vehicle vehicle = new Vehicle();
         vehicle.setModel(model);
         vehicle.setMake(make);
+        User user = new User();
+        user.setUserId(userId);
+        vehicle.setCreatedBy(user);
+        
+        
         vehicle.setExteriorColor(exteriorColor);
         vehicle.setImage(image);
         vehicle.setInteriorColor(interiorColor);

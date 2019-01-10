@@ -101,11 +101,6 @@ public class SpecialDaoTest {
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
 
-        // Special properties
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate christmas = LocalDate.parse("12-25-2018", formatter);
-        LocalDate newYearsEve = LocalDate.parse("12-31-2018", formatter);
-
         Special testSpecial = new Special();
         testSpecial.setCreatedBy(user);
         testSpecial.setSpecialDescription(vehicleDescription);
@@ -146,12 +141,11 @@ public class SpecialDaoTest {
 
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-
-        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
-
+        
         //Act
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
         List<Special> specials = specialDao.readAllSpecials();
-
+ 
         //Assert
         assertEquals(1, specials.size());
     }
