@@ -100,14 +100,14 @@ public class PurchaseDaoImpl implements PurchaseDao {
 
     @Override
     public User getSalesSumById(int id, LocalDate startingOn, LocalDate to) {
-        final String GET_NETSALES_BY_ID = "SELECT SUM (salePrice) FROM purchae WHERE id = ? BETWEEN ? AND ? ";
+        final String GET_NETSALES_BY_ID = "SELECT SUM (salePrice) FROM purchae WHERE userId = ? BETWEEN ? AND ? ";
         User user = new User();
         return user;
     }
 
     @Override
     public User getSalesCountById(int id, LocalDate startingOn, LocalDate to) {
-        final String GET_SALES_COUNT_BY_USERID = "SELECT COUNT(*) FROM purchase WHERE id = ? BETWEEN ? AND ? ";
+        final String GET_SALES_COUNT_BY_USERID = "SELECT COUNT(*) FROM purchase WHERE userId = ? BETWEEN ? AND ? ";
         User user = new User();
         //jdbc.queryForObject(GET_SALES_COUNT_BY_USERID, startingOn, to, new SalesMapper(), id);
         return user;
