@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
             throw new DataValidationError();
         }
 
-        if (!transmission.equals("manual") || !transmission.equals("automatic")) {
+        if (!transmission.equals("manual") && !transmission.equals("automatic")) {
             throw new DataValidationError();
         }
 
@@ -53,7 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
             throw new DataValidationError();
         }
 
-        if (!image.endsWith("jpg") || !image.endsWith("jepg") || !image.endsWith("png")) {
+        if (!image.endsWith("jpg") && !image.endsWith("jepg") && !image.endsWith("png")) {
             throw new DataValidationError();
         }
 
@@ -113,7 +113,7 @@ public class VehicleServiceImpl implements VehicleService {
             throw new DataValidationError();
         }
 
-        if (!transmission.equals("manual") || !transmission.equals("automatic")) {
+        if (!transmission.equals("manual") && !transmission.equals("automatic")) {
             throw new DataValidationError();
         }
 
@@ -121,7 +121,7 @@ public class VehicleServiceImpl implements VehicleService {
             throw new DataValidationError();
         }
 
-        if (!image.endsWith("jpg") || !image.endsWith("jepg") || !image.endsWith("png") || !image.equals("")) {
+        if (!image.endsWith("jpg") && !image.endsWith("jepg") && !image.endsWith("png") && !image.equals("")) {
             throw new DataValidationError();
         }
 

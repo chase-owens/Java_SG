@@ -50,7 +50,7 @@ public class SpecialDaoImpl implements SpecialDao {
         Timestamp timestamp = Timestamp.valueOf(special.getDateAdded());
 
         final String CREATE_SPECIAL = "INSERT INTO special(title, specialDescription, vehicleId, dateAdded, userId) VALUES(?,?,?,?,?)";
-        jdbc.update(CREATE_SPECIAL, title, description, vehicleId, timestamp, userId);
+        int wasSuccessful = jdbc.update(CREATE_SPECIAL, title, description, vehicleId, timestamp, userId);
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         special.setSpecialId(newId);
