@@ -44,7 +44,10 @@ public class MakeServiceImpl implements MakeService {
     }
 
     @Override
-    public void updateMake(String makeName, int makeId) {
+    public void updateMake(String makeName, int makeId) throws DataValidationError {
+        if (makeName.equals("")) {
+            throw new DataValidationError();
+        }
         Make make = new Make();
         make.setMakeId(makeId);
         make.setMakeName(makeName);

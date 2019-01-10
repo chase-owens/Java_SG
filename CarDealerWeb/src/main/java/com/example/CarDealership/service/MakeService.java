@@ -19,5 +19,5 @@ public interface MakeService {
     
     public List<Make> getAllMakes();
 
-    public void updateMake(String makeName, int makeId);
+    public void updateMake(String makeName, int makeId) throws DataValidationError;
 }

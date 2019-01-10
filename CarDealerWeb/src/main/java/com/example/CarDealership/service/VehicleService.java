@@ -14,19 +14,19 @@ import java.util.List;
  * @author chaseowens
  */
 public interface VehicleService {
-    Vehicle createVehicle(int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, 
+    public Vehicle createVehicle(int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, 
             String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin,
             String msrpString, String listPriceString, int userId) throws TooManyMilesToBeNewError, DataValidationError;
     
-    Vehicle readVehicleById(int vehicleId);
+    public Vehicle readVehicleById(int vehicleId);
     
-    List<Vehicle> query20VehiclesWithFilters(String query, String type, BigDecimal minPrice, BigDecimal maxPrice, int minYear, int maxYear);
+    public List<Vehicle> query20VehiclesWithFilters(String query, String type, BigDecimal minPrice, BigDecimal maxPrice, int minYear, int maxYear);
     
-    void updateVehicle(int vehicleId, int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, 
+    public void updateVehicle(int vehicleId, int makeId, int modelId, int mileage, int year, String vehicleType, String vehicleDescription, 
             String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin,
             String msrp, String listPrice, String isFeatured, int userId) throws TooManyMilesToBeNewError, DataValidationError;
 
-    void markAsSold(int vehicleId);
+    public void markAsSold(int vehicleId);
     
     public List<Vehicle> readAllVehicles();
 }

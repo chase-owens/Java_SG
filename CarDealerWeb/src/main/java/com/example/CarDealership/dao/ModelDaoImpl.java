@@ -8,6 +8,7 @@ package com.example.CarDealership.dao;
 import com.example.CarDealership.entity.Make;
 import com.example.CarDealership.entity.Model;
 import com.example.CarDealership.entity.User;
+import com.example.CarDealership.service.DataValidationError;
 import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,11 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public Model createModel(int makeId, String modelName, int userId) {
+    public Model createModel(int makeId, String modelName, int userId) throws DataValidationError {
+        if (modelName.equals("")) {
+            throw new DataValidationError();
+        }
+        
         Model model = new Model();
         Make make = makeDao.readMakeById(makeId);
         User user = userDao.readUserById(userId);

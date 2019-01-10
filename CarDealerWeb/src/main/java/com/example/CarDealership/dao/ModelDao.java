@@ -6,6 +6,7 @@
 package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Model;
+import com.example.CarDealership.service.DataValidationError;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface ModelDao {
     //CRUD methods
-    public Model createModel(int makeId, String modelName, int userId);
+    public Model createModel(int makeId, String modelName, int userId) throws DataValidationError;
     public List<Model> readAllModels();
     public Model readModelById(int id);
     public void updateModel(Model model);

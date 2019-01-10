@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class SpecialDaoImpl implements SpecialDao {
-
     JdbcTemplate jdbc;
     VehicleDao vehicleDao;
     UserDao userDao;

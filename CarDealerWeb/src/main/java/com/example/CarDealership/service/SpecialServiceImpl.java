@@ -7,7 +7,6 @@ package com.example.CarDealership.service;
 
 import com.example.CarDealership.dao.SpecialDao;
 import com.example.CarDealership.entity.Special;
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,10 @@ public class SpecialServiceImpl implements SpecialService{
     }
 
     @Override
-    public Special createSpecial(String title, String description, int vehicleId, int userId) {
+    public Special createSpecial(String title, String description, int vehicleId, int userId) throws DataValidationError {
+        if (title.equals("") || description.equals("")) {
+            throw new DataValidationError();
+        }
         return specialDao.createSpecial(title, description, vehicleId, userId);
     }
 
