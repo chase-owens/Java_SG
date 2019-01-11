@@ -20,6 +20,4 @@ public interface PurchaseService {
     public void updatePurchase(int purchaseId, int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, String salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError;
     public void deletePurchase(int id);
     public List<User> getSalesReport(int id, String startingOn, String to) throws DataValidationError;
-    public User getSalesSumByUserId(int id, String startingOn, String to) throws DataValidationError;
-    public User getTotalNumberOfSalesByUserId(int id, String startingOn, String to) throws DataValidationError;
 }

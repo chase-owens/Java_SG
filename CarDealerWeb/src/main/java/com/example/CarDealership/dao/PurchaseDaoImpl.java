@@ -99,18 +99,17 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public User getSalesSumById(int id, LocalDate startingOn, LocalDate to) {
-        final String GET_NETSALES_BY_ID = "SELECT SUM (salePrice) FROM purchae WHERE userId = ? BETWEEN ? AND ? ";
-        User user = new User();
-        return user;
+    public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to) {
+        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase GROUP BY userId";
+        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper());
+        return users;
     }
-
+    
     @Override
-    public User getSalesCountById(int id, LocalDate startingOn, LocalDate to) {
-        final String GET_SALES_COUNT_BY_USERID = "SELECT COUNT(*) FROM purchase WHERE userId = ? BETWEEN ? AND ? ";
-        User user = new User();
-        //jdbc.queryForObject(GET_SALES_COUNT_BY_USERID, startingOn, to, new SalesMapper(), id);
-        return user;
+    public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to) {
+        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase GROUP BY userId WHERE ID = ?";
+        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper(), id);
+        return users;
     }
 
 }

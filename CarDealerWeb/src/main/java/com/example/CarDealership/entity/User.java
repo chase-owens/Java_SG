@@ -17,6 +17,22 @@ public class User {
     BigDecimal netSales;
     Profile profile;
     String role, password;
+
+    public int getNumberOfSales() {
+        return numberOfSales;
+    }
+
+    public void setNumberOfSales(int numberOfSales) {
+        this.numberOfSales = numberOfSales;
+    }
+
+    public BigDecimal getNetSales() {
+        return netSales;
+    }
+
+    public void setNetSales(BigDecimal netSales) {
+        this.netSales = netSales;
+    }
     LocalDateTime dateAdded;
     
     public User() {
@@ -61,22 +77,6 @@ public class User {
 
     public void setDateAdded(LocalDateTime dateAdded) {
         this.dateAdded = dateAdded;
-    }
-
-    public int getNumberOfSales() {
-        return numberOfSales;
-    }
-
-    public void setNumberOfSales(int numberOfSales) {
-        this.numberOfSales = numberOfSales;
-    }
-
-    public BigDecimal getNetSales() {
-        return netSales;
-    }
-
-    public void setNetSales(BigDecimal netSales) {
-        this.netSales = netSales;
     }
     
 }

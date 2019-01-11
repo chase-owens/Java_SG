@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/specialApi/")
+@RequestMapping("/special/")
 public class SpecialRESTController {
 
     SpecialService service;

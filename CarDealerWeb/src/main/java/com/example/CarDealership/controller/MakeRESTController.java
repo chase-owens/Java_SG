@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/makeApi/")
+@RequestMapping("/make/")
 public class MakeRESTController {
 
     MakeService service;
@@ -33,7 +33,7 @@ public class MakeRESTController {
         this.service = service;
     }
     
-    @PostMapping("/createMake")
+    @PostMapping("/create")
     public ResponseEntity<Make> createMake(String makeName, int userId) throws DataValidationError {
         Make make = null;
         try {
@@ -44,7 +44,7 @@ public class MakeRESTController {
         return ResponseEntity.ok(make);
     }
     
-    @GetMapping("/readMake")
+    @GetMapping("/readOne")
     public ResponseEntity<Make> readMakeById(int id) {
         Make make = service.readMakeById(id);
         if (make == null) {
@@ -53,7 +53,7 @@ public class MakeRESTController {
         return ResponseEntity.ok(make);
     }
     
-    @GetMapping("/readMakes")
+    @GetMapping("/readAll")
     public ResponseEntity<List<Make>> getAllMakes(){
         List<Make> makes = service.getAllMakes();
         if (makes == null) {
@@ -62,7 +62,7 @@ public class MakeRESTController {
         return ResponseEntity.ok(makes);
     }
     
-    @PutMapping("/updateMake")
+    @PutMapping("/update")
     public boolean updateMake(String makeName, int makeId){
         boolean didUpdate = true;
         try {

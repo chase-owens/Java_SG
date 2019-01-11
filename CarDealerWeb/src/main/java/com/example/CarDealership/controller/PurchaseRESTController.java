@@ -11,7 +11,6 @@ import com.example.CarDealership.service.DataValidationError;
 import com.example.CarDealership.service.NeedContactDetailsError;
 import com.example.CarDealership.service.NeedContactNameError;
 import com.example.CarDealership.service.PurchaseService;
-import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/purchaseApi/")
+@RequestMapping("/purchase/")
 public class PurchaseRESTController {
 
     PurchaseService service;
@@ -46,7 +45,7 @@ public class PurchaseRESTController {
         return ResponseEntity.ok(purchase);
     }
     
-    @GetMapping("/salesByUserId")
+    @GetMapping("/readAll")
     public List<Purchase> readAllPurchases() {
         return service.readAllPurchases();
     }

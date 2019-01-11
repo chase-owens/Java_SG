@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/modelApi/")
+@RequestMapping("/model/")
 public class ModelRESTController {
 
     ModelService service;
@@ -33,7 +33,7 @@ public class ModelRESTController {
         this.service = service;
     }
     
-        @PostMapping("/createModel")
+        @PostMapping("/create")
     public ResponseEntity<Model> createModel(int makeId, String modelName, int userId) {
         Model model = null;
         try {
@@ -44,7 +44,7 @@ public class ModelRESTController {
         return ResponseEntity.ok(model);
     }
     
-    @GetMapping("/readModel")
+    @GetMapping("/readOne")
     public ResponseEntity<Model> readMakeById(int id) {
         Model model = service.readModelById(id);
         if (model == null) {
@@ -53,7 +53,7 @@ public class ModelRESTController {
         return ResponseEntity.ok(model);
     }
     
-    @GetMapping("/readModels")
+    @GetMapping("/readAll")
     public ResponseEntity<List<Model>> getAllMakes(){
         List<Model> model = service.readAllModels();
         if (model == null) {
@@ -62,7 +62,7 @@ public class ModelRESTController {
         return ResponseEntity.ok(model);
     }
     
-    @PutMapping("/updateModel")
+    @PutMapping("/update")
     public boolean updateModel(int makeId, String modelName, int modelId){
         boolean didUpdate = true;
         try {

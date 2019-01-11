@@ -27,6 +27,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     PurchaseDao purchaseDao;
     ProfileService profileService;
     VehicleService vehicleService;
+    UserService userService;
 
     /**
      *
@@ -35,10 +36,11 @@ public class PurchaseServiceImpl implements PurchaseService {
      * @param vehicleService
      */
     @Autowired
-    public PurchaseServiceImpl(PurchaseDao purchaseDao, ProfileService profileService, VehicleService vehicleService) {
+    public PurchaseServiceImpl(PurchaseDao purchaseDao, ProfileService profileService, VehicleService vehicleService, UserService userService) {
         this.purchaseDao = purchaseDao;
         this.profileService = profileService;
         this.vehicleService = vehicleService;
+        this.userService = userService;
     }
 
     @Override
@@ -48,80 +50,91 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         // update vehicle - mark as unavailable
         vehicleService.markAsSold(vehicleId);
-        
+
         BigDecimal salePrice = null;
         try {
             salePrice = new BigDecimal(salePriceString);
         } catch (NumberFormatException e) {
-            
+
         }
 
         // add purchase to DB
         Purchase purchase = purchaseDao.createPurchase(profile, vehicleId, salePrice, purchaseType, userId);
         return purchase;
     }
-    
+
     @Override
     public List<Purchase> readAllPurchases() {
         return purchaseDao.readAllPurchases();
     }
-    
+
     @Override
     public Purchase readPurchaseById(int id) {
         return purchaseDao.readPurchaseById(id);
     }
 
     @Override
-    public User getSalesSumByUserId(int id, String startingOnString, String toString) throws DataValidationError {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate startingOn = null, to = null;
+    public void updatePurchase(int purchaseId, int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, String salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError {
+        Profile profile = profileService.createProfile(customerName, email, customerPhone, street1 + " " + street2, zipcode);
 
-        try {
-            startingOn = LocalDate.parse(startingOnString, formatter);
-            to = LocalDate.parse(toString, formatter);
-        } catch (DateTimeParseException e) {
-            throw new DataValidationError();
-        }
+        Purchase purchaseToUpdate = purchaseDao.readPurchaseById(purchaseId);
 
-        return purchaseDao.getSalesSumById(id, startingOn, to);
+        purchaseToUpdate.setSaleType(purchaseType);
+
+        purchaseDao.updatePurchase(purchaseToUpdate);
     }
 
-    @Override
-    public User getTotalNumberOfSalesByUserId(int id, String startingOnString, String toString) throws DataValidationError {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate startingOn = null, to = null;
-
-        try {
-            startingOn = LocalDate.parse(startingOnString, formatter);
-            to = LocalDate.parse(toString, formatter);
-        } catch (DateTimeParseException e) {
-            throw new DataValidationError();
-        }
-        
-        return purchaseDao.getSalesCountById(id, startingOn, to);
-    }
-    
     @Override
     public void deletePurchase(int id) {
         purchaseDao.deletePurchase(id);
     }
 
     @Override
-    public void updatePurchase(int purchaseId, int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, String salePrice, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError {
-        Profile profile = profileService.createProfile(customerName, email, customerPhone, street1 + " " + street2, zipcode);
-        
-        Purchase purchaseToUpdate = purchaseDao.readPurchaseById(purchaseId);
-        
-        purchaseToUpdate.setSaleType(purchaseType);
-        
-        purchaseDao.updatePurchase(purchaseToUpdate);
-    }
+    public List<User> getSalesReport(int id, String startingOnString, String toString) throws DataValidationError {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        LocalDate startingOn = null, to = null;
 
-    @Override
-    public List<User> getSalesReport(int id, String startingOn, String to) throws DataValidationError {
-        List<User> users = null;
-        
-        return users;
+        // Check the Date and set it if not done so explicitly
+        if (startingOnString.equals("")) {
+            startingOn = LocalDate.ofYearDay(2000, 1);
+        } else {
+            try {
+                startingOn = LocalDate.parse(startingOnString, formatter);
+            } catch (DateTimeParseException e) {
+                throw new DataValidationError();
+            }
+        }
+
+        if (toString.equals("")) {
+            to = LocalDate.now();
+        } else {
+            try {
+                to = LocalDate.parse(toString, formatter);
+            } catch (DateTimeParseException e) {
+                throw new DataValidationError();
+            }
+        }
+        List<User> userSales;
+
+        if (id == 0) {
+            userSales = purchaseDao.getGroupSalesReport(startingOn, to);
+        } else {
+            userSales = purchaseDao.getUserSalesReport(id, startingOn, to);
+        }
+
+        // get userProfile with User Sales
+        List<User> userNoSales = userService.readAllUsers();
+
+        userNoSales.stream().forEach(userInfo -> {
+            userSales.stream().forEach(userSale -> {
+                if (userSale.getUserId() == userInfo.getUserId()) {
+                    userSale.setProfile(userInfo.getProfile());
+                    userSale.setRole(userInfo.getRole());
+                }
+            });
+        });
+
+        return userSales;
     }
 
 }

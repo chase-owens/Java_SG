@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/profileApi/")
+@RequestMapping("/profile/")
 public class ProfileRESTController {
 
     ProfileService service;
@@ -34,7 +34,7 @@ public class ProfileRESTController {
         this.service = service;
     }
     
-    @PostMapping("/profileShort")
+    @PostMapping("/create")
     public ResponseEntity<Profile> createProfile(String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError {
         Profile profile = null;
         try {
@@ -45,7 +45,7 @@ public class ProfileRESTController {
         return ResponseEntity.ok(profile);
     }
     
-    @PostMapping("/profileLong")
+    @PostMapping("/createFull")
     public ResponseEntity<Profile> createProfile(String name, String email, String phone, String address, String zipcode) throws NeedContactNameError, NeedContactDetailsError {
         Profile profile = null;
         try {
@@ -56,7 +56,7 @@ public class ProfileRESTController {
         return ResponseEntity.ok(profile);
     }
     
-    @GetMapping("/profile")
+    @GetMapping("/readOne")
     public ResponseEntity<Profile> readProfileByInt(int id) throws DataPersistenceError {
         Profile profile = null;
         try {
@@ -67,7 +67,7 @@ public class ProfileRESTController {
         return ResponseEntity.ok(profile);
     }
     
-    @PutMapping("/updateProfile")
+    @PutMapping("/update")
     public boolean updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError, DataPersistenceError {
         boolean didUpdate = true;
         try {

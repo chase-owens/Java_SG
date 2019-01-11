@@ -25,6 +25,6 @@ public interface PurchaseDao {
     public void deletePurchase(int id);
     
     //App specific methods
-    public User getSalesSumById(int id, LocalDate startingOn, LocalDate to);
-    public User getSalesCountById(int id, LocalDate startingOn, LocalDate to);
+    public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to);
+    public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to);
 }

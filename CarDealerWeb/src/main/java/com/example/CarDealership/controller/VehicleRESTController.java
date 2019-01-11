@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/vehicleApi/")
+@RequestMapping("/vehicle/")
 public class VehicleRESTController {
 
     VehicleService service;
@@ -44,6 +44,11 @@ public class VehicleRESTController {
             return new ResponseEntity(new Error(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
         return ResponseEntity.ok(vehicle);
+    }
+    
+    @GetMapping("/readAll")
+    public List<Vehicle> readAllVehicles() {
+        return service.readAllVehicles();
     }
     
     @GetMapping("/readOne")
@@ -70,9 +75,5 @@ public class VehicleRESTController {
     @PostMapping("/markSold")
     public void markAsSold(int vehicleId) {
         service.markAsSold(vehicleId);
-    }
-    
-    public List<Vehicle> readAllVehicles() {
-        return service.readAllVehicles();
     }
 }

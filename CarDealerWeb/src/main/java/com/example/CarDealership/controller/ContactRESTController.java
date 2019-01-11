@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chaseowens
  */
 @RestController
-@RequestMapping("/contactApi/")
+@RequestMapping("/contact/")
 public class ContactRESTController {
     ContactService service;
     
@@ -32,7 +32,7 @@ public class ContactRESTController {
         this.service = service;
     }
     
-    @PostMapping("/makeContact")
+    @PostMapping("/create")
     public ResponseEntity<Contact> makeContact(String name, String email, String phone, String message) throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError {
         Contact contact = null;
         try {

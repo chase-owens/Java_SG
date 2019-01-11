@@ -21,6 +21,7 @@ import com.example.CarDealership.service.ProfileService;
 import com.example.CarDealership.service.TooManyMilesToBeNewError;
 import com.example.CarDealership.service.UserService;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback
 @Transactional
 public class PurchaseDaoTest {
+
     @Autowired
     PurchaseDao purchaseDao;
     @Autowired
@@ -57,30 +59,29 @@ public class PurchaseDaoTest {
     UserService userService;
     @Autowired
     ProfileService profileService;
-    
+
     public PurchaseDaoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        
-        
+
     }
-    
+
     @After
     public void tearDown() {
     }
 
     @Test
-    public void testCreatePurchase()throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
+    public void testCreatePurchase() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
         String testName = "testName";
         Profile profile = profileService.createProfile("name", "email", "phone");
@@ -88,18 +89,18 @@ public class PurchaseDaoTest {
         User user = userService.createUserWithProfile(profile, role, password);
         Make makeCreated = makeService.createMake(testName, user.getUserId());
         Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
-        
+
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
         String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-        
+
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-        
+
         //Purchase variable
         String saleType = "saleType";
-        
+
         //Test Purchase
         Purchase testPurchase = new Purchase();
         testPurchase.setCreatedBy(user);
@@ -107,24 +108,24 @@ public class PurchaseDaoTest {
         testPurchase.setSalePrice(listPrice);
         testPurchase.setSaleType(saleType);
         testPurchase.setVehicle(vehicleCreated);
-        
+
         // Act
         Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
-        
+
         // Assert
         assertEquals(testPurchase.getSalePrice(), purchaseCreated.getSalePrice());
         assertEquals(testPurchase.getSaleType(), purchaseCreated.getSaleType());
     }
-    
+
     @Test
     public void testReadEmptyPurchases() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         //Act
         List<Purchase> purchases = purchaseDao.readAllPurchases();
-        
+
         //Assert
         assertEquals(0, purchases.size());
     }
-    
+
     @Test
     public void testReadPurchases() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
@@ -134,26 +135,26 @@ public class PurchaseDaoTest {
         User user = userService.createUserWithProfile(profile, role, password);
         Make makeCreated = makeService.createMake(testName, user.getUserId());
         Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
-        
+
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
         String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-        
+
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-        
+
         //Purchase variable
         String saleType = "saleType";
         Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
-        
+
         //Act
         List<Purchase> purchases = purchaseDao.readAllPurchases();
-        
+
         //Assert
         assertEquals(1, purchases.size());
     }
-    
+
     @Test
     public void testUpdatePurchase() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
@@ -163,30 +164,30 @@ public class PurchaseDaoTest {
         User user = userService.createUserWithProfile(profile, role, password);
         Make makeCreated = makeService.createMake(testName, user.getUserId());
         Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
-        
+
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
         String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-        
+
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-        
+
         //Purchase variable
         String saleType = "saleType";
         Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
-        
+
         //Act
         assertEquals(purchaseCreated.getSalePrice(), listPrice);
         purchaseCreated.setSalePrice(BigDecimal.ONE);
         purchaseDao.updatePurchase(purchaseCreated);
         Purchase updatedPurchase = purchaseDao.readPurchaseById(purchaseCreated.getPurchaseId());
-        
+
         //Assert
         assertEquals(purchaseCreated.getCreatedBy().getUserId(), updatedPurchase.getCreatedBy().getUserId());
         assertNotEquals(purchaseCreated.getSalePrice(), updatedPurchase.getSalePrice());
     }
-    
+
     @Test
     public void testDeletePurchases() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
@@ -196,27 +197,62 @@ public class PurchaseDaoTest {
         User user = userService.createUserWithProfile(profile, role, password);
         Make makeCreated = makeService.createMake(testName, user.getUserId());
         Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
-        
+
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
         String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-        
+
         // Use Dao To Create Vehicle
         Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-        
+
         //Purchase variable
         String saleType = "saleType";
         Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
-        
+
         //Act
         List<Purchase> purchasesBeforeDelete = purchaseDao.readAllPurchases();
         assertEquals(1, purchasesBeforeDelete.size());
         purchaseDao.deletePurchase(purchaseCreated.getPurchaseId());
         List<Purchase> purchasesAfterDelete = purchaseDao.readAllPurchases();
-        
+
         //Assert
         assertEquals(0, purchasesAfterDelete.size());
     }
-    
+
+    @Test
+    public void testGetGroupSales() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
+        // Arrange 
+        String testName = "testName";
+        Profile profile = profileService.createProfile("name", "email", "phone");
+        String role = "role", password = "password";
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
+
+        // VehicleProperties
+        int mileage = 0, vehicleYear = 2018;
+        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
+        BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
+
+        // Use Dao To Create Vehicle
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
+
+        //Purchase variable
+        String saleType = "saleType";
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
+
+        //Act
+        List<User> groupSales = purchaseDao.getGroupSalesReport(LocalDate.MIN, LocalDate.MAX);
+        
+        //Assert
+        assertEquals(groupSales.size(), 1);
+        assertEquals(groupSales.get(0).getUserId(), purchaseCreated.getCreatedBy().getUserId());
+    }
+
+    @Test
+    public void testGetUserSales() {
+
+    }
+
 }

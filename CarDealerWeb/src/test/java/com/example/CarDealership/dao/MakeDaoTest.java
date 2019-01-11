@@ -80,7 +80,6 @@ public class MakeDaoTest {
         Make makeCreated = makeDao.createMake(testName, user.getUserId());
         
         //Assert
-        assertEquals(testMake.getCreatedBy().getUserId(), makeCreated.getCreatedBy().getUserId());
         assertEquals(testMake.getMakeName(), makeCreated.getMakeName());
         assertNotEquals(testMake.getMakeId(), makeCreated.getMakeId());
         
@@ -125,7 +124,6 @@ public class MakeDaoTest {
         Make makeRetrieved = makeDao.readMakeById(makeCreated.getMakeId());
         
         //Assert
-        assertEquals(makeRetrieved.getCreatedBy().getUserId(), makeCreated.getCreatedBy().getUserId());
         assertEquals(makeRetrieved.getMakeName(), makeCreated.getMakeName());
         assertEquals(makeRetrieved.getMakeId(), makeCreated.getMakeId());
     }
