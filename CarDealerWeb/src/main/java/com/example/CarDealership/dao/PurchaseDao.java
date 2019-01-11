@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Inventory;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
 import com.example.CarDealership.entity.User;
@@ -24,7 +25,10 @@ public interface PurchaseDao {
     public void updatePurchase(Purchase purchase);
     public void deletePurchase(int id);
     
-    //App specific methods
+    // inventory
     public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to);
     public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to);
+
+    public List<Inventory> runInventoryReport();
+    
 }

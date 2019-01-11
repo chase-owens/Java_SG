@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.controller;
 
+import com.example.CarDealership.entity.Inventory;
 import com.example.CarDealership.entity.Purchase;
 import com.example.CarDealership.entity.User;
 import com.example.CarDealership.service.DataValidationError;
@@ -76,9 +77,15 @@ public class PurchaseRESTController {
     }
     
     @GetMapping("/salesReport")
-    public ResponseEntity<List<User>> getSalesReport(int id, String startingOn, String to) throws DataValidationError {
+    public List<User> getSalesReport(int id, String startingOn, String to) throws DataValidationError {
         List<User> users = service.getSalesReport(id, startingOn, to);
-        return ResponseEntity.ok(users);
+        return users;
+    }
+    
+    @GetMapping("/inventory")
+    public List<Inventory> runInventoryReport() {
+        List<Inventory> inventory = service.runInventoryReport();
+        return inventory;
     }
    
 }

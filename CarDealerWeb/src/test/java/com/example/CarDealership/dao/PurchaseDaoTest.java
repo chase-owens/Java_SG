@@ -219,7 +219,7 @@ public class PurchaseDaoTest {
         //Assert
         assertEquals(0, purchasesAfterDelete.size());
     }
-
+    
     @Test
     public void testGetGroupSales() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
         // Arrange 
@@ -243,16 +243,40 @@ public class PurchaseDaoTest {
         Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
 
         //Act
-        List<User> groupSales = purchaseDao.getGroupSalesReport(LocalDate.MIN, LocalDate.MAX);
+        List<User> groupSales = purchaseDao.getGroupSalesReport(LocalDate.ofYearDay(2000, 1), LocalDate.ofYearDay(2020, 1));
         
         //Assert
         assertEquals(groupSales.size(), 1);
-        assertEquals(groupSales.get(0).getUserId(), purchaseCreated.getCreatedBy().getUserId());
     }
-
+    
     @Test
-    public void testGetUserSales() {
+    public void testGetUserSales() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
+        // Arrange 
+        String testName = "testName";
+        Profile profile = profileService.createProfile("name", "email", "phone");
+        String role = "role", password = "password";
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
+        // VehicleProperties
+        int mileage = 0, vehicleYear = 2018;
+        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
+        BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
+
+        // Use Dao To Create Vehicle
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
+
+        //Purchase variable
+        String saleType = "saleType";
+        Purchase purchaseCreated = purchaseDao.createPurchase(profile, vehicleCreated.getVehicleId(), listPrice, saleType, user.getUserId());
+
+        //Act
+        List<User> userSales = purchaseDao.getUserSalesReport(purchaseCreated.getCreatedBy().getUserId(), LocalDate.ofYearDay(2000, 1), LocalDate.ofYearDay(2020, 1));
+        
+        //Assert
+        assertEquals(userSales.size(), 1);
     }
+
 
 }

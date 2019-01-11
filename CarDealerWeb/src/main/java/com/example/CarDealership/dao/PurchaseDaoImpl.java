@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.dao;
 
+import com.example.CarDealership.entity.Inventory;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
 import com.example.CarDealership.entity.User;
@@ -97,19 +98,28 @@ public class PurchaseDaoImpl implements PurchaseDao {
         final String DELETE_PURCHASE = "DELETE FROM purchase WHERE id = ?";
         jdbc.update(DELETE_PURCHASE, id);
     }
-
+    
     @Override
     public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to) {
-        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase GROUP BY userId";
-        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper());
+        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase WHERE dateAdded BETWEEN ? AND ? GROUP BY userId";
+        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper(), startingOn, to);
         return users;
     }
     
     @Override
     public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to) {
-        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase GROUP BY userId WHERE ID = ?";
-        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper(), id);
+        final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase WHERE dateAdded BETWEEN ? AND ? AND userId = ? GROUP BY userId";
+        List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper(), startingOn, to, id);
         return users;
     }
 
+    @Override
+    public List<Inventory> runInventoryReport() {
+        final String RUN_INVENTORY_REPORT = "SELECT vehicleYear, makeName, modelName, SUM(vehicle.msrp) AS stockValue, COUNT(model.modelName) AS modelCount  FROM vehicle \n" +
+"INNER JOIN make ON vehicle.makeId = make.id\n" +
+"INNER JOIN model ON vehicle.modelId = model.id\n" +
+"GROUP BY modelName, vehicleYear, makeName";
+        List<Inventory> inventory = jdbc.query(RUN_INVENTORY_REPORT, new InventoryMapper());
+        return inventory;
+    }
 }

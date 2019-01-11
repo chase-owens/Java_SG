@@ -26,10 +26,10 @@ public class VehicleMapper implements RowMapper<Vehicle>{
         Model model = new Model();
         User user = new User();
         
-        vehicle.setVehicleId(rs.getInt("id"));
-        make.setMakeId(rs.getInt("makeId"));
+        vehicle.setVehicleId(rs.getInt("vehicleId"));
+        make.setMakeId(rs.getInt("vehicle.makeId"));
         model.setId(rs.getInt("modelId"));
-        user.setUserId(rs.getInt("userId"));
+        user.setUserId(rs.getInt("vehicle.userId"));
         
         vehicle.setMake(make);
         vehicle.setModel(model);

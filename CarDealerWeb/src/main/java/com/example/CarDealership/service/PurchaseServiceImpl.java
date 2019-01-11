@@ -6,6 +6,7 @@
 package com.example.CarDealership.service;
 
 import com.example.CarDealership.dao.PurchaseDao;
+import com.example.CarDealership.entity.Inventory;
 import com.example.CarDealership.entity.Profile;
 import com.example.CarDealership.entity.Purchase;
 import com.example.CarDealership.entity.User;
@@ -88,7 +89,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     public void deletePurchase(int id) {
         purchaseDao.deletePurchase(id);
     }
-
+    
     @Override
     public List<User> getSalesReport(int id, String startingOnString, String toString) throws DataValidationError {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -96,6 +97,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         // Check the Date and set it if not done so explicitly
         if (startingOnString.equals("")) {
+            // Start of business - could be epoch or min
             startingOn = LocalDate.ofYearDay(2000, 1);
         } else {
             try {
@@ -106,7 +108,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
 
         if (toString.equals("")) {
-            to = LocalDate.now();
+            to = LocalDate.ofYearDay(2050, 1);
         } else {
             try {
                 to = LocalDate.parse(toString, formatter);
@@ -135,6 +137,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         });
 
         return userSales;
+    }
+
+    @Override
+    public List<Inventory> runInventoryReport() {
+        return purchaseDao.runInventoryReport();
     }
 
 }
