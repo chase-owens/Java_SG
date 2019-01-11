@@ -20,7 +20,6 @@ import com.example.CarDealership.service.NeedContactNameError;
 import com.example.CarDealership.service.ProfileService;
 import com.example.CarDealership.service.TooManyMilesToBeNewError;
 import com.example.CarDealership.service.UserService;
-import com.example.CarDealership.service.VehicleService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -80,46 +79,46 @@ public class SpecialDaoTest {
     public void tearDown() {
     }
 
-//    @Test
-//    public void testCreateSpecial() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
-//        //Arrange
-//        String testName = "testName", specialTitle = "specialTitle";
-//        Profile profile = profileService.createProfile("name", "email", "phone");
-//        String role = "role", password = "password";
-//        User user = userService.createUserWithProfile(profile, role, password);
-//        Make makeCreated = makeService.createMake(testName, user.getUserId());
-//        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
-//
-//        // VehicleProperties
-//        int mileage = 0, vehicleYear = 2018;
-//        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
-//        BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
-//
-//        // Use Dao To Create Vehicle
-//        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
-//
-//        Special testSpecial = new Special();
-//        testSpecial.setCreatedBy(user);
-//        testSpecial.setSpecialDescription(vehicleDescription);
-//        testSpecial.setTitle(specialTitle);
-//        testSpecial.setVehicle(vehicleCreated);
-//
-//        // Act
-//        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
-//
-//        // Assert
-//        assertEquals(specialCreated.getSpecialDescription(), testSpecial.getSpecialDescription());
-//        assertEquals(specialCreated.getTitle(), testSpecial.getTitle());
-//    }
+    @Test
+    public void testCreateSpecial() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
+        //Arrange
+        String testName = "testName", specialTitle = "specialTitle";
+        Profile profile = profileService.createProfile("name", "email", "phone");
+        String role = "role", password = "password";
+        User user = userService.createUserWithProfile(profile, role, password);
+        Make makeCreated = makeService.createMake(testName, user.getUserId());
+        Model modelCreated = modelService.createModel(makeCreated.getMakeId(), testName, user.getUserId());
 
-//    @Test
-//    public void testReadEmptySpecials() {
-//        //Act
-//        List<Special> specials = specialDao.readAllSpecials();
-//
-//        //Assert
-//        assertEquals(0, specials.size());
-//    }
+        // VehicleProperties
+        int mileage = 0, vehicleYear = 2018;
+        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "transmission", bodyStyle = "bodyStyle", vin = "vin";
+        BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
+
+        // Use Dao To Create Vehicle
+        Vehicle vehicleCreated = vehicleDao.createVehicle(makeCreated, modelCreated, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, user.getUserId());
+
+        Special testSpecial = new Special();
+        testSpecial.setCreatedBy(user);
+        testSpecial.setSpecialDescription(vehicleDescription);
+        testSpecial.setTitle(specialTitle);
+        testSpecial.setVehicle(vehicleCreated);
+
+        // Act
+        Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
+
+        // Assert
+        assertEquals(specialCreated.getSpecialDescription(), testSpecial.getSpecialDescription());
+        assertEquals(specialCreated.getTitle(), testSpecial.getTitle());
+    }
+
+    @Test
+    public void testReadEmptySpecials() {
+        //Act
+        List<Special> specials = specialDao.readAllSpecials();
+
+        //Assert
+        assertEquals(0, specials.size());
+    }
 
     @Test
     public void testReadSpecials() throws NeedContactNameError, NeedContactDetailsError, NeedContactMessageError, TooManyMilesToBeNewError, DataValidationError {
@@ -235,8 +234,8 @@ public class SpecialDaoTest {
 
 
         Special specialCreated = specialDao.createSpecial(specialTitle, vehicleDescription, vehicleCreated.getVehicleId(), user.getUserId());
-        //List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
-        //assertEquals(1, specialsBeforeDelete.size());
+        List<Special> specialsBeforeDelete = specialDao.readAllSpecials();
+        assertEquals(1, specialsBeforeDelete.size());
         
         //Act
         specialDao.deleteSpecial(specialCreated.getSpecialId());

@@ -30,8 +30,13 @@ public class SpecialMapper implements RowMapper<Special>{
         special.setVehicle(vehicle);
         
         special.setDateAdded(rs.getTimestamp("dateAdded").toLocalDateTime());
-        special.setDateBegin(rs.getDate("dateBegin").toLocalDate());
-        special.setDateEnd(rs.getDate("dateEnd").toLocalDate());
+        if (rs.getDate("dateBegin") != null) {
+            special.setDateBegin(rs.getDate("dateBegin").toLocalDate());
+        }
+        if (rs.getDate("dateEnd") != null) {
+            special.setDateEnd(rs.getDate("dateEnd").toLocalDate());
+        }
+        
         special.setSpecialDescription(rs.getString("specialDescription"));
         special.setTitle(rs.getString("title"));
         special.setSpecialId(rs.getInt("id"));

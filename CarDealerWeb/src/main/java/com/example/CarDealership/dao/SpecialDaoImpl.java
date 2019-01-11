@@ -80,7 +80,7 @@ public class SpecialDaoImpl implements SpecialDao {
         special.setCreatedBy(userDao.readUserById(special.getCreatedBy().getUserId()));
         special.setVehicle(vehicleDao.readVehicleById(special.getVehicle().getVehicleId()));
         return special;
-    }
+    } 
 
     @Override
     public void updateSpecial(Special special) {
