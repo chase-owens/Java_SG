@@ -45,7 +45,7 @@ public class ModelRESTController {
     }
     
     @GetMapping("/readOne")
-    public ResponseEntity<Model> readMakeById(int id) {
+    public ResponseEntity<Model> readModelById(int id) {
         Model model = service.readModelById(id);
         if (model == null) {
             return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
@@ -54,8 +54,17 @@ public class ModelRESTController {
     }
     
     @GetMapping("/readAll")
-    public ResponseEntity<List<Model>> getAllMakes(){
+    public ResponseEntity<List<Model>> getAllModels(){
         List<Model> model = service.readAllModels();
+        if (model == null) {
+            return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(model);
+    }
+    
+    @GetMapping("/readAllByMakeId")
+    public ResponseEntity<List<Model>> getAllModelsByMake(int makeId){
+        List<Model> model = service.readAllModelsByMakeId(makeId);
         if (model == null) {
             return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
         }

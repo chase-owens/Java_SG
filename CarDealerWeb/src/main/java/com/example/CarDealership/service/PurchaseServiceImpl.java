@@ -96,7 +96,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         LocalDate startingOn = null, to = null;
 
         // Check the Date and set it if not done so explicitly
-        if (startingOnString.equals("")) {
+        if (startingOnString == null) {
             // Start of business - could be epoch or min
             startingOn = LocalDate.ofYearDay(2000, 1);
         } else {
@@ -107,7 +107,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             }
         }
 
-        if (toString.equals("")) {
+        if (toString == null) {
             to = LocalDate.ofYearDay(2050, 1);
         } else {
             try {
@@ -140,8 +140,21 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<Inventory> runInventoryReport() {
-        return purchaseDao.runInventoryReport();
+    public List<Inventory> runNewInventoryReport() {
+        return purchaseDao.runNewInventoryReport();
+    }
+    
+    @Override
+    public List<Inventory> runUsedInventoryReport() {
+        return purchaseDao.runUsedInventoryReport();
+    }
+
+    @Override
+    public Purchase purchaseVehicle(Purchase purchase) {
+        Profile profile = profileService.createCustomerProfile(purchase.getCustomerProfile());
+        purchase.setCustomerProfile(profile);
+        vehicleService.markAsSold(purchase.getVehicle().getVehicleId());
+        return purchaseDao.purchaseVehicle(purchase);
     }
 
 }

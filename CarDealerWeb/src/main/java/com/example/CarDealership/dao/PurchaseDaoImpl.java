@@ -59,6 +59,19 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
+    public Purchase purchaseVehicle(Purchase purchase) {
+        Timestamp timestamp = Timestamp.valueOf(purchase.getDateAdded());
+
+        final String CREATE_PURCHASE = "INSERT INTO purchase(profileId, vehicleId, salePrice, saleType, dateAdded, userId) VALUES(?,?,?,?,?,?)";
+        jdbc.update(CREATE_PURCHASE, purchase.getCustomerProfile().getProfileId(), purchase.getVehicle().getVehicleId(), purchase.getSalePrice(), purchase.getSaleType(), timestamp, purchase.getCreatedBy().getUserId());
+
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        purchase.setPurchaseId(newId);
+
+        return purchase;
+    }
+
+    @Override
     public List<Purchase> readAllPurchases() {
         final String SELECT_ALL_PURCHASES = "SELECT * FROM purchase";
         List<Purchase> purchases = jdbc.query(SELECT_ALL_PURCHASES, new PurchaseMapper());
@@ -82,7 +95,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
 
         purchase.setCreatedBy(userDao.readUserById(purchase.getCreatedBy().getUserId()));
         purchase.setCustomerProfile(profileDao.readProfileById(purchase.getCustomerProfile().getProfileId()));
-        
+
         purchase.setVehicle(vehicleDao.readVehicleById(purchase.getVehicle().getVehicleId()));
         return purchase;
     }
@@ -98,14 +111,14 @@ public class PurchaseDaoImpl implements PurchaseDao {
         final String DELETE_PURCHASE = "DELETE FROM purchase WHERE id = ?";
         jdbc.update(DELETE_PURCHASE, id);
     }
-    
+
     @Override
     public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to) {
         final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase WHERE dateAdded BETWEEN ? AND ? GROUP BY userId";
         List<User> users = jdbc.query(GET_NETSALES_BY_ID, new UserSalesMapper(), startingOn, to);
         return users;
     }
-    
+
     @Override
     public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to) {
         final String GET_NETSALES_BY_ID = "SELECT userId, SUM(salePrice) AS totalSales, COUNT(*) AS salesCount FROM purchase WHERE dateAdded BETWEEN ? AND ? AND userId = ? GROUP BY userId";
@@ -114,11 +127,25 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public List<Inventory> runInventoryReport() {
-        final String RUN_INVENTORY_REPORT = "SELECT vehicleYear, makeName, modelName, SUM(vehicle.msrp) AS stockValue, COUNT(model.modelName) AS modelCount  FROM vehicle \n" +
-"INNER JOIN make ON vehicle.makeId = make.id\n" +
-"INNER JOIN model ON vehicle.modelId = model.id\n" +
-"GROUP BY modelName, vehicleYear, makeName";
+    public List<Inventory> runNewInventoryReport() {
+        final String RUN_INVENTORY_REPORT = "SELECT vehicleYear, makeName, modelName, SUM(vehicle.msrp) AS stockValue, COUNT(model.modelName) AS modelCount  FROM vehicle \n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicleType = \"new\"\n"
+                + "AND isAvailable = true\n"
+                + "GROUP BY modelName, vehicleYear, makeName";
+        List<Inventory> inventory = jdbc.query(RUN_INVENTORY_REPORT, new InventoryMapper());
+        return inventory;
+    }
+
+    @Override
+    public List<Inventory> runUsedInventoryReport() {
+        final String RUN_INVENTORY_REPORT = "SELECT vehicleYear, makeName, modelName, SUM(vehicle.msrp) AS stockValue, COUNT(model.modelName) AS modelCount  FROM vehicle \n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicleType = \"used\"\n"
+                + "AND isAvailable = true\n"
+                + "GROUP BY modelName, vehicleYear, makeName";
         List<Inventory> inventory = jdbc.query(RUN_INVENTORY_REPORT, new InventoryMapper());
         return inventory;
     }

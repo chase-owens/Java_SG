@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     UserDao userDao;
     ProfileService profileService;
+    User user;
     
     @Autowired
     public UserServiceImpl(UserDao userDao, ProfileService profileService) {
@@ -71,6 +72,40 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password2);
         
         // Update user in DB
+        userDao.updateUser(user);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return this.user;
+    }
+
+    @Override
+    public User loginUser(String email, String password) {
+        User userRetrieved = userDao.readUserByNameAndPasswrod(password);
+        if (userRetrieved.getProfile().getEmail().equals(email) && (userRetrieved.getRole().equals("admin") || userRetrieved.getRole().equals("sales"))) {
+            this.user = userRetrieved;
+            return this.user;
+        } else {
+            return null;
+        }
+        
+    }
+
+    @Override
+    public User logOutUser() {
+        User user = this.user;
+        this.user = null;
+        return user;
+    }
+
+    @Override
+    public User getUserLoggedIn() {
+        return this.user;
+    }
+
+    @Override
+    public void updateUserPassword(User user) {
         userDao.updateUser(user);
     }
 }

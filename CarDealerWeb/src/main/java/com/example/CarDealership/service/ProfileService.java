@@ -20,4 +20,6 @@ public interface ProfileService {
     public Profile readProfileByInt(int id) throws DataPersistenceError;
     
     public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError, DataPersistenceError;
+
+    public Profile createCustomerProfile(Profile customerProfile);
 }

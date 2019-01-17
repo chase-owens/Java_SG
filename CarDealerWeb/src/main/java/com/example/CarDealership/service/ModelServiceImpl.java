@@ -56,4 +56,14 @@ public class ModelServiceImpl implements ModelService{
         model.setModelName(modelName);
         modelDao.updateModel(model);
     }
+
+    @Override
+    public List<Model> readAllModelsByMakeId(int makeId) {
+        return modelDao.readAllModelsByMakeId(makeId);
+    }
+
+    @Override
+    public Model readModelByName(String modelName) {
+        return modelDao.readModelByName(modelName);
+    }
 }

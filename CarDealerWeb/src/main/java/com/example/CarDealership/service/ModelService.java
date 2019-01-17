@@ -20,4 +20,8 @@ public interface ModelService {
     public List<Model> readAllModels();
     
     public void updateModel(int makeId, String modelName, int modelId)throws DataValidationError;
+
+    public List<Model> readAllModelsByMakeId(int makeId);
+
+    public Model readModelByName(String modelName);
 }

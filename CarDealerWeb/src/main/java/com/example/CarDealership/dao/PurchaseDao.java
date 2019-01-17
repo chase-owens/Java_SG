@@ -29,6 +29,9 @@ public interface PurchaseDao {
     public List<User> getGroupSalesReport(LocalDate startingOn, LocalDate to);
     public List<User> getUserSalesReport(int id, LocalDate startingOn, LocalDate to);
 
-    public List<Inventory> runInventoryReport();
+    public List<Inventory> runNewInventoryReport();
+    public List<Inventory> runUsedInventoryReport();
+
+    public Purchase purchaseVehicle(Purchase purchase);
     
 }

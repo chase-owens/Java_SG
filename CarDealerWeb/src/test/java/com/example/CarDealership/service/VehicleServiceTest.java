@@ -179,7 +179,7 @@ public class VehicleServiceTest {
 
         // VehicleProperties
         int mileage = 0, vehicleYear = 2018;
-        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "image.png", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "manual", bodyStyle = "bodyStyle", vin = "fffffffffffffffff";
+        String vehicleType = "vehicleType", vehicleDescription = "vehicleDescription", image = "C:%5Cfakepath%5Cfresh-prince-floral-airJordan7-rocket-boy-nift.jpg", exteriorColor = "exteriorColor", interiorColor = "interiorColor", transmission = "manual", bodyStyle = "bodyStyle", vin = "fffffffffffffffff";
         BigDecimal msrp = BigDecimal.TEN, listPrice = BigDecimal.TEN;
 
         // Use Dao To Create Vehicle

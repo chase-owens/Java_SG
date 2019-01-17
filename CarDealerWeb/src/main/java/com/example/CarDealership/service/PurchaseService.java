@@ -23,5 +23,8 @@ public interface PurchaseService {
     
     // inventory
     public List<User> getSalesReport(int id, String startingOn, String to) throws DataValidationError ;
-    public List<Inventory> runInventoryReport();
+    public List<Inventory> runNewInventoryReport();
+    public List<Inventory> runUsedInventoryReport();
+
+    public Purchase purchaseVehicle(Purchase purchase);
 }

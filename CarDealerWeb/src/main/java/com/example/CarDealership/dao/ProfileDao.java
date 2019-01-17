@@ -19,4 +19,6 @@ public interface ProfileDao {
     public Profile readProfileById(int id);
     public void updateProfile(Profile profile);
     public void deleteProfile(int id);
+
+    public Profile createCustomerProfile(Profile profile);
 }

@@ -12,12 +12,15 @@ import com.example.CarDealership.service.DataValidationError;
 import com.example.CarDealership.service.NeedContactDetailsError;
 import com.example.CarDealership.service.NeedContactNameError;
 import com.example.CarDealership.service.PurchaseService;
+import java.lang.Thread.State;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +47,13 @@ public class PurchaseRESTController {
             return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(purchase);
+    }
+    
+    @CrossOrigin(origins = "*")
+    @PostMapping("/purchase")
+    public ResponseEntity<Purchase> purchaseVehicle(@RequestBody Purchase purchase) {
+        Purchase vehicleMarkedAsSold = service.purchaseVehicle(purchase);
+        return ResponseEntity.ok(vehicleMarkedAsSold);
     }
     
     @GetMapping("/readAll")
@@ -82,9 +92,15 @@ public class PurchaseRESTController {
         return users;
     }
     
-    @GetMapping("/inventory")
-    public List<Inventory> runInventoryReport() {
-        List<Inventory> inventory = service.runInventoryReport();
+    @GetMapping("/inventoryNew")
+    public List<Inventory> runNewInventoryReport() {
+        List<Inventory> inventory = service.runNewInventoryReport();
+        return inventory;
+    }
+    
+    @GetMapping("/inventoryUsed")
+    public List<Inventory> runUsedInventoryReport() {
+        List<Inventory> inventory = service.runUsedInventoryReport();
         return inventory;
     }
    

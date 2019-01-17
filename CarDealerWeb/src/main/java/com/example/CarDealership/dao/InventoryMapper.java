@@ -23,6 +23,7 @@ public class InventoryMapper implements RowMapper<Inventory>{
         inventory.setYear(rs.getInt("vehicleYear"));
         inventory.setMakeName(rs.getString("makeName"));
         inventory.setModelName(rs.getString("modelName"));
+        inventory.setStockValue(rs.getBigDecimal("stockValue"));
         return inventory;
     }
     

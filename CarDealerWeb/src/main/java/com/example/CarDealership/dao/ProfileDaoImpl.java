@@ -42,6 +42,17 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
+    public Profile createCustomerProfile(Profile profile) {
+        final String CREATE_PROFILE = "INSERT INTO personProfile(fullName, email, phone, streetAddress, zipcode) VALUES(?,?,?, ?, ?)";
+        jdbc.update(CREATE_PROFILE, profile.getFullName(), profile.getEmail(), profile.getNumber(), profile.getStreetAddress(), profile.getZipcode());
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        
+        profile.setProfileId(newId);
+        
+        return profile;
+    }
+
+    @Override
     public List<Profile> readAllProfiles() {
         final String READ_ALL_PROFILES = "SELECT * FROM personProfile";
         List<Profile> profiles = jdbc.query(READ_ALL_PROFILES, new ProfileMapper());

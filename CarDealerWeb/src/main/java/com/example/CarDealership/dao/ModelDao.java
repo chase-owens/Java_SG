@@ -19,4 +19,8 @@ public interface ModelDao {
     public List<Model> readAllModels();
     public Model readModelById(int id);
     public void updateModel(Model model);
+
+    public List<Model> readAllModelsByMakeId(int makeId);
+
+    public Model readModelByName(String modelName);
 }

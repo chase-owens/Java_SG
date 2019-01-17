@@ -81,5 +81,18 @@ public class UserDaoImpl implements UserDao{
         final String DELETE_USER = "DELETE * FROM carDealershipUser WHERE id = ?";
         jdbc.update(DELETE_USER, id);
     }
+
+    @Override
+    public User readUserByNameAndPasswrod(String password) {
+        final String READ_USER_BY_PASSWORD = "SELECT * FROM carDealershipUser WHERE userPassword = ?";
+        User user = null;
+        try {
+            user = jdbc.queryForObject(READ_USER_BY_PASSWORD, new UserMapper(), password);
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
+        user.setProfile(profileDao.readProfileById(user.getProfile().getProfileId()));
+        return user;
+    }
     
 }

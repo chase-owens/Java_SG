@@ -92,4 +92,24 @@ public class ModelDaoImpl implements ModelDao {
         jdbc.update(UPDATE_MODEL, model.getModelName(), model.getId());
     }
 
+    @Override
+    public List<Model> readAllModelsByMakeId(int makeId) {
+        final String READ_ALL_MODELS = "SELECT * FROM model WHERE makeId = ?";
+        List<Model> models = jdbc.query(READ_ALL_MODELS, new ModelMapper(), makeId);
+        return models;
+    }
+
+    @Override
+    public Model readModelByName(String modelName) {
+        final String READ_MODEL_BY_NAME = "SELECT * FROM model WHERE modelName = ?";
+        Model model = null;
+        
+        try {
+            model = jdbc.queryForObject(READ_MODEL_BY_NAME, new ModelMapper(), modelName);
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+        return model;
+    }
+
 }

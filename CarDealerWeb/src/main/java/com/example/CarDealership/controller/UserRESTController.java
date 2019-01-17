@@ -58,8 +58,43 @@ public class UserRESTController {
         return ResponseEntity.ok(user);
     }
     
+    @GetMapping("/isLoggedIn")
+    public ResponseEntity<User> getCurrentUser() {
+        User user = service.getCurrentUser();
+        if (user == null) {
+            return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(user);
+    }
+    
+    @GetMapping("/logOut")
+    public ResponseEntity<User> logOutUser() {
+        User user = service.logOutUser();
+        if (user == null) {
+            return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(user);
+    }
+    
     @PutMapping("/update")
     public void updateUser(int userId, String firstName, String lastName, String phone, String email, String role, String password1, String password2) throws PasswordsNotMatchingError, NeedContactNameError, NeedContactDetailsError {
         service.updateUser(userId, firstName, lastName, phone, email, role, password1, password2);
+    }
+    
+    @PutMapping("/changePassword")
+    public ResponseEntity<User> changePassword(String password) {
+        User user = service.getUserLoggedIn();
+        user.setPassword(password);
+        service.updateUserPassword(user);
+        return ResponseEntity.ok(user);
+    }
+    
+    @GetMapping("/loginUser")
+    public ResponseEntity<User> loginUser(String email, String password) {
+        User user = service.loginUser(email, password);
+        if (user == null) {
+            return new ResponseEntity(new Error(), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(user);
     }
 }

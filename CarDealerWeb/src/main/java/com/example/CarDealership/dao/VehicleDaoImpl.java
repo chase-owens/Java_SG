@@ -7,6 +7,7 @@ package com.example.CarDealership.dao;
 
 import com.example.CarDealership.entity.Make;
 import com.example.CarDealership.entity.Model;
+import com.example.CarDealership.entity.QueryVehicle;
 import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -69,9 +70,35 @@ public class VehicleDaoImpl implements VehicleDao {
     }
 
     @Override
+    public Vehicle buildVehicle(Vehicle vehicle) {
+        Timestamp timestamp = Timestamp.valueOf(vehicle.getDateAdded());
+
+        final String CREATE_VEHICLE = "INSERT INTO vehicle(makeId, modelId, msrp, listPrice, mileage, vehicleYear, vehicleType, vehicleDescription, image, exteriorColor, interiorColor, transmission, bodyStyle, vin, dateAdded, isAvailable, isFeatured, userId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        jdbc.update(CREATE_VEHICLE, vehicle.getMake().getMakeId(), vehicle.getModel().getId(), vehicle.getMsrp(), vehicle.getListPrice(), vehicle.getMileage(), vehicle.getVehicleYear(), vehicle.getVehicleType(), vehicle.getVehicleDescription(), vehicle.getImage(), vehicle.getExteriorColor(), vehicle.getInteriorColor(), vehicle.getTransmission(), vehicle.getBodyStyle(), vehicle.getVin(), timestamp, vehicle.isIsAvailable(), vehicle.isIsAvailable(), vehicle.getCreatedBy().getUserId());
+
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        vehicle.setVehicleId(newId);
+
+        return vehicle;
+    }
+
+    @Override
     public List<Vehicle> readAllVehicles() {
         final String READ_VEHICLES = "SELECT * FROM vehicle";
         List<Vehicle> vehicles = jdbc.query(READ_VEHICLES, new VehicleMapper());
+        vehicles.stream().forEach(vehicle -> {
+            vehicle.setMake(makeDao.readMakeById(vehicle.getMake().getMakeId()));
+            vehicle.setModel(modelDao.readModelById(vehicle.getModel().getId()));
+            vehicle.setCreatedBy(userDao.readUserById(vehicle.getCreatedBy().getUserId()));
+        });
+        return vehicles;
+    }
+
+    @Override
+    public List<Vehicle> readFeaturedVehicles() {
+        final String READ_FEATURED_VEHICLES = "SELECT * FROM vehicle WHERE isFeatured = true";
+        List<Vehicle> vehicles = jdbc.query(READ_FEATURED_VEHICLES, new VehicleMapper());
         vehicles.stream().forEach(vehicle -> {
             vehicle.setMake(makeDao.readMakeById(vehicle.getMake().getMakeId()));
             vehicle.setModel(modelDao.readModelById(vehicle.getModel().getId()));
@@ -99,11 +126,10 @@ public class VehicleDaoImpl implements VehicleDao {
 
     @Override
     public void updateVehicle(Vehicle vehicle) {
-        Timestamp timestamp = Timestamp.valueOf(vehicle.getDateAdded());
 
-        final String UPDATE_VEHICLE = "UPDATE vehicle SET makeId = ?, modelId = ?, msrp = ?, listPrice = ?, mileage = ?, vehicleYear = ?, vehicleType = ?, vehicleDescription = ?, image = ?, exteriorColor = ?, interiorColor = ?, transmission = ?, bodyStyle = ?, vin = ?, dateAdded = ?, isAvailable = ?, isFeatured = ? WHERE vehicleId = ?";
-        jdbc.update(UPDATE_VEHICLE, vehicle.getMake().getMakeId(), vehicle.getModel().getId(), vehicle.getMsrp(), vehicle.getListPrice(), vehicle.getMileage(), vehicle.getVehicleYear(), vehicle.getVehicleType(), vehicle.getVehicleDescription(), vehicle.getImage(), vehicle.getExteriorColor(), vehicle.getInteriorColor(), vehicle.getTransmission(), vehicle.getBodyStyle(), vehicle.getVin(), timestamp, vehicle.isIsAvailable(), vehicle.isIsFeatured(), vehicle.getVehicleId());
-
+        final String UPDATE_VEHICLE = "UPDATE vehicle SET makeId = ?, modelId = ?, msrp = ?, listPrice = ?, mileage = ?, vehicleYear = ?, vehicleType = ?, vehicleDescription = ?, image = ?, exteriorColor = ?, interiorColor = ?, transmission = ?, bodyStyle = ?, vin = ?, isAvailable = ?, isFeatured = ? WHERE vehicleId = ?";
+        jdbc.update(UPDATE_VEHICLE, vehicle.getMake().getMakeId(), vehicle.getModel().getId(), vehicle.getMsrp(), vehicle.getListPrice(), vehicle.getMileage(), vehicle.getVehicleYear(), vehicle.getVehicleType(), vehicle.getVehicleDescription(), vehicle.getImage(), vehicle.getExteriorColor(), vehicle.getInteriorColor(), vehicle.getTransmission(), vehicle.getBodyStyle(), vehicle.getVin(), vehicle.isIsAvailable(), vehicle.isIsFeatured(), vehicle.getVehicleId());
+        int num = 0;
     }
 
     @Override
@@ -111,36 +137,110 @@ public class VehicleDaoImpl implements VehicleDao {
         final String VEHICLE_INVENTORY_QUERY_BY_TYPE = "SELECT * FROM vehicle"
                 + "INNER JOIN make ON vehicle.makeId = make.id"
                 + "INNER JOIN model ON vehicle.modelId = model.id"
-                + "WHERE vehicle.msrp > ?"
-                + "AND vehicle.msrp < ?"
+                + "WHERE vehicle.listPrice > ?"
+                + "AND vehicle.listPrice < ?"
                 + "AND vehicle.vehicleType = ?"
-                + "AND vehicle.dateAdded BETWEEN ? AND ? "
-                + "AND vehicle.year LIKE ?"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?"
+                + "AND vehicle.vehicleYear LIKE ?"
                 + "OR make.makeName LIKE ?"
                 + "OR model.modelName LIKE ?"
                 + "ORDER BY vehicle.msrp DESC"
                 + "LIMIT 0, 20";
-        
+
         final String VEHICLE_INVENTORY_QUERY = "SELECT * FROM vehicle"
                 + "INNER JOIN make ON vehicle.makeId = make.id"
                 + "INNER JOIN model ON vehicle.modelId = model.id"
-                + "WHERE vehicle.msrp > ?"
-                + "AND vehicle.msrp < ?"
-                + "AND vehicle.dateAdded BETWEEN ? AND ? "
-                + "AND vehicle.year LIKE ?"
+                + "WHERE vehicle.listPrice > ?"
+                + "AND vehicle.listPrice < ?"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?"
+                + "AND vehicle.vehicleYear LIKE ?"
                 + "OR make.makeName LIKE ?"
                 + "OR model.modelName LIKE ?"
                 + "ORDER BY vehicle.msrp DESC"
                 + "LIMIT 0, 20";
-        
+
         List<Vehicle> vehicles;
         if (type.equals("none")) {
-            vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY, new VehicleMapper(), minPrice, maxPrice, type, minYear, maxYear, query, query, query);
+            vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY, new VehicleMapper(), minPrice, maxPrice, minYear, maxYear, query + "%", query + "%", query + "%");
         } else {
-            vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY_BY_TYPE, new VehicleMapper(), minPrice, maxPrice, type, minYear, maxYear, query, query, query);
+            vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY_BY_TYPE, new VehicleMapper(), minPrice, maxPrice, type, minYear, maxYear, query + "%", query + "%", query + "%");
         }
-        
+
         return vehicles;
+    }
+
+    @Override
+    public List<Vehicle> query20(QueryVehicle data) {
+        final String VEHICLE_INVENTORY_QUERY_BY_TYPE = "SELECT * FROM vehicle\n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicle.listPrice > ?\n"
+                + "AND vehicle.listPrice < ?\n"
+                + "AND vehicle.vehicleType = ?\n"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?\n"
+                + "AND vehicle.vehicleYear LIKE ?\n"
+                + "OR make.makeName LIKE ?\n"
+                + "OR model.modelName LIKE ?\n"
+                + "ORDER BY vehicle.msrp DESC\n"
+                + "LIMIT 0, 20";
+
+        final String VEHICLE_INVENTORY_QUERY_BY_TYPE_NOQUERY = "SELECT * FROM vehicle\n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicle.listPrice > ?\n"
+                + "AND vehicle.listPrice < ?\n"
+                + "AND vehicle.vehicleType = ?\n"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?\n"
+                + "ORDER BY vehicle.msrp DESC\n"
+                + "LIMIT 0, 20";
+
+        final String VEHICLE_INVENTORY_QUERY = "SELECT * FROM vehicle\n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicle.listPrice > ?\n"
+                + "AND vehicle.listPrice < ?\n"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?\n"
+                + "AND vehicle.vehicleYear LIKE ?\n"
+                + "OR make.makeName LIKE ?\n"
+                + "OR model.modelName LIKE ?\n"
+                + "ORDER BY vehicle.msrp DESC\n"
+                + "LIMIT 0, 20";
+
+        final String VEHICLE_INVENTORY_NOTYPE_NOQUERY = "SELECT * FROM vehicle\n"
+                + "INNER JOIN make ON vehicle.makeId = make.id\n"
+                + "INNER JOIN model ON vehicle.modelId = model.id\n"
+                + "WHERE vehicle.listPrice > ?\n"
+                + "AND vehicle.listPrice < ?\n"
+                + "AND vehicle.vehicleYear BETWEEN ? AND ?\n"
+                + "ORDER BY vehicle.msrp DESC\n"
+                + "LIMIT 0, 20";
+
+        if (data.getQuery() == null) {
+            data.setQuery("");
+        }
+        String query = data.getQuery();
+
+        List<Vehicle> vehicles;
+        if (data.getType().equals("none")) {
+            if (query.equals("")) {
+                vehicles = jdbc.query(VEHICLE_INVENTORY_NOTYPE_NOQUERY, new VehicleMapper(), data.getMinPrice(), data.getMaxPrice(), data.getMinYear(), data.getMaxYear());
+            } else {
+                vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY, new VehicleMapper(), data.getMinPrice(), data.getMaxPrice(), data.getMinYear(), data.getMaxYear(), query + "%", query + "%", query + "%");
+            }
+        } else {
+            if (query.equals("")) {
+                vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY_BY_TYPE_NOQUERY, new VehicleMapper(), data.getMinPrice(), data.getMaxPrice(), data.getType(), data.getMinYear(), data.getMaxYear());
+            } else {
+                vehicles = jdbc.query(VEHICLE_INVENTORY_QUERY_BY_TYPE, new VehicleMapper(), data.getMinPrice(), data.getMaxPrice(), data.getType(), data.getMinYear(), data.getMaxYear(), query + "%", query + "%", query + "%");
+            }
+        }
+        vehicles.stream().forEach(vehicle -> {
+            vehicle.setMake(makeDao.readMakeById(vehicle.getMake().getMakeId()));
+            vehicle.setModel(modelDao.readModelById(vehicle.getModel().getId()));
+            vehicle.setCreatedBy(userDao.readUserById(vehicle.getCreatedBy().getUserId()));
+        });
+        return vehicles;
+        
     }
 
 }

@@ -20,4 +20,6 @@ public interface UserDao {
     public User readUserById(int id);
     public void updateUser(User user);
     public void deleteUser(int id);
+
+    public User readUserByNameAndPasswrod(String password);
 }

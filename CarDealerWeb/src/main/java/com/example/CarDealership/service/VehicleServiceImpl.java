@@ -8,6 +8,7 @@ package com.example.CarDealership.service;
 import com.example.CarDealership.dao.VehicleDao;
 import com.example.CarDealership.entity.Make;
 import com.example.CarDealership.entity.Model;
+import com.example.CarDealership.entity.QueryVehicle;
 import com.example.CarDealership.entity.User;
 import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
@@ -88,6 +89,13 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicle;
 
     }
+    
+    @Override
+    public Vehicle buildVehicle(Vehicle vehicle) {
+        Model model = modelService.readModelByName(vehicle.getModel().getModelName());
+        vehicle.setModel(model);
+        return vehicleDao.buildVehicle(vehicle);
+    }
 
     @Override
     public Vehicle readVehicleById(int vehicleId) {
@@ -97,6 +105,11 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<Vehicle> readAllVehicles() {
         return vehicleDao.readAllVehicles();
+    }
+
+    @Override
+    public List<Vehicle> readFeaturedVehicles() {
+        return vehicleDao.readFeaturedVehicles();
     }
 
     @Override
@@ -201,5 +214,17 @@ public class VehicleServiceImpl implements VehicleService {
         boolean isValid = true;
         
         return isValid;
+    }
+
+    @Override
+    public void editVehicle(Vehicle vehicle) {
+        Model model = modelService.readModelByName(vehicle.getModel().getModelName());
+        vehicle.setModel(model);
+        vehicleDao.updateVehicle(vehicle);
+    }
+
+    @Override
+    public List<Vehicle> query20(QueryVehicle data) {
+        return vehicleDao.query20(data);
     }
 }

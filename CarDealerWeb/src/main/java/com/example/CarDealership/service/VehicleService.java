@@ -5,6 +5,7 @@
  */
 package com.example.CarDealership.service;
 
+import com.example.CarDealership.entity.QueryVehicle;
 import com.example.CarDealership.entity.Vehicle;
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,8 @@ public interface VehicleService {
             String image, String exteriorColor, String interiorColor, String transmission, String bodyStyle, String vin,
             String msrpString, String listPriceString, int userId) throws TooManyMilesToBeNewError, DataValidationError;
     
+    public Vehicle buildVehicle(Vehicle vehicle);
+    
     public Vehicle readVehicleById(int vehicleId);
     
     public List<Vehicle> query20VehiclesWithFilters(String query, String type, BigDecimal minPrice, BigDecimal maxPrice, int minYear, int maxYear);
@@ -29,4 +32,10 @@ public interface VehicleService {
     public void markAsSold(int vehicleId);
     
     public List<Vehicle> readAllVehicles();
+
+    public List<Vehicle> readFeaturedVehicles();
+
+    public void editVehicle(Vehicle vehicle);
+
+    public List<Vehicle> query20(QueryVehicle data);
 }

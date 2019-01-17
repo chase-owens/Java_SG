@@ -48,6 +48,10 @@ public class ProfileServiceImpl implements ProfileService {
         return profile;
     }
     
+    public Profile createCustomerProfile(Profile profile) {
+        return profileDao.createCustomerProfile(profile);
+    }
+    
     @Override
     public void updateProfile(int id, String name, String email, String phone) throws NeedContactNameError, NeedContactDetailsError, DataPersistenceError {
         // Check name
