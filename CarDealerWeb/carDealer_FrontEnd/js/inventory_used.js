@@ -3,23 +3,6 @@ $(document).ready(function() {
   loadYears();
 });
 
-// let results = $("#results-container");
-
-function getAllInventory() {
-  console.log("gettingInventory");
-  $.ajax({
-    type: "GET",
-    url: `http://localhost:8080/vehicles/readAll`,
-    success: function(inventory) {
-      console.log("recievedInventory", inventory);
-      loadInventory(inventory);
-    },
-    error: function() {
-      alert("Back End Error");
-    }
-  });
-}
-
 function getUsedInventory() {
   let queryString = $("#query").val();
   console.log("Query: " + queryString);

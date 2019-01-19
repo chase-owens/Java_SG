@@ -107,15 +107,15 @@ body {
 }
 
 .special-details {
-  font-size: 2.5em;
+  font-size: 1.5em;
 }
 
 .carousel-item {
-  height: 400px;
+  height: 500px;
 }
 
 .carousel-item img {
-  max-height: 400px;
+  max-height: 500px;
 }
 
 /* Feature Div */
@@ -132,17 +132,34 @@ body {
   height: 600px;
   width: 350px;
   margin: 0 10px 0 10px;
+  border-radius: 8px;
 }
 
 .feature-img {
   height: 250px;
   width: 100%;
+  border-radius: 5px;
 }
 
-.feature-title1 {
+.feature-details {
+  background: linear-gradient(#eef2f3, #fff);
+  border-radius: 5px;
+}
+
+.feature-title1,
+.feature-title2,
+.feature-details {
+  padding-left: 5px;
+}
+
+.feature-title1 h3 {
   font-size: 1.5em;
+  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-width: 4px;
 }
 
-.feature-title2 {
+.feature-title2 h3 {
   font-size: 1.3em;
+  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-width: 4px;
 }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   getMakes();
   let id = window.location.hash.substring(1);
-  getVehicle(id);
+  //getVehicle(id);
 });
 
 let id = window.location.hash.substring(1);
@@ -13,7 +13,7 @@ function getMakes() {
     type: "GET",
     url: `http://localhost:8080/make/readAll`,
     success: function(makes) {
-      getModelsByMake(loadMakes(makes));
+      getModelsByMake(loadMakes(makes), getVehicle(id));
     },
     error: function(err) {
       alert("error with makes");
@@ -76,7 +76,6 @@ $("#make").on("select", getModelsByMakeId());
 // Populate form with vehicle data
 
 function getVehicle(vehicleId) {
-  console.log(vehicleId);
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/vehicles/readOne?vehicleId=${vehicleId}`,
@@ -90,9 +89,7 @@ function getVehicle(vehicleId) {
 }
 
 function loadVehicle(vehicle) {
-  console.log(vehicle);
-  // let makes = ;
-  // let models = ;
+  let isFeatured = vehicle.isFeatured;
 
   $("#make").selectedIndex = vehicle.make.makeName;
   $("#model").selectedIndex = vehicle.model.modelName;
@@ -107,12 +104,21 @@ function loadVehicle(vehicle) {
   $("#sale-price").val(vehicle.listPrice);
   $("#msrp").val(vehicle.msrp);
   $("#description").text(vehicle.vehicleDescription);
-  $("#picture").val(vehicle.image);
+  $("#picture").text(`../images/${vehicle.image}`);
+  $("#vehicle-image").attr("src", `../images/${vehicle.image}`);
+  if (isFeatured) {
+    $("#isFeatured").prop("checked", true);
+  }
 }
 
 // Edit vehicle
 
 function updateVehicle() {
+  let isFeatured = false;
+  if ($("#isFeatured:checked")) {
+    isFeatured = true;
+  }
+
   let data = {
     make: { makeId: $("#make option:selected").val() },
     model: {
@@ -136,6 +142,7 @@ function updateVehicle() {
       .val()
       .substring(12),
     createdBy: { userId: "1" },
+    isFeatured: isFeatured,
     vehicleId: id
   };
 
@@ -156,7 +163,7 @@ function updateVehicle() {
       alert("vehicle updated");
     },
     error: function(err) {
-      alert("vehicle updaetd");
+      alert("Vehicle Updated");
     }
   });
 }

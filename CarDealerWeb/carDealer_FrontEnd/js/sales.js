@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  console.log("here");
+  getCurrentUser();
 });
 
 let results = $("#results-container");
@@ -41,7 +41,8 @@ function loadInventory(inventory) {
   console.log("loading");
   results.empty();
   inventory.forEach(vehicle => {
-    results.append(`<div class="vehicle">
+    if (vehicle.isAvailable == true) {
+      results.append(`<div class="vehicle">
                       <div class="vehicle-title">
                         <h3 class="title-item vehicle-year">${
                           vehicle.vehicleYear
@@ -114,6 +115,77 @@ function loadInventory(inventory) {
                         </div>
                       </div>
                     </div>`);
+    } else {
+      results.append(`<div class="vehicle">
+                      <div class="vehicle-title">
+                        <h3 class="title-item vehicle-year">${
+                          vehicle.vehicleYear
+                        }</h3>
+                        <h3 class="title-item vehicle-make">${
+                          vehicle.make.makeName
+                        }</h3>
+                        <h3 class="title-item vehicle-model">${
+                          vehicle.model.modelName
+                        }</h3>
+                      </div>
+                      <div class="vehicle-details-container">
+                        <img class="vehicle-img" src="../images/${
+                          vehicle.image
+                        }" alt="shoe" />
+                        <div class="vehicle-details">
+                          <div class="detail-key-value">
+                            <label class="label" for="bodyStyle">Body Style:</label>
+                            <p id="bodyStyle" class="body-style">${
+                              vehicle.bodyStyle
+                            }</p>
+                          </div>
+                          <div class="detail-key-value">
+                            <label for="transmission" class="label">Trans:</label>
+                            <p id="transmission" class="body-style">${
+                              vehicle.transmission
+                            }</p>
+                          </div>
+                          <div class="detail-key-value">
+                            <label for="exteriorColor" class="label">Color:</label>
+                            <p id="exteriorColor" class="body-style">${
+                              vehicle.exteriorColor
+                            }</p>
+                          </div>
+                        </div>
+                        <div class="vehicle-details">
+                          <div class="detail-key-value">
+                            <label for="interiorColor" class="label">Interior:</label>
+                            <p id="interiorColor" class="body-style">${
+                              vehicle.interiorColor
+                            }</p>
+                          </div>
+                          <div class="detail-key-value">
+                            <label for="mileage" class="label">Mileage:</label>
+                            <p id="mileage" class="body-style">${
+                              vehicle.mileage
+                            }</p>
+                          </div>
+                          <div class="detail-key-value">
+                            <label for="vin" class="label">Vin #:</label>
+                            <p id="vin" class="body-style">${vehicle.vin}</p>
+                          </div>
+                        </div>
+                        <div class="vehicle-details">
+                          <div for="listPrice" class="detail-key-value">
+                            <label class="label">Sale Price:</label>
+                            <p id="listPrice" class="body-style">${
+                              vehicle.listPrice
+                            }</p>
+                          </div>
+                          <div class="detail-key-value">
+                            <label for="msrp" class="label">MSRP:</label>
+                            <p id="msrp" class="body-style">${vehicle.msrp}</p>
+                          </div>
+                          <p class="sold">SOLD</p>
+                        </div>
+                      </div>
+                    </div>`);
+    }
   });
 }
 
@@ -141,9 +213,7 @@ function getCurrentUser() {
     url: `http://localhost:8080/user/isLoggedIn`,
     success: function(user) {
       if (user.role == "admin") {
-        showAdminAndUserNavTabs();
-      } else {
-        showSalesNavTab();
+        showAdminNavTabs();
       }
       hideLoginButtonAndShowDropdown();
     },
@@ -178,11 +248,6 @@ function showDropdownItems() {
   $("#user-dropdown-items").toggle();
 }
 
-function showAdminAndUserNavTabs() {
+function showAdminNavTabs() {
   $("#admin-nav").show();
-  $("#sales-nav").show();
-}
-
-function showSalesNavTab() {
-  $("#sales-nav").show();
 }

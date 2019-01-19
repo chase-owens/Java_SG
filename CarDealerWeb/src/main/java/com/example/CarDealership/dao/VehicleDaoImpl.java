@@ -128,7 +128,7 @@ public class VehicleDaoImpl implements VehicleDao {
     public void updateVehicle(Vehicle vehicle) {
 
         final String UPDATE_VEHICLE = "UPDATE vehicle SET makeId = ?, modelId = ?, msrp = ?, listPrice = ?, mileage = ?, vehicleYear = ?, vehicleType = ?, vehicleDescription = ?, image = ?, exteriorColor = ?, interiorColor = ?, transmission = ?, bodyStyle = ?, vin = ?, isAvailable = ?, isFeatured = ? WHERE vehicleId = ?";
-        jdbc.update(UPDATE_VEHICLE, vehicle.getMake().getMakeId(), vehicle.getModel().getId(), vehicle.getMsrp(), vehicle.getListPrice(), vehicle.getMileage(), vehicle.getVehicleYear(), vehicle.getVehicleType(), vehicle.getVehicleDescription(), vehicle.getImage(), vehicle.getExteriorColor(), vehicle.getInteriorColor(), vehicle.getTransmission(), vehicle.getBodyStyle(), vehicle.getVin(), vehicle.isIsAvailable(), vehicle.isIsFeatured(), vehicle.getVehicleId());
+        int successful = jdbc.update(UPDATE_VEHICLE, vehicle.getMake().getMakeId(), vehicle.getModel().getId(), vehicle.getMsrp(), vehicle.getListPrice(), vehicle.getMileage(), vehicle.getVehicleYear(), vehicle.getVehicleType(), vehicle.getVehicleDescription(), vehicle.getImage(), vehicle.getExteriorColor(), vehicle.getInteriorColor(), vehicle.getTransmission(), vehicle.getBodyStyle(), vehicle.getVin(), vehicle.isIsAvailable(), vehicle.isIsFeatured(), vehicle.getVehicleId());
         int num = 0;
     }
 

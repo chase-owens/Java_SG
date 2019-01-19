@@ -1,5 +1,6 @@
 $(document).ready(function() {
   getAllSpecials();
+  getAvailableInventory();
 });
 
 function getAllSpecials() {
@@ -16,11 +17,43 @@ function getAllSpecials() {
   });
 }
 
+function getAvailableInventory() {
+  console.log("gettingInventory");
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/vehicles/availableVehicles`,
+    success: function(inventory) {
+      console.log("recievedInventory", inventory);
+      loadInventory(inventory);
+    },
+    error: function() {
+      alert("Back End Error");
+    }
+  });
+}
+
+function loadInventory(inventory) {
+  vehicles = $("#vehicles");
+  console.table(inventory);
+  vehicles.empty();
+  inventory.forEach(vehicle => {
+    vehicles.append(
+      `<li onclick="addActiveClass()" value=${
+        vehicle.vehicleId
+      } class="list-group-item vehicle"><div><p>${vehicle.vehicleYear}  ${
+        vehicle.make.makeName
+      }   ${vehicle.model.modelName}</p></div>
+        <div><p>${vehicle.vin}</p></div></li>`
+    );
+  });
+  listenForSelection();
+}
+
 function loadSpecials(specials) {
   let specialsContainer = $("#specials-container");
   specialsContainer.empty();
   specials.forEach(special => {
-    specialsContainer.append(`<div class="special">
+    specialsContainer.append(`<li class="special">
     <div class="special-icon">
       <i class="fas fa-cash-register fa-7x"></i>
     </div>
@@ -35,19 +68,24 @@ function loadSpecials(specials) {
         >${special.specialDescription}</P
       >
     </div>
-  </div>`);
+  </li>`);
   });
 }
 
 function createSpecial() {
   let title = $("#title").val(),
     description = $("#descripton").val();
+  vehicleId = $("#vehicles")
+    .find("li.active")
+    .val();
 
   $.ajax({
     type: "POST",
-    url: `http://localhost:8080/specials/create?title=${title}&description=${description}&vehicleId=2&userId=1`,
+    url: `http://localhost:8080/specials/create?title=${title}&description=${description}&vehicleId=${vehicleId}&userId=1`,
     success: function(special) {
       getAllSpecials();
+      title.val("");
+      description.text("");
     },
     error: function(err) {
       console.log("ERROR" + err);
@@ -100,4 +138,15 @@ function showAdminAndUserNavTabs() {
 
 function showSalesNavTab() {
   $("#sales-nav").show();
+}
+
+function listenForSelection() {
+  let vehicles = $("#vehicles");
+  let vehiclesLoaded = $(".vehicle");
+  vehicles.on("click", ".vehicle", function() {
+    let active = vehicles.find("li.active");
+    active.removeClass("active");
+    console.log($(this).val());
+    $(this).addClass("active");
+  });
 }

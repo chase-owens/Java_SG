@@ -115,6 +115,11 @@ body {
   margin-top: 8px;
 }
 
+#vehicle-image {
+  height: 70px;
+  width: 70px;
+}
+
 .button-div {
   display: flex;
   flex-flow: row nowrap;

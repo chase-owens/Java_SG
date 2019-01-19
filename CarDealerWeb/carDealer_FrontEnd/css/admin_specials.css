@@ -62,6 +62,9 @@ body {
   width: 90%;
   margin: auto;
   border: thin solid #000;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
 }
 
 .label-input-div {
@@ -87,6 +90,22 @@ body {
 
 #special-btn {
   margin: 15px 0 15px 150px;
+}
+
+/* Vehicles */
+
+#vehicles {
+  margin-left: 50px;
+  margin-top: 10px;
+  width: 500px;
+  max-height: 240px;
+  overflow: scroll;
+}
+
+.vehicle {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 /* Specials Div */

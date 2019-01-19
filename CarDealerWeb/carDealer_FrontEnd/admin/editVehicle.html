@@ -153,20 +153,21 @@
           </div>
           <div class="vehicle-input-container">
             <div class="image-input-wrap">
+              <img id="vehicle-image" src="" alt="feature-image">
               <label for="picture" class="vehicle-input-label">Picture</label>
               <div class="add-image-wrap">
                 <input id="picture" type="file" name="pic" accept="image/*" />
-                
               </div>
             </div>
           </div>
-          <div class="vehicle-input-container">
-            <label for="isFeatured" class="vehicle-input-label">Feature</label>
-            <input type="checkbox"/>
+          <div style="margin-top: 15px" id="checkbox-stuff" class="checkbox-input-container">
+            <label style="margin-right: 15px" for="isFeatured" class="vehicle-input-label">Feature</label>
+            <input id="isFeatured" type="checkbox"/>
           </div>
-          <button type="button" class="add-button btn btn-primary" onclick="updateVehicle()">
+          <a href="vehicles.html"><button type="button" class="add-button btn btn-primary" onclick="updateVehicle()">
               Save
-            </button>
+            </button></a>
+          
         </div>
       </section>
     </main>

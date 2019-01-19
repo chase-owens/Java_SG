@@ -113,9 +113,8 @@ public class VehicleRESTController {
     @CrossOrigin(origins = "*")
     @PutMapping("/edit")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> editVehicle(@RequestBody Vehicle vehicle) {
+    public void editVehicle(@RequestBody Vehicle vehicle) {
         service.editVehicle(vehicle);
-        return ResponseEntity.ok("Vehicle Updated");
     }
     
     @CrossOrigin(origins = "*")

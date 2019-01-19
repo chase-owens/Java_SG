@@ -71,7 +71,7 @@ function loadVehicle(vehicle) {
 ><button
   id="purchase-button"
   type="button"
-  class="submit-button"
+  class="submit-button btn btn-primary"
   onclick="makePurchase(${vehicle.vehicleId})"
 >
   Save
@@ -80,7 +80,40 @@ function loadVehicle(vehicle) {
 }
 
 function makePurchase(soldVehicleId) {
-  let userId = getCurrentUser();
+  let street = $("#street1").val() + $("#street2").val();
+  let data = {
+    vehicle: { vehicleId: soldVehicleId },
+    customerProfile: {
+      fullName: $("#name").val(),
+      email: $("#email").val(),
+      number: $("#phone").val(),
+      streetAddress: street,
+      zipcode: $("#zipcode").val()
+    },
+    salePrice: $("#purchase-price").val(),
+    saleType: $("#purchase-type").val(),
+    createdBy: { userId: "4" }
+  };
+  console.log(data);
+
+  let url = `http://localhost:8080/purchase/purchase`;
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: JSON.stringify(data),
+    dataType: "json",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    success: function(vehicle) {
+      console.log(vehicle);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.warn(jqXHR.responseText);
+    }
+  });
+}
+
+function makePurchaseByUser(soldVehicleId, userId) {
   let street = $("#street1").val() + $("#street2").val();
   let data = {
     vehicle: { vehicleId: soldVehicleId },
@@ -114,23 +147,20 @@ function makePurchase(soldVehicleId) {
   });
 }
 
-function getCurrentUser() {
+function getCurrentUserAndMakePurchase() {
+  console.log("firstFunction");
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/user/isLoggedIn`,
     success: function(user) {
-      if (user.role == "admin") {
-        showAdminAndUserNavTabs();
-      } else {
-        showSalesNavTab();
-      }
-      hideLoginButtonAndShowDropdown();
+      console.log("success callback");
+      let id = window.location.hash.substring(1);
+      makePurchaseByUser(id, user.userId);
     },
     error: function(err) {
       hideDropdownAndShowLoginButton();
     }
   });
-  return user.userId;
 }
 
 function logOutUser() {
@@ -158,11 +188,6 @@ function showDropdownItems() {
   $("#user-dropdown-items").toggle();
 }
 
-function showAdminAndUserNavTabs() {
+function showAdminNavTabs() {
   $("#admin-nav").show();
-  $("#sales-nav").show();
-}
-
-function showSalesNavTab() {
-  $("#sales-nav").show();
 }

@@ -28,7 +28,7 @@ function getFeaturedVehicles() {
 
   $.ajax({
     type: "GET",
-    url: "http://localhost:8080/vehicles/readAll",
+    url: "http://localhost:8080/vehicles/featured",
     success: function(vehicles) {
       loadFeatured(vehicles);
     },
@@ -79,7 +79,7 @@ function loadFeatured(features) {
     <img
       class="feature-img"
       src="../images/${feature.image}"
-      alt="shoe"
+      alt="vehicle-image"
     />
     <div class="feature-details">
       <h3 style="font-size: 40px" class="feature-title1">${
@@ -90,7 +90,7 @@ function loadFeatured(features) {
       }</h3>
       <div class="feature-description-div">
         <p class="feature-description">${feature.vehicleDescription}</p>
-      </div>
+      </div
     </div>
   </div>`);
   });

@@ -76,6 +76,12 @@ body {
   border-radius: 7px;
 }
 
+.checkbox-input-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
 .submit-button {
   margin-top: 20px;
 }

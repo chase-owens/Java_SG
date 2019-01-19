@@ -148,3 +148,11 @@ body {
 .purchase-button {
   margin-left: 25px;
 }
+
+.sold {
+  margin-left: 2px;
+  font-weight: bold;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+}
