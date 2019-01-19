@@ -243,4 +243,16 @@ public class VehicleDaoImpl implements VehicleDao {
         
     }
 
+    @Override
+    public List<Vehicle> getAvailableVehicles() {
+        final String READ_FEATURED_VEHICLES = "SELECT * FROM vehicle WHERE isAvailable = true ORDER BY dateAdded DESC";
+        List<Vehicle> vehicles = jdbc.query(READ_FEATURED_VEHICLES, new VehicleMapper());
+        vehicles.stream().forEach(vehicle -> {
+            vehicle.setMake(makeDao.readMakeById(vehicle.getMake().getMakeId()));
+            vehicle.setModel(modelDao.readModelById(vehicle.getModel().getId()));
+            vehicle.setCreatedBy(userDao.readUserById(vehicle.getCreatedBy().getUserId()));
+        });
+        return vehicles;
+    }
+
 }

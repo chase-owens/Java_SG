@@ -38,4 +38,6 @@ public interface VehicleService {
     public void editVehicle(Vehicle vehicle);
 
     public List<Vehicle> query20(QueryVehicle data);
+
+    public List<Vehicle> getAvailableVehicles();
 }

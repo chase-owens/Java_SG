@@ -117,5 +117,12 @@ public class VehicleRESTController {
         service.editVehicle(vehicle);
         return ResponseEntity.ok("Vehicle Updated");
     }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping("/availableVehicles")
+    public List<Vehicle> getAvailableVehicles( ) {
+        List<Vehicle> vehicles = service.getAvailableVehicles();
+        return vehicles;
+    }
 
 }

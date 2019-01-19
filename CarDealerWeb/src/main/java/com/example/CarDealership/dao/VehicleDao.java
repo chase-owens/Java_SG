@@ -30,4 +30,6 @@ public interface VehicleDao {
     public List<Vehicle> readFeaturedVehicles();
 
     public List<Vehicle> query20(QueryVehicle data);
+
+    public List<Vehicle> getAvailableVehicles();
 }

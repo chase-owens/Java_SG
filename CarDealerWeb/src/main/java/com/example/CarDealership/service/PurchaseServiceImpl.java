@@ -43,6 +43,16 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.vehicleService = vehicleService;
         this.userService = userService;
     }
+    
+    
+
+    @Override
+    public Purchase purchaseVehicle(Purchase purchase) {
+        Profile profile = profileService.createCustomerProfile(purchase.getCustomerProfile());
+        purchase.setCustomerProfile(profile);
+        vehicleService.markAsSold(purchase.getVehicle().getVehicleId());
+        return purchaseDao.purchaseVehicle(purchase);
+    }
 
     @Override
     public Purchase createPurchase(int vehicleId, String customerName, String customerPhone, String email, String street1, String street2, String City, String State, String zipcode, String salePriceString, String purchaseType, int userId) throws NeedContactNameError, NeedContactDetailsError {
@@ -147,14 +157,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<Inventory> runUsedInventoryReport() {
         return purchaseDao.runUsedInventoryReport();
-    }
-
-    @Override
-    public Purchase purchaseVehicle(Purchase purchase) {
-        Profile profile = profileService.createCustomerProfile(purchase.getCustomerProfile());
-        purchase.setCustomerProfile(profile);
-        vehicleService.markAsSold(purchase.getVehicle().getVehicleId());
-        return purchaseDao.purchaseVehicle(purchase);
     }
 
 }

@@ -227,4 +227,9 @@ public class VehicleServiceImpl implements VehicleService {
     public List<Vehicle> query20(QueryVehicle data) {
         return vehicleDao.query20(data);
     }
+
+    @Override
+    public List<Vehicle> getAvailableVehicles() {
+        return vehicleDao.getAvailableVehicles();
+    }
 }
