@@ -1,38 +1,45 @@
 $(document).ready(function() {
-  getMakes();
   let id = window.location.hash.substring(1);
-  //getVehicle(id);
+  getVehicle(id);
 });
+
+let vehicleImage;
 
 let id = window.location.hash.substring(1);
 
 // Set up Form
 
-function getMakes() {
+function getMakes(id) {
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/make/readAll`,
     success: function(makes) {
-      getModelsByMake(loadMakes(makes), getVehicle(id));
+      loadMakes(makes, id);
     },
     error: function(err) {
-      alert("error with makes");
+      alert("error with makes: ", err);
     }
   });
 }
 
-function loadMakes(makes) {
+function loadMakes(makes, id) {
   let makesDropdown = $("#make");
   makesDropdown.empty();
   makes.forEach(make => {
-    makesDropdown.append(`<option value="${make.makeId}">
+    if (make.makeId == id) {
+      makesDropdown.append(`<option selected value="${make.makeId}">
             ${make.makeName}
           </option>`);
+    } else {
+      makesDropdown.append(`<option value="${make.makeId}">
+            ${make.makeName}
+          </option>`);
+    }
   });
-  return makes[0].makeId;
 }
 
-function getModelsByMake(makeId) {
+function getModelsByMake() {
+  let makeId = $("#make option:selected").val();
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/model/readAllByMakeId?makeId=${makeId}`,
@@ -45,18 +52,33 @@ function getModelsByMake(makeId) {
   });
 }
 
-function getModelsByMakeId() {
-  let makeId = $("#make option:selected").val();
+function getModelsByMakeId(makeId, modelId) {
   console.log(makeId);
 
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/model/readAllByMakeId?makeId=${makeId}`,
     success: function(models) {
-      loadModels(models);
+      loadModelsWithModelId(models, modelId);
     },
     failure: function(err) {
       console.log(err);
+    }
+  });
+}
+
+function loadModelsWithModelId(models, modelId) {
+  let modelDropdown = $("#model");
+  modelDropdown.empty();
+  models.forEach(model => {
+    if (model.modelId == modelId) {
+      modelDropdown.append(`<option selected value="${model.id}">
+      ${model.modelName}
+    </option>`);
+    } else {
+      modelDropdown.append(`<option value="${model.id}">
+      ${model.modelName}
+    </option>`);
     }
   });
 }
@@ -71,7 +93,9 @@ function loadModels(models) {
   });
 }
 
-$("#make").on("select", getModelsByMakeId());
+// Listen to makes
+
+$("#make").on("select", getModelsByMake());
 
 // Populate form with vehicle data
 
@@ -80,6 +104,8 @@ function getVehicle(vehicleId) {
     type: "GET",
     url: `http://localhost:8080/vehicles/readOne?vehicleId=${vehicleId}`,
     success: function(vehicle) {
+      getMakes(vehicle.make.makeId);
+      getModelsByMakeId(vehicle.make.makeId, vehicle.model.modelId);
       loadVehicle(vehicle);
     },
     error: function(e) {
@@ -90,9 +116,10 @@ function getVehicle(vehicleId) {
 
 function loadVehicle(vehicle) {
   let isFeatured = vehicle.isFeatured;
+  vehicleImage = vehicle.image;
 
-  $("#make").selectedIndex = vehicle.make.makeName;
-  $("#model").selectedIndex = vehicle.model.modelName;
+  // $("#make").selectedIndex = vehicle.make.makeName;
+  // $("#model").selectedIndex = vehicle.model.modelName;
   $("#type").selectedIndex = vehicle.vehicleType;
   $("#body-style").selectedIndex = vehicle.bodyStyle;
   $("#year").val(vehicle.vehicleYear);
@@ -119,6 +146,12 @@ function updateVehicle() {
     isFeatured = true;
   }
 
+  if ($("#picture").val() != "") {
+    vehicleImage = $("#picture")
+      .val()
+      .substring(12);
+  }
+
   let data = {
     make: { makeId: $("#make option:selected").val() },
     model: {
@@ -138,9 +171,7 @@ function updateVehicle() {
     msrp: $("#msrp").val(),
     listPrice: $("#sale-price").val(),
     vehicleDescription: $("#description").val(),
-    image: $("#picture")
-      .val()
-      .substring(12),
+    image: vehicleImage,
     createdBy: { userId: "1" },
     isFeatured: isFeatured,
     vehicleId: id
